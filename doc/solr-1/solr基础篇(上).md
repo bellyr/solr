@@ -129,7 +129,7 @@
 
   ​    licenses：solr遵守的一些开源协议文件
 
-  ​	server:这个目录有点意思，取名为sever，有点迷惑人，其实就是一个jetty.官方为了方便部署Solr，在安装包中内置了一个Jetty; 我们直接就可以利用内置的jetty部署solr;
+  ​	server:这个目录有点意思，取名为server，有点迷惑人，其实就是一个jetty.官方为了方便部署Solr，在安装包中内置了一个Jetty; 我们直接就可以利用内置的jetty部署solr;
 
   ​	server/solr-webapp/webapp:进入到sever目录中有一个webapp的目录，这个目录下部署的就是solr的war包（solr的服务）;
 
