@@ -21,7 +21,7 @@
 
  Solr的目标是打造一款企业级的搜索引擎系统，它是一个搜索引擎服务，可以独立运行，通过Solr可以非常快速的构建企业的搜索引擎，通过Solr也可以高效的完成站内搜索功能。
 
-​	  ![1576984490418](imgs\001.png)
+​	  ![1576984490418](imgs/001.png)
 
 ## 1.2 Solr的发展历程
 
@@ -69,7 +69,7 @@
 
    因为Solr是基于java语言开发，且Solr7.x要求的JDK版本最少是JDK8.所以我们在安装solr之前，首先必须安装JDK。
 
-​	![](imgs\2020-02-23_000048.png)
+​	![](imgs/2020-02-23_000048.png)
 
 ## 2.2 Solr学习资源
 
@@ -81,15 +81,15 @@
 
 -    Solr Quick Start（即Solr快速上手教程）；
 
-  ​	![](imgs\2019-12-22_183033.png)
+  ​	![](imgs/2019-12-22_183033.png)
 
 -    Solr官方使用指南。
 
-  ​	![](imgs\2019-12-22_183134.png)
+  ​	![](imgs/2019-12-22_183134.png)
 
 -  Solr官方Wiki
 
-  ​	![](imgs\2019-12-22_183607.png)
+  ​	![](imgs/2019-12-22_183607.png)
 
 - Solr相关的英文书籍，如solr in action ,solr cookbook. 
 
@@ -115,7 +115,7 @@
 
   ​			
 
-  ​		![](imgs\2019-12-22_201756.png)
+  ​		![](imgs/2019-12-22_201756.png)
 
   ​	bin：官方提供的一些solr的运行脚本。
 
@@ -139,11 +139,11 @@
 
   ​	启动命令：solr start  
 
-  ​	![](imgs\2020-02-28_233040.png)
+  ​	![](imgs/2020-02-28_233040.png)
 
   ​    关闭命令：solr stop -all
 
-  ​	![](imgs\2020-02-28_233110.png)
+  ​	![](imgs/2020-02-28_233110.png)
 
   ​    重启solr  ：solr restart –p p_num
 
@@ -171,7 +171,7 @@
 
   ​	3.将solr.war复制到tomcat/webapps目录中；
 
-  ![](imgs\2020-02-28_233259.png)
+  ![](imgs/2020-02-28_233259.png)
 
   4.启动tomcat，解压war包；
 
@@ -228,7 +228,7 @@
   
   12.重启tomcat，看到welcome,说明solr就安装完毕
   
-  ![](imgs\2019-12-23_221350.png)
+  ![](imgs/2019-12-23_221350.png)
   
   13.访问后台管理系统进行测试
   
@@ -272,11 +272,11 @@
 
   2. ​     alt+p打开sftp,上传相关的软件安装到到linux
 
-     ​	![](imgs\2020-02-04_120708.png)
+     ​	![](imgs/2020-02-04_120708.png)
 
 - ​    安装jdk
 
-  ​	![](imgs\2020-02-04_120955.png)
+  ​	![](imgs/2020-02-04_120955.png)
 
   1. ​	解压jdk
 
@@ -284,7 +284,7 @@
       tar -xzvf jdk18 -C /usr/local
       ```
 
-      ![](imgs\2020-02-04_121041.png)
+      ![](imgs/2020-02-04_121041.png)
 
   2.    配置环境变量
 
@@ -304,13 +304,13 @@
 
       java -version
 
-      ![](imgs\2020-02-04_123052.png)
+      ![](imgs/2020-02-04_123052.png)
 
       
 
 -    安装tomcat，tomcat的安装比较简单，只需要解压即可；
 
-     ![](imgs\2020-02-04_124804.png)
+     ![](imgs/2020-02-04_124804.png)
 
 - ​    安装solr,安装solr的过程和windows系统过程完全相同。只不过通过linux命令来操作而已；
 
@@ -318,7 +318,7 @@
 
        解压的目录结构和window版的目录结构相同；
    
-      ![](imgs\2020-02-23_111347.png)
+      ![](imgs/2020-02-23_111347.png)
    
       
    
@@ -332,11 +332,11 @@
    
        jar -cvf  solr.war ./*			    
 
-![](imgs\2020-02-04_125441.png)
+![](imgs/2020-02-04_125441.png)
 
 ​		3.将war包部署到tomcat的webapps目录
 
-![](imgs\2020-02-04_125630.png)
+![](imgs/2020-02-04_125630.png)
 
 ​		4.启动tomcat，解压solr.war
 
@@ -346,11 +346,11 @@
 
 ​			4.2 启动tomcat
 
-​				![](imgs\2020-02-04_125851.png)
+​				![](imgs/2020-02-04_125851.png)
 
 ​			4.3 进入到webapp目录中查看
 
-​				![](imgs\2020-02-04_130034.png)
+​				![](imgs/2020-02-04_130034.png)
 
 5. 修改webapp/solr/WEB-INF/web.xml的配置solrhome的位置；
 
@@ -364,7 +364,7 @@
    
    既然solrhome指定的位置在/user/local/solr_home下面；所以需要创建一个solr_home的文件夹；
    
-   ![](imgs\2020-02-04_130847.png)
+   ![](imgs/2020-02-04_130847.png)
 
 6.取消安全配置（和window相同）
 
@@ -372,11 +372,11 @@
 
   	7.1进入到solr-7.7.2/server/solr
 
-![](imgs\2020-02-04_131046.png)
+![](imgs/2020-02-04_131046.png)
 
 ​	  7.2将所有的文件复制到solrHome
 
-​		![](imgs\2020-02-04_131238.png)
+​		![](imgs/2020-02-04_131238.png)
 
 
 
@@ -390,7 +390,7 @@
 
    8.2 将所有文件复制到Tomcat下Solr的/WEB-INF/lib/
 
-![](imgs\2020-02-04_131550.png)
+![](imgs/2020-02-04_131550.png)
 
 9.拷贝 metrics相关jar包：将solr-7.7.2/server/lib下metrics相关jar包也拷贝至/WEB-INF/lib/目录下
 
@@ -402,15 +402,15 @@
 cd solr-7.7.2/server/lib
 ```
 
-![](imgs\2020-02-04_131801.png)
+![](imgs/2020-02-04_131801.png)
 
    9.2 将metrics-开始的所有文件复制到Tomcat下Solr的/WEB-INF/lib/
 
-![](imgs\2020-02-05_135654.png)
+![](imgs/2020-02-05_135654.png)
 
 10. 将solr安装包中dist目录中和数据导入相关的2个包，复制到tomcat/webapps/solr/WEB-INF/lib
 
-![](imgs\2020-02-05_191713.png)
+![](imgs/2020-02-05_191713.png)
 
 ```
  cp solr-dataimporthandler-* /usr/local/apache-tomcat-8.5.50/webapps/solr/WEB-INF/lib/
@@ -424,17 +424,17 @@ cd solr-7.7.2/server/lib
 cd solr-7.7.2/server/resource
 ```
 
-​		![](imgs\2020-02-05_135948.png)
+​		![](imgs/2020-02-05_135948.png)
 
 ​	10.2  将log4j2的配置文件复制到solr 的WEB-INF/classes目录；
 
 ​			创建classes目录
 
-​			![](imgs\2020-02-05_140208.png)
+​			![](imgs/2020-02-05_140208.png)
 
 ​			log4j的文件复制；
 
-​			![](imgs\2020-02-05_140523.png)
+​			![](imgs/2020-02-05_140523.png)
 
 12.重启tomcat
 
@@ -472,7 +472,7 @@ http://192.168.200.129:8080/solr/index.html
 
 ​    Core中有二个重要目录：conf和data
 
-​    ![](imgs\2020-02-05_171038.png)
+​    ![](imgs/2020-02-05_171038.png)
 
 ​    conf:存储SolrCore相关的配置文件；
 
@@ -490,7 +490,7 @@ http://192.168.200.129:8080/solr/index.html
 
 ​	在之前搭建Solr的时候，我们说一个solr_home是由多个solrCore构成，所以solrCore是搭建在solrHome中；
 
-​	![](imgs\2020-02-05_172533.png)
+​	![](imgs/2020-02-05_172533.png)
 
 ​	
 
@@ -506,7 +506,7 @@ http://192.168.200.129:8080/solr/index.html
 
    2.4 在solr的管理后台来查看
 
-​		![](imgs\2020-02-05_173832.png)
+​		![](imgs/2020-02-05_173832.png)
 
 
 
@@ -514,7 +514,7 @@ http://192.168.200.129:8080/solr/index.html
 
 ​	只需要复制SolrCore一份，重启solr；
 
-​    ![](imgs\2020-02-05_174323.png)
+​    ![](imgs/2020-02-05_174323.png)
 
 
 
@@ -528,7 +528,7 @@ http://192.168.200.129:8080/solr/index.html
  cd /usr/local/solr_home/
 ```
 
-​        ![](imgs\2020-02-05_175549.png)
+​        ![](imgs/2020-02-05_175549.png)
 
 ​	5.2 创建SolrCore
 
@@ -536,7 +536,7 @@ http://192.168.200.129:8080/solr/index.html
 		 mkdir -p collection1/conf
 		 cd collection1
 		 touch core.properties
-![](imgs\2020-02-05_182151.png)
+![](imgs/2020-02-05_182151.png)
 	5.3  将solr安装包中提供的示例配置文件复制到conf目录 
 
 ```
@@ -549,7 +549,7 @@ cp -r *  /usr/local/solr_home/collection1/conf/
 
   5.5访问后台管理系统
 
-![](imgs\2020-02-23_111646.png)
+![](imgs/2020-02-23_111646.png)
 
 
 
@@ -591,11 +591,11 @@ cp -r *  /usr/local/solr_home/collection1/conf/
 
 ​	数据库中记录：
 
-![](imgs\2020-02-09_114529.png)
+![](imgs/2020-02-09_114529.png)
 
 ​	lucene/solr中文档
 
-​	![](imgs\2020-02-09_115314.png)
+​	![](imgs/2020-02-09_115314.png)
 
 ​	索引：通常把添加数据这个操作也成为创建索引；
 
@@ -605,13 +605,13 @@ cp -r *  /usr/local/solr_home/collection1/conf/
 
 ​			Solr添加数据的流程：	 
 
-![1581240737074](imgs\1581240737074.png)
+![1581240737074](imgs/1581240737074.png)
 
 
 
 ​			Lucene首先对文档域中的数据进行分词，建立词和文档之间的关系；
 
-​			![](imgs\2020-02-09_174618.png)
+​			![](imgs/2020-02-09_174618.png)
 
 ​			将来我们就可以根据域中的词，快速查找到对应的文档；
 
@@ -629,11 +629,11 @@ cp -r *  /usr/local/solr_home/collection1/conf/
 
 ​			以JSON的形式添加文档：
 
-​				![](imgs\2020-02-09_175634.png)
+​				![](imgs/2020-02-09_175634.png)
 
 ​		以XML的形式添加文档
 
-​				![](imgs\2020-02-09_180244.png)
+​				![](imgs/2020-02-09_180244.png)
 
   通常我们可以添加一些测试数据；	
 
@@ -698,7 +698,7 @@ cp -r *  /usr/local/solr_home/collection1/conf/
 
 ​		在Solr中进行索引时，文档中的域需要提前在managed-schema文件中定义，在这个文件中，solr已经提前定义了一些域，比如我们之前使用的id,price,title域。通过管理界面查看已经定义的域；
 
-​	  ![](imgs\2020-02-09_202315.png)
+​	  ![](imgs/2020-02-09_202315.png)
 
 下面就是solr中一定定义好的一个域,name
 
@@ -766,7 +766,7 @@ cp -r *  /usr/local/solr_home/collection1/conf/
 
 ​		通过测试我们发现text_general域类型，支持英文分词，不支持中文分词；
 
-![](imgs\2020-02-09_211511.png)
+![](imgs/2020-02-09_211511.png)
 
 ​	测试添加文档
 
@@ -776,13 +776,13 @@ cp -r *  /usr/local/solr_home/collection1/conf/
 
 测试item_description域搜索
 
-​	![](imgs\2020-02-09_213638.png)
+​	![](imgs/2020-02-09_213638.png)
 
 通过我们测试，我们发现可以通过item_description域进行搜索，但是搜索结果的文档中是没有item_description域的数据的；
 
 测试item_pic域搜索
 
-![](imgs\2020-02-09_213755.png)
+![](imgs/2020-02-09_213755.png)
 
 
 
@@ -858,7 +858,7 @@ postingsFormat：词条格式器：schema-aware codec，配置在solrconfig.xml�
 
 http://lucene.apache.org/solr/guide/8_1/field-types-included-with-solr.html
 
-![1581600836129](imgs\1581600836129.png)
+![1581600836129](imgs/1581600836129.png)
 
 以上的FieldType类的使用，我们不会一一进行讲解，只会讲解常用的一部分；
 
@@ -870,7 +870,7 @@ http://lucene.apache.org/solr/guide/8_1/field-types-included-with-solr.html
 
 首先我们来讲解第一个FieldType类；
 
-![](imgs\2020-02-13_214028.png)
+![](imgs/2020-02-13_214028.png)
 
  TextField：支持对字符类型的数据进行分词；对于 solr.TextField 域类型，需要为其定义分析器;
 
@@ -888,7 +888,7 @@ http://lucene.apache.org/solr/guide/8_1/field-types-included-with-solr.html
 
 
 
-  ![](imgs\2020-02-13_231822.png)
+  ![](imgs/2020-02-13_231822.png)
 
 在solr中已经为我们提供了很多的分词器及过滤器；
 
@@ -896,13 +896,13 @@ Solr中提供的分词器tokenizer：http://lucene.apache.org/solr/guide/8_1/tok
 
 标准分词器，经典分词器，关键字分词器，单词分词器等，不同的分词器分词的效果也不尽相同；
 
-![](imgs\22221.png)
+![](imgs/22221.png)
 
 Solr中提供的过滤器tokenfilter：http://lucene.apache.org/solr/guide/8_1/about-filters.html
 
 不同的过滤器过滤效果也不同，有些是去除标点符号的，有些是大写转化小写的；
 
-![1581608541470](imgs\1581608541470.png)
+![1581608541470](imgs/1581608541470.png)
 
 这是关于Solr中的分析器我们先介绍到这里；
 
@@ -1425,7 +1425,7 @@ small => tiny,teeny,weeny
 
 测试：
 
-![](imgs\2020-02-14_170052.png)
+![](imgs/2020-02-14_170052.png)
 
 对于那些复杂的分析需求，我们也可以在分析器中灵活地组合分词器、过滤器；
 
@@ -1443,7 +1443,7 @@ small => tiny,teeny,weeny
 
 测试：
 
-![](imgs\2020-02-14_170312.png)
+![](imgs/2020-02-14_170312.png)
 
 
 
@@ -1466,11 +1466,11 @@ small => tiny,teeny,weeny
 
 测试索引分词效果：
 
-![](imgs\2020-02-14_171445.png)
+![](imgs/2020-02-14_171445.png)
 
 测试搜索分词效果
 
-![](imgs\2020-02-14_171626.png)
+![](imgs/2020-02-14_171626.png)
 
  通过测试我们发现索引和搜索产生的分词结果是不同；
 
@@ -1478,13 +1478,13 @@ small => tiny,teeny,weeny
 
  接下来我们使用myFeildType3定义一个域。使用该域创建一个文档。我们来测试；
 
-![](imgs\2020-02-14_172756.png)
+![](imgs/2020-02-14_172756.png)
 
 item_content:sofa可以搜索到吗？
 
 索引的时候:   sofa被分为couch,sofa,divan；
 
-![1581672842954](imgs\1581672842954.png)
+![1581672842954](imgs/1581672842954.png)
 
 搜索的时候，sofa这个内容就被分为sofa这一个词；
 
@@ -1506,7 +1506,7 @@ item_content:small可以搜索到吗？
 
 ###### DateRangeField的使用
 
-![](imgs\2020-02-14_175844.png)
+![](imgs/2020-02-14_175844.png)
 
 ​		Solr中提供的时间域类型（ DatePointField, DateRangeField）是以时间毫秒数来存储时间的。要求域值以ISO-8601标准格式来表示时间：yyyy-MM-ddTHH:mm:ssZ。Z表示是UTC时间，如1999-05-20T17:33:18Z；
 
@@ -1594,7 +1594,7 @@ item_birthday:[NOW/HOURS TO NOW] 当前小时的0点到当前时间
 
 ###### EnumFieldType的使用
 
-![](imgs\2020-02-13_214309.png)
+![](imgs/2020-02-13_214309.png)
 
 EnumFieldType 用于域值是一个枚举集合，且排序顺序可预定的情况，如新闻分类这样的字段。如果我们想定义一个域类型，他的域值只能取指定的值，我们就可以使用EnumFieldType 定义该域类型；
 
@@ -1649,7 +1649,7 @@ enumsConfig.xml配置示例（若没有该文件则新建）如下：注意以UT
 报错
 ```
 
-![](imgs\2020-02-14_220617.png)
+![](imgs/2020-02-14_220617.png)
 
 基于item_sex进行搜索
 
@@ -1716,7 +1716,7 @@ text:ma
 
 结果：
 
-![](imgs\2020-02-14_223845.png)
+![](imgs/2020-02-14_223845.png)
 
 
 
@@ -1754,7 +1754,7 @@ Standard Tokenizer可以对英文完成精确的分词，但是对中文分词�
 
 ​		测试myFeildType2的分词效果：
 
-​	![](imgs\2020-02-14_230646.png)
+​	![](imgs/2020-02-14_230646.png)
 
 对于这种分词效果，显然不符合我们的要求.
 
@@ -1792,7 +1792,7 @@ Standard Tokenizer可以对英文完成精确的分词，但是对中文分词�
 
 ​	6.测试text_ik分词效果。
 
-​	![](imgs\2020-02-15_001958.png)
+​	![](imgs/2020-02-15_001958.png)
 
 ​	7.传智播客，被单字分词，此处我们也可以添加扩展词库，让传智播客分成一个词；
 
@@ -1800,7 +1800,7 @@ Standard Tokenizer可以对英文完成精确的分词，但是对中文分词�
 
 ​		再次测试
 
-​		![](imgs\2020-02-15_002440.png)
+​		![](imgs/2020-02-15_002440.png)
 
 到此关于IKAnalyzer我们就讲解完毕。
 
@@ -1818,13 +1818,13 @@ Standard Tokenizer可以对英文完成精确的分词，但是对中文分词�
 
 ​		2.编译打包源码mvn package -DskipTests=true 
 
-​			打包ansj![](imgs\2020-02-15_094215.png)
+​			打包ansj![](imgs/2020-02-15_094215.png)
 
-​		打包nlp-lang![](imgs\2020-02-15_094631.png)
+​		打包nlp-lang![](imgs/2020-02-15_094631.png)
 
 ​	进入到ansj/plugin/ansj_lucene5_plugin目录，打包ansj_lucene5
 
-​	![](imgs\2020-02-15_100838.png)
+​	![](imgs/2020-02-15_100838.png)
 
 ​	
 
@@ -1832,7 +1832,7 @@ Standard Tokenizer可以对英文完成精确的分词，但是对中文分词�
 
 ​	5.配置：将ansj的词库和配置文件复制到solr/WEB-INF/classes目录
 
-​	![](imgs\2020-02-15_101316.png)
+​	![](imgs/2020-02-15_101316.png)
 
 ​	6.使用ansj中提供的分析器，分词器配置FieldType
 
@@ -1849,7 +1849,7 @@ Standard Tokenizer可以对英文完成精确的分词，但是对中文分词�
 
 ​	7.测试
 
-![](imgs\2020-02-15_103042.png)
+![](imgs/2020-02-15_103042.png)
 
 关于Ansj中文分词器的使用我们就给大家讲解完毕。
 
@@ -1928,7 +1928,7 @@ words.dic 是词库文件，一行一词，可以自己进行扩展词库。
 近一百多年来，总有一些公司很幸运地、有意识或者无意识地站在技术革命的浪尖之上。一旦处在了那个位置，即使不做任何事，也可以随着波浪顺顺当当地向前漂个十年甚至更长的时间。在这十几年间，它们代表着科技的浪潮，直到下一波浪潮的来临。从一百年前算起，AT&T公司、IBM公司、苹果(Apple)公司 、英特尔(Intel) 公司、微软(Microsoft) 公司、和谷歌(Google)公司都先后被幸运地推到了浪尖。虽然，它们来自不同的领域，中间有些已经衰落或者正在衰落，但是它们都极度辉煌过。这些公司里的人，无论职位高低，在外人看来，都是时代的幸运儿。因为，虽然对一个公司来说，赶上一次浪潮不能保证其长盛不衰；但是，对一个人来说，一生赶上一次这样的浪潮就足够了。一个弄潮的年轻人，最幸运的，莫过于赶上一波大潮。
 ```
 
-![](imgs\2020-02-15_115814.png)
+![](imgs/2020-02-15_115814.png)
 
 ​	综上所述可以看出，三种分词方法存在着一些同样的错误，比如名词“英特尔“和”谷歌“都没有识别出来。综合比较Complex的分词方法准确率最高。
 
@@ -1944,7 +1944,7 @@ words.dic 是词库文件，一行一词，可以自己进行扩展词库。
 
 ​	2.编译打包源码jcseg-core,jcseg-analyzer
 
-​		![](imgs\2020-02-15_125323.png)
+​		![](imgs/2020-02-15_125323.png)
 
 ​	3.安装: 将jcseg-analyze.jar和jcseg-core.jar复制到Solr/WEB-INF/lib目录
 
@@ -2030,7 +2030,7 @@ words.dic 是词库文件，一行一词，可以自己进行扩展词库。
 
 ​	7.测试jcseg分词效果。
 
-​		![](imgs\2020-02-15_145844.png)
+​		![](imgs/2020-02-15_145844.png)
 
 ​	
 
@@ -2095,21 +2095,21 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 
 ​	3.将词典文件压缩包data-for-1.7.zip解压到指定位置 eg:d:/javasoft下；
 
-![](imgs\2020-02-15_162746.png)
+![](imgs/2020-02-15_162746.png)
 
 ​	4.安装: 将hanlp.jar和hanlp-lucene-plugin.jar包复制到solr/WEB-INF/lib
 
 ​	5.配置:将配置文件hanlp.properties复制solr/WEB-INF/classes
 
-​	![](imgs\2020-02-15_163034.png)
+​	![](imgs/2020-02-15_163034.png)
 
 ​	6.配置：在hanlp.properties中指定词典数据的目录
 
-​	![](imgs\2020-02-15_163653.png)
+​	![](imgs/2020-02-15_163653.png)
 
 ​	7.配置停用词，扩展词等。
 
-![](imgs\2020-02-15_163759.png)
+![](imgs/2020-02-15_163759.png)
 
 ​	8.使用HanLP中提供的分析器配置FieldType
 
@@ -2127,7 +2127,7 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 
 ​	6.测试test_hanlp分词效果。
 
-​	![](imgs\2020-02-15_165658.png)
+​	![](imgs/2020-02-15_165658.png)
 
 ###### 中文分词器建议
 
@@ -2361,7 +2361,7 @@ public class LoveTokenFilterFactory extends TokenFilterFactory {
 
 7.打包安装重写测试
 
-![](imgs\2020-02-16_134708.png)
+![](imgs/2020-02-16_134708.png)
 
 ###### 自定义分析器（了解）
 
@@ -2405,7 +2405,7 @@ public class MyAnalyzer extends Analyzer {
 
 ​	5.打包测试
 
-​	![](imgs\2020-02-16_144934.png)
+​	![](imgs/2020-02-16_144934.png)
 
 ### 3.2.10 Solr的数据导入（DataImport）
 
@@ -2427,7 +2427,7 @@ public class MyAnalyzer extends Analyzer {
 sql脚本在资料中；
 ```
 
-![](imgs\2020-02-15_182240.png)
+![](imgs/2020-02-15_182240.png)
 
 步骤：
 
@@ -2462,7 +2462,7 @@ book_num:使用pint类型，索引，并且存储；
 	  </requestHandler>
 ​	3.编辑SolrCore/conf中solr-data-config.xml文件
 
-![](imgs\2020-02-15_183956.png)
+![](imgs/2020-02-15_183956.png)
 
 ​	
 
@@ -2495,7 +2495,7 @@ book_num:使用pint类型，索引，并且存储；
 
 ​	4.使用DataImport导入。
 
-​	![](imgs\2020-02-15_190412.png)
+​	![](imgs/2020-02-15_190412.png)
 
 到这关于DataImport我们就讲解完毕。
 
@@ -2544,11 +2544,11 @@ book_num:使用pint类型，索引，并且存储；
 
 ​	5.索引相关配置
 
-​		![](imgs\2020-02-15_200805.png)
+​		![](imgs/2020-02-15_200805.png)
 
 ​	6.搜索相关配置
 
-​	![](imgs\2020-02-15_201038.png)
+​	![](imgs/2020-02-15_201038.png)
 
 
 
@@ -2560,7 +2560,7 @@ book_num:使用pint类型，索引，并且存储；
 
 接下来我们来讲解一下基本使用
 
-![](imgs\2020-02-15_202357.png)
+![](imgs/2020-02-15_202357.png)
 
 q:表示主查询条件，必须有.
 
@@ -2596,13 +2596,13 @@ wt:查询结果的格式，JSON/XML;
 
 ​	作用：包含基本统计如当前文档数，最大文档数；删除文档数，当前SolrCore配置目录；
 
-![](imgs\2020-02-15_204229.png)
+![](imgs/2020-02-15_204229.png)
 
 ​	files
 
 ​	作用：对SolrCore/conf目录下文件预览
 
-​	![](imgs\2020-02-15_204405.png)
+​	![](imgs/2020-02-15_204405.png)
 
 ​	
 
@@ -2614,11 +2614,11 @@ Replication：集群状态查看，后面搭建完毕集群再来说；
 
 Schema：管理Schema文件中的Field，可以查看和添加域，动态域和复制域；
 
-![](imgs\2020-02-15_204622.png)
+![](imgs/2020-02-15_204622.png)
 
 SegmentsInfo:展示底层Lucence索引段，包括每个段的大小和数据条数。Solr底层是基于lucene实现的，索引数据最终是存储到SolrCore/data/index目录的索引文件中；这些索引文件有_e开始的, _0开始的....对应的就是不同的索引段。
 
-​	![](imgs\2020-02-15_215512.png)
+​	![](imgs/2020-02-15_215512.png)
 
-![](imgs\2020-02-15_215148.png)
+![](imgs/2020-02-15_215148.png)
 
