@@ -599,7 +599,7 @@ SolrCore可以理解成MySQL中的数据库
 
 ​		**SolrHome中solr.xml**
 
- 	   **SolrCore/conf中solrconfig.xml**
+​		**SolrCore/conf中solrconfig.xml**
 
 ​		**SolrCore/confSolrCore中managed-schema**
 
