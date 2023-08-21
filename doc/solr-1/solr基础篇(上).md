@@ -609,35 +609,41 @@ SolrCore可以理解成MySQL中的数据库
 
 #### managed-schema（掌握）
 
-​		在Solr中进行索引时，文档中的域需要提前在managed-schema文件中定义，在这个文件中，solr已经提前定义了一些域，比如我们之前使用的id,price,title域。通过管理界面查看已经定义的域；
+在Solr中进行索引时，文档中的域需要提前在managed-schema文件中定义，在这个文件中，solr已经提前定义了一些域，比如我们之前使用的id, price, title域
+
+通过管理界面查看已经定义的域
 
 ​	  ![](imgs/2020-02-09_202315.png)
 
-下面就是solr中一定定义好的一个域,name
+下面就是solr中一定定义好的一个域：name
 
 ```
 <field name="name" type="text_general" indexed="true" stored="true"/>
 ```
 
-​	field标签：定义一个域；
+**field标签**：定义一个域
 
-​	name属性：域名
+**name属性**：域名
 
-​	indexed:是否索引，是否可以根据该域进行搜索；一般哪些域不需要搜索，图片路径。
+**indexed**：是否索引，即是否可以根据该域进行搜索（一般哪些域不需要搜索呢？例如图片的路径）
 
-​	stored:是否存储，将来查询的文档中是否包含该域的数据； 商品的描述。
+**stored**：是否存储，将来查询的文档中是否包含该域的数据（一般哪些域不需要查询呢？例如图书的详细信息）
 
-​	举例：将图书的信息存储到Solr中；Description域。indexed设置为true，store设置成false；
 
-​	可以根据商品描述域进行查询，但是查询出来的文档中是不包含description域的数据；
+
+举例：将图书的description信息存储到Solr中，description域，indexed设置为true，store设置成false
+
+可以根据商品描述域进行查询，但是查询出来的文档中是不包含description域的数据
 
 ![](imgs/2020-02-09_203024.png)
 
-​	multiValued：是否多值，该域是否可以存储一个数组； 图片列表；
 
-​	required:是否必须创建文档的时候，该域是否必须；id
 
-​	type:域类型，决定该域使用的分词器。分词器可以决定该域的分词效果（分词，不分词，是否支持中文分词）。域的类型在使用之前必须提前定义；在solr中已经提供了很多的域类型
+**multiValued**：是否多值，该域是否可以存储一个数组（ 例如图片列表）
+
+**required**：是否必须创建文档的时候，该域是否必须；id
+
+**type**：域类型，决定该域使用的分词器。分词器可以决定该域的分词效果（分词，不分词，是否支持中文分词）。域的类型在使用之前必须提前定义；在solr中已经提供了很多的域类型
 
 ```
 <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
