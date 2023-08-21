@@ -485,23 +485,19 @@ SolrCore可以理解成MySQL中的数据库
 
 ## 3.2 Solr后台管理系统的使用
 
-​	上一个章节我们已经学习完毕如何在solr中创建SolrCore。有了SolrCore以后我们就可以进行索引和搜索的操作，在进行索引和搜索操作之前，首先学习一下Solr后台管理系统的使用；
+有了SolrCore以后我们就可以进行索引和搜索的操作，在进行索引和搜索操作之前，首先学习一下Solr后台管理系统的使用
 
-​	1.DashBoard:solr的版本信息、jvm的相关信息还有一些内存信息。
+- DashBoard：Solr的版本信息，jvm的相关信息还有一些内存信息
 
-​	2.Logging:日志信息，也有日志级别，刚进入查看的时候肯定是有几个警告（warn）信息的，因为复制solr的时候路径发生了变化导致找不到文件，但是并不影响。
-​	3.Core Admin:SolrCore的管理页面。可以使用该管理界面完成SolrCore的卸载。也可以完成SolrCore的添加
+- Logging：日志信息，也有日志级别，刚进入查看的时候肯定是有几个警告（warn）信息的，因为复制solr的时候路径发生了变化导致找不到文件，但是并不影响
+- Core Admin：SolrCore的管理页面，可以使用该管理界面完成SolrCore的卸载，也可以完成SolrCore的添加，能添加的前提是SolrCore在solr_home中目录结构是完整的
+- Java Properties：顾名思义，java的相关配置，比如类路径，文件编码等
 
- 能添加的前提，SolrCore在solr_home中目录结构是完整的。
+- Thread Dump：Solr服务器当前活跃的一些线程的相关信息。
+  
 
-   4.Java Properties:顾名思义，java的相关配置，比如类路径，文件编码等。
 
-   5.Thread Dump:solr服务器当前活跃的一些线程的相关信息。
-	以上的5个了解一下就行。
-
-   6.当我们选择某一个solrCore以后，又会出现一些菜单，这些菜单就是对选择的SolrCore进行操作的，接下来我们重点要讲解的就是这些菜单的使用；
-
-​	
+以上了解一下即可，当我们选择某一个SolrCore以后，又会出现一些菜单，这些菜单就是对选择的SolrCore进行操作的，接下来我们重点要讲解的是这些菜单的使用
 
 ### 3.2.1 Documents
 
