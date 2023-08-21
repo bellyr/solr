@@ -132,7 +132,7 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
   - server/solr-webapp/webapp：进入到sever目录中有一个webapp的目录，这个目录下部署的就是solr的war包（solr的服务）
 
 
-  
+
 
   如何使用内置jetty服务器部署solr服务：
 
@@ -294,123 +294,110 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
 
    1. 解压solr安装包，直接解压在宿主目录即可，解压的目录结构和window版的目录结构相同
 
-       ![](imgs/2020-02-23_111347.png)
-   
+   ![](imgs/2020-02-23_111347.png)
+
    2. 将server/solr-webapp/webapp下的solr服务打war包
-   
-      2.1 进入到webapp目录
-   
-      `cd server/solr-webapp/webapp`
-   
-      2.2 将webapp中的代码打成war包
-   
-       `jar -cvf solr.war ./*`			    
 
-![](imgs/2020-02-04_125441.png)
+      a. 进入到webapp目录 `cd server/solr-webapp/webapp`
 
-​         3. 将war包部署到tomcat的webapps目录
+      b. 将webapp中的代码打成war包 `jar -cvf solr.war ./*`
 
-![](imgs/2020-02-04_125630.png)
+   ![](imgs/2020-02-04_125441.png)
 
-​		 4. 启动tomcat，解压solr.war
+   3. 将war包部署到tomcat的webapps目录
 
-​			4.1进入到tomcat的bin目录
+      ![](imgs/2020-02-04_125630.png)
 
-​				cd /usr/local/apache-tomcat-8.5.50
+   4. 启动tomcat，解压solr.war
 
-​			4.2 启动tomcat
+      a. 进入到tomcat的bin目录  `cd /usr/local/apache-tomcat-8.5.50`
 
-​				![](imgs/2020-02-04_125851.png)
+      b. 启动tomcat
 
-​			4.3 进入到webapp目录中查看
+      ​				![](imgs/2020-02-04_125851.png)
 
-​		![](imgs/2020-02-04_130034.png)
+      c. 进入到webapp目录中查看
 
-5. 修改webapps/solr/WEB-INF/web.xml的配置solrhome的位置
+      ![](imgs/2020-02-04_130034.png)
 
-   ```
-<env-entry>
-      	<env-entry-name>solr/home</env-entry-name>
-   	<env-entry-value>“你的solrhome位置”</env-entry-value>
-      	<env-entry-type>java.lang.String</env-entry-type>
-    </env-entry>
-   ```
-   
-   既然solrhome指定的位置在/user/local/solr_home下面；所以需要创建一个solr_home的文件夹；
-   
-   ![](imgs/2020-02-04_130847.png)
+   5. 修改webapps/solr/WEB-INF/web.xml的配置solrhome的位置
 
-6. 取消安全配置（和window相同）
+      ```xml
+      <env-entry>
+         	<env-entry-name>solr/home</env-entry-name>
+      	<env-entry-value>你的solrhome位置</env-entry-value>
+         	<env-entry-type>java.lang.String</env-entry-type>
+       </env-entry>
+      ```
 
-7. 将solr-7.7.2/server/solr中所有的文件复制到solrHome
+      既然solrhome指定的位置在/user/local/solr_home下面，所以需要创建一个solr_home的文件夹
 
-​      7.1 进入到solr-7.7.2/server/solr
+      ![](imgs/2020-02-04_130847.png)
 
-![](imgs/2020-02-04_131046.png)
+   6. 取消安全配置（和window相同）
 
-​	  7.2 将所有的文件复制到solrHome
+   7. 将solr-7.7.2/server/solr中所有的文件复制到solrHome
 
-​		![](imgs/2020-02-04_131238.png)
+      a. 进入到solr-7.7.2/server/solr
 
-8. 拷贝日志工具相关jar包：将solr-7.7.2/server/lib/ext下的jar包拷贝至上面Tomcat下Solr的/WEB-INF/lib/目录下
+      ![](imgs/2020-02-04_131046.png)
 
-​	8.1 进入solr-7.7.2/server/lib/ext
+      b.将所有的文件复制到SolrHome
 
-​		`		cd solr-7.7.2/server/lib/ext`
+      ![](imgs/2020-02-04_131238.png)
 
-   8.2 将所有文件复制到tomcat下solr的/WEB-INF/lib/t
+   8. 拷贝日志工具相关jar包：将solr-7.7.2/server/lib/ext下的jar包拷贝至上面Tomcat下Solr的/WEB-INF/lib/目录下
 
-![](imgs/2020-02-04_131550.png)
+      a. 进入solr-7.7.2/server/lib/ext    `cd solr-7.7.2/server/lib/ext`
 
-9. 拷贝 metrics相关jar包：将solr-7.7.2/server/lib下metrics相关jar包也拷贝至/WEB-INF/lib/目录下
+      b. 将所有文件复制到tomcat下solr的/WEB-INF/lib/
 
-​	9.1 进入solr-7.7.2/server/lib	
+      ![](imgs/2020-02-04_131550.png)
 
-​		`		cd solr-7.7.2/server/lib`
+   9. 拷贝 metrics相关jar包：将solr-7.7.2/server/lib下metrics相关jar包也拷贝至/WEB-INF/lib/目录下
 
-![](imgs/2020-02-04_131801.png)
+      a. 进入solr-7.7.2/server/lib    `cd solr-7.7.2/server/lib`
 
-   9.2 将metrics-开始的所有文件复制到Tomcat下Solr的/WEB-INF/lib/
+      ![](imgs/2020-02-04_131801.png)
 
-![](imgs/2020-02-05_135654.png)
+      b. 将metrics-开始的所有文件复制到Tomcat下Solr的/WEB-INF/lib/
 
-10. 将solr安装包中dist目录中和数据导入相关的2个包，复制到tomcat/webapps/solr/WEB-INF/lib
+      ![](imgs/2020-02-05_135654.png)
 
-![](imgs/2020-02-05_191713.png)
+   10. 将solr安装包中dist目录中和数据导入相关的2个包，复制到tomcat/webapps/solr/WEB-INF/lib
 
-`	cp solr-dataimporthandler-* /usr/local/apache-tomcat-8.5.50/webapps/solr/WEB-INF/lib/`
+       ![](imgs/2020-02-05_191713.png)
 
-11.拷贝log4j2配置文件：将solr-7.7.2/server/resource目录中的log4j配置文件拷入web工程目录WEB-INF/classes（自行创建目录） ，并且修改日志文件的路径
+       `cp solr-dataimporthandler-* /usr/local/apache-tomcat-8.5.50/webapps/solr/WEB-INF/lib/`
 
-​	10.1 进入到solr-7.7.2/server/resource目录中
+   11. 拷贝log4j2配置文件：将solr-7.7.2/server/resource目录中的log4j配置文件拷入web工程目录WEB-INF/classes（自行创建目录） ，并且修改日志文件的路径
 
-`	cd solr-7.7.2/server/resource`
+       a. 进入到solr-7.7.2/server/resource目录中	`cd solr-7.7.2/server/resource`
 
-​		![](imgs/2020-02-05_135948.png)
+       ![](imgs/2020-02-05_135948.png)
 
-​	10.2  将log4j2的配置文件复制到solr 的WEB-INF/classes目录；
+       b. 将log4j2的配置文件复制到solr 的WEB-INF/classes目录
 
-​			创建classes目录
+       创建classes目录
 
-​			![](imgs/2020-02-05_140208.png)
+       ​			![](imgs/2020-02-05_140208.png)
 
-​			log4j的文件复制
+       log4j的文件复制
 
-![](imgs/2020-02-05_140523.png)
+       ![](imgs/2020-02-05_140523.png)
 
-12.重启tomcat
+   12. 重启tomcat
 
-​		进入到日志文件中查看启动情况；
+       进入到日志文件中查看启动情况；
 
-```
-cd ../logs
+       ```
+       cd ../logs
+       
+       more catalina.out
+       ```
 
-more catalina.out
-```
+   13. 访问后台管理系统进行测试    http://192.168.200.129:8080/solr/index.html
 
-13.访问后台管理系统进行测试
-
-http://192.168.200.129:8080/solr/index.html
 
 # 3. Solr基础
 
