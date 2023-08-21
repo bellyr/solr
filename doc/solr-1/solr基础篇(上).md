@@ -93,15 +93,16 @@ Solr最新版本是8.4.1的版本，由于8属于比较新的版本，可能有�
 
 window系统是我们平时开发和学习使用的一个平台，我们首先先来学习如何在window系统中安装Solr
 
-### 	2.3.1**运行环境**
+### 	2.3.1 **运行环境**
 
 Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以上，Solr默认提供Jetty（java写的Servlet容器），本教程使用Tocmat作为Servlet容器，环境如下：
 
-​		Solr：Solr7.x
+- Solr：Solr7.x
 
-​		JDK：jdk1.8
+- JDK：jdk1.8
 
-​		Tomcat：tomcat8.5
+- Tomcat：tomcat8.5
+
 
 ### 	2.3.2 安装步骤
 
@@ -505,19 +506,17 @@ SolrCore可以理解成MySQL中的数据库
 
 在讲解如何使用Documents菜单向Solr中添加数据之前，我们首先回顾一下我们之前在Lucene中学习的一些概念
 
-​	1. 概念介绍：
+#### 1. 概念介绍
 
-​	 文档：document是Lucene进行索引创建以及搜索的基本单元，我们要把数据添加到Lucene的索引库中，数据结构就是document，如果我从Lucene的索引库中进行数据的搜索， 搜索出来的结果的数据结构也是document
+​	 **文档**：document是Lucene进行索引创建以及搜索的基本单元，我们要把数据添加到Lucene的索引库中，数据结构就是document，如果我从Lucene的索引库中进行数据的搜索， 搜索出来的结果的数据结构也是document
 
-​	文档的结构：一个文档是由多个域（Field）组成，每个域包含了域名和域值
-
-如果数据库进行类比，文档相当于数据库中的一行记录，域（Field）则为记录的字段
+​	文档的结构：一个文档是由多个域（Field）组成，每个域包含了域名和域值，如果数据库进行类比，文档相当于数据库中的一行记录，域（Field）则为记录的字段
 
 ​	数据库中的一条记录：
 
 ![](imgs/2020-02-09_114529.png)
 
-​	lucene/solr中文档
+​	lucene/solr中的文档：
 
 ​	![](imgs/2020-02-09_115314.png)
 
@@ -539,9 +538,9 @@ SolrCore可以理解成MySQL中的数据库
 
 ​			将来我们就可以根据域中的词，快速查找到对应的文档
 
-​	2.添加文档
+#### 2.添加文档
 
-​			使用后台管理系统，向Solr中添加文档。文档的数据格式可以是JSON，也可以XML；
+​			使用后台管理系统，向Solr中添加文档，文档的数据格式可以是JSON，也可以XML
 
 ​			以JSON的形式添加文档：
 
@@ -551,11 +550,11 @@ SolrCore可以理解成MySQL中的数据库
 
 ​				![](imgs/2020-02-09_180244.png)
 
-3.修改数据
+#### 3.修改数据
 
 ​	Solr要求每一个文档都需要有一个id域，如果添加的文档id在SolrCore中已经存在，即可完成数据修改
 
-4.删除数据
+#### 4.删除数据
 
 ​	 只能通过XML的格式删除文档，下面我们提供2种删除方式
 
@@ -609,11 +608,13 @@ SolrCore可以理解成MySQL中的数据库
 
 #### managed-schema（掌握）
 
-在Solr中进行索引时，文档中的域需要提前在managed-schema文件中定义，在这个文件中，solr已经提前定义了一些域，比如我们之前使用的id, price, title域
+- 在Solr中进行索引时，文档中的域需要提前在managed-schema文件中定义，在这个文件中，solr已经提前定义了一些域，比如我们之前使用的id, price, title域
 
-通过管理界面查看已经定义的域
+- 通过管理界面查看已经定义的域
 
-​	  ![](imgs/2020-02-09_202315.png)
+  ​	  ![](imgs/2020-02-09_202315.png)
+
+
 
 下面就是solr中一定定义好的一个域：name
 
@@ -623,29 +624,30 @@ SolrCore可以理解成MySQL中的数据库
 
 **field标签**：定义一个域
 
-**name属性**：域名
+- **name属性**：域名
 
-**indexed**：是否索引，即是否可以根据该域进行搜索（一般哪些域不需要搜索呢？例如图片的路径）
+- **indexed**：是否索引，即是否可以根据该域进行搜索（一般哪些域不需要搜索呢？例如图片的路径）
 
-**stored**：是否存储，将来查询的文档中是否包含该域的数据（一般哪些域不需要查询呢？例如图书的详细信息）
+- **stored**：是否存储，将来查询的文档中是否包含该域的数据（一般哪些域不需要查询呢？例如图书的详细信息）
 
 
 
 举例：将图书的description信息存储到Solr中，description域，indexed设置为true，store设置成false
 
-可以根据商品描述域进行查询，但是查询出来的文档中是不包含description域的数据
+可以根据图书描述域进行查询，但是查询出来的文档中是不包含description域的详细数据
 
 ![](imgs/2020-02-09_203024.png)
 
 
 
-**multiValued**：是否多值，该域是否可以存储一个数组（ 例如图片列表）
+- **multiValued**：是否多值，该域是否可以存储一个数组（ 例如图片列表）
 
-**required**：是否必须创建文档的时候，该域是否必须；id
+- **required**：是否必须创建文档的时候，该域是否必须（id域必须有）
 
-**type**：域类型，决定该域使用的分词器。分词器可以决定该域的分词效果（分词，不分词，是否支持中文分词）。域的类型在使用之前必须提前定义；在solr中已经提供了很多的域类型
+- **type**：指定域类型，决定该域使用的分词器。分词器可以决定该域的分词效果（分词/不分词/是否支持中文分词）。域类型在使用之前必须提前定义，在solr中已经提供了很多的域类型
 
 ```
+例如solr提前定义好的"text_general"域类型
 <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory"/>
@@ -665,29 +667,25 @@ SolrCore可以理解成MySQL中的数据库
     </fieldType>
 ```
 
-​	以上这些概念和Lucene中讲解的是一样的；
 
-​	自定义一个商品描述域：
+
+自定义一个商品描述域
 
 ```
 <field name="item_description" type="text_general" indexed="true" stored="false"/>
 ```
 
-​	定义一个图片域
+定义一个图片域
 
 ```
 <field name="item_image" type="string" indexed="false" stored="true" multiValued=true/>
 ```
 
-重启solr
-
-​	测试分词效果
-
-​		通过测试我们发现text_general域类型，支持英文分词，不支持中文分词；
+重启solr测试分词效果，通过测试我们发现text_general域类型，支持英文分词，不支持中文分词
 
 ![](imgs/2020-02-09_211511.png)
 
-​	测试添加文档
+测试添加文档
 
 ```
 {id:"1101",name:"java编程思想",item_image:["big.jpg","small.jpg"],item_description:"lucene是apache的开源项目，是一个全文检索的工具包。"}
@@ -697,43 +695,33 @@ SolrCore可以理解成MySQL中的数据库
 
 ​	![](imgs/2020-02-09_213638.png)
 
-通过我们测试，我们发现可以通过item_description域进行搜索，但是搜索结果的文档中是没有item_description域的数据的；
+通过测试，我们发现可以通过item_description域进行搜索，但是搜索结果的文档中是没有item_description域的数据的
 
 测试item_pic域搜索
 
 ![](imgs/2020-02-09_213755.png)
 
-
-
-通过我们测试，我们发现不能通过item_pic域进行搜索；
-
-
+通过测试，我们发现不能通过item_pic域进行搜索
 
 ### 3.2.5 Solr的配置-FieldType
 
-介绍
+每个域（Field）都需要指定域类型（FieldType），而且域类型必须提前定义，域类型决定该域使用的索引和搜索的分词器，影响分词效果
 
-上一章节我们讲解了Field的定义。接下来我们要讲解的是FieldType域类型；
+Solr中已经提供好了一些域类型
 
-刚才我们给大家讲解了如何在schema文件中定义域，接下来我们要讲解域类型如何定义；
+- **text_general**：支持英文分词，不支持中文分词；
 
-每个域都需要指定域类型，而且域类型必须提前定义。域类型决定该域使用的索引和搜索的分词器，影响分词效果。
+- **string**：不分词；适合于id，订单号等；
 
-Solr中已经提供好了一些域类型；
+- **pfloat**：适合小数类型的域，特殊分词，支持大小比较；
 
-​	text_general：支持英文分词，不支持中文分词；
+- **pdate**：适合日期类型的域，特殊分词，支持大小比较；
 
-​	string：不分词；适合于id,订单号等。
+- **pint**：适合整数类型的域，特殊分词，支持大小比较；
 
-​	pfloat:适合小数类型的域，特殊分词，支持大小比较；
+- **plong**：适合长整数类型的域，特殊分词，支持大小比较；
 
-​	pdate:适合日期类型的域，特殊分词，支持大小比较；
-
-​	pint:适合整数类型的域，特殊分词，支持大小比较；
-
-​	plong:适合长整数类型的域，特殊分词，支持大小比较；
-
-我们以text_general为例看一下如何定义FiledType.text_general是solr中已经提供好的一个域类型；他的定义如下；
+以text_general为例看一下如何定义FiledType，text_general是solr中内置的域类型，定义如下
 
 ```
   <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
@@ -757,43 +745,32 @@ Solr中已经提供好了一些域类型；
 
 ##### 3.2.5.1 相关属性
 
-name:域类型名称，定义域类型的必须指定，并且要唯一；将来定义域的时候需要指定通过域名称来指定域类型；（重点）
+- **name**：域类型名称，定义域类型的必须指定，并且要唯一；将来定义域的时候需要指定通过域名称来指定域类型（重点）
+- **class**：域类型对应的java类，必须指定，如果该类是solr中的内置类，使用solr.类名指定即可。如果该类是第三方的类，需要指定全类名。（重点）如果class是TextField，我们还需要使用<analyzer>子标签来配置分析器
+- positionIncrementGap：用于多值字段，定义多值间的间隔，来阻止假的短语匹配（了解）
 
-class:域类型对应的java类，必须指定，如果该类是solr中的内置类，使用solr.类名指定即可。如果该类是第三方的类，需要指定全类名。（重点）
+- autoGeneratePhraseQueries：用于文本字段，如果设为true，solr会自动对该字段的查询生成短语查询，即使搜索文本没带“”（了解）
 
-如果class是TextField，我们还需要使用<analyzer>子标签来配置分析器；
-
-positionIncrementGap：用于多值字段，定义多值间的间隔，来阻止假的短语匹配（了解）。
-
-autoGeneratePhraseQueries：用于文本字段，如果设为true，solr会自动对该字段的查询生成短语查询，即使搜索文本没带“”（了解）
-
-enableGraphQueries：是否支持图表查询（了解）
-docValuesFormat：docValues字段的存储格式化器：schema-aware codec，配置在solrconfig.xml中的（了解）
-postingsFormat：词条格式器：schema-aware codec，配置在solrconfig.xml中的（了解）
+- enableGraphQueries：是否支持图表查询（了解）
+- docValuesFormat：docValues字段的存储格式化器：schema-aware codec，配置在solrconfig.xml中的（了解）
+- postingsFormat：词条格式器：schema-aware codec，配置在solrconfig.xml中的（了解）
 
 ##### 3.2.5.2 Solr自带的FieldType类
 
-​		solr除了提供了TextField类，我们也可以查看它提供的其他的FiledType类，我们可以通过官网查看其他的FieldType类的作用：
+solr除了提供了TextField类，我们也可以查看它提供的其他的FieldType类，我们可以通过官网查看其他的FieldType类的作用：
 
 http://lucene.apache.org/solr/guide/8_1/field-types-included-with-solr.html
 
 ![1581600836129](imgs/1581600836129.png)
 
-以上的FieldType类的使用，我们不会一一进行讲解，只会讲解常用的一部分；
-
-
-
-
+以上的FieldType类的使用，我们不会一一进行讲解，只会讲解常用的一部分
 
 ##### 3.2.5.3 FieldType常用类的使用
 
-首先我们来讲解第一个FieldType类；
-
 ![](imgs/2020-02-13_214028.png)
 
- TextField：支持对字符类型的数据进行分词；对于 solr.TextField 域类型，需要为其定义分析器;
+-  **TextField**：支持对字符类型的数据进行分词；对于 solr.TextField 域类型，需要为其定义分析器;
 
-我们首先先来搞清楚什么是Solr分析器；
 
 ###### 	分析器的基本概念
 
