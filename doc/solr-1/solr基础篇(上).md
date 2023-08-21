@@ -2,88 +2,83 @@
 
 ## 前言
 
-​	学习Solr需要一些和java相关的储备知识，在此之前，假设您已经：
+学习Solr需要一些和java相关的储备知识，在此之前，假设您已经：
 
 - 拥有 Java 开发环境以及相应 IDE（eclipse idea）
 - 熟悉 Spring Boot
 - 熟悉 Maven
 - 熟悉 Lucene
 
-
-
 ## 1.1 Solr是什么
 
-- ​	Solr是Apache旗下基于Lucene开发的全文检索的服务。用户可以通过http请求，向Solr服务器提交一定格式的数据（XML,JSON），完成索引库的索引。也可以通过Http请求查询索引库获取返回结果(XML,JSON)。
+- Solr是Apache旗下基于Lucene开发的全文检索的服务。用户可以通过http请求，向Solr服务器提交一定格式的数据（XML，JSON），完成索引库的索引，也可以通过http请求查询索引库获取返回结果（XML，JSON）
 
-​	Solr和Lucene的区别
+### Solr和Lucene的区别
 
-- ​	Lucene是一个开放源代码的全文检索引擎工具包，它不是一个完整的全文检索引擎，Lucene提供了完整的查询引擎和索引引擎，目的是为软件开发人员提供一个简单易用的工具包，以方便的在目标系统中实现全文检索的功能，或者以Lucene为基础构建全文检索引擎。
+- Lucene是一个开放源代码的全文检索引擎工具包，它不是一个完整的全文检索引擎，Lucene提供了完整的查询引擎和索引引擎，目的是为软件开发人员提供一个简单易用的工具包，以方便的在目标系统中实现全文检索的功能，或者以Lucene为基础构建全文检索引擎。
 
- Solr的目标是打造一款企业级的搜索引擎系统，它是一个搜索引擎服务，可以独立运行，通过Solr可以非常快速的构建企业的搜索引擎，通过Solr也可以高效的完成站内搜索功能。
+-  Solr的目标是打造一款企业级的搜索引擎系统，它是一个搜索引擎服务，可以独立运行，通过Solr可以非常快速的构建企业的搜索引擎，通过Solr也可以高效的完成站内搜索功能。
+
 
 ​	  ![1576984490418](imgs/001.png)
 
 ## 1.2 Solr的发展历程
 
-- ​		2004年，CNET NetWorks公司的Yonik Seeley工程师为公司网站开发搜索功能时完成了Solr的雏形。
+- 2004年，CNET NetWorks公司的Yonik Seeley工程师为公司网站开发搜索功能时完成了Solr的雏形。起初Solr只是CNET公司的内部项目；
 
-起初Solr知识CNET公司的内部项目。
+- 2006年1月，CNET公司决定将Solr源码捐赠给Apache软件基金会；
 
-- ​        2006 年1月，CNET公司决定将Solr源码捐赠给Apache软件基金会。
+- 2008年9月，Solr1.3发布了新功能，其他包括分布式搜索和性能增强等功能；
 
-- ​		2008 年9月，Solr1.3发布了新功能，其他包括分布式搜索和性能增强等功能。
+- 2009年11月，Solr1.4版本发布，此版本对索引，搜索，Facet等方面进行优化，提高了对PDF，HTML等富文本文件处理能力，还推出了许多额外的插件；
 
-- ​        2009 年11月，Solr1.4版本发布，此版本对索引，搜索，Facet等方面进行优化，提高了对PDF，HTML等富文本文件处理能力，还推出了许多额外的插件；
+- 2010年3月，Lucene和Solr项目合并，自此Solr成为了Lucene的子项目，产品现在由双方的参与者共同开发；
 
-- ​        2010 年3月，Lucene和Solr项目合并，自此,Solr称为了Lucene的子项目，产品现在由双方的参与者共同开发。
+- 2011年，Solr改变了版本编号方案，以便与Lucene匹配。为了使Solr和Lucene有相同的版本号，Solr1.4下一版的版本变为3.1；
 
-- ​		2011年，Solr改变了版本编号方案，以便与Lucene匹配。为了使Solr和Lucene有相同的版本号，Solr1.4下一版的版本变为3.1。
+- 2012年10月，Solr4.0版本发布，新功能Solr Cloud也随之发布；
 
-- ​		2012年10月，Solr4.0版本发布，新功能Solr Cloud也随之发布。
-
-- ​        目前Solr最新版本8.4.1
-
-​		
+- ......	
 
 ## 1.3 Solr的功能优势
 
-- ​		灵活的查询语法；
-- ​         支持各种格式文件（Word，PDF）导入索引库；
-- ​        支持数据库数据导入索引库；
-- ​        分页查询和排序
-- ​       Facet维度查询；
-- ​       自动完成功能；
-- ​       拼写检查；
-- ​       搜索关键字高亮显示；
-- ​       Geo地理位置查询;
-- ​      Group 分组查询;
-- ​      Solr Cloud;
+- 灵活的查询语法；
+- 支持各种格式文件（Word，PDF）导入索引库；
+- 支持数据库数据导入索引库；
+- 分页查询和排序；
+- Facet维度查询；
+- 自动完成功能；
+- 拼写检查；
+- 搜索关键字高亮显示；
+- Geo地理位置查询;
+- Group分组查询;
+- Solr Cloud;
 
 # 2. 下载和安装
 
 ## 2.1 下载
 
-​    solr的下载地址：https://lucene.apache.org/solr/downloads.html
+Solr的下载地址：https://lucene.apache.org/solr/downloads.html
 
-​	Solr最新版本是8.4.1的版本，由于8属于比较新的版本，可能有一些未知的Bug，出现问题后可能不好解决，所以我们使用Solr7.
+Solr最新版本是8.4.1的版本，由于8属于比较新的版本，可能有一些未知的Bug，出现问题后可能不好解决，所以我们使用Solr7
 
-   因为Solr是基于java语言开发，且Solr7.x要求的JDK版本最少是JDK8.所以我们在安装solr之前，首先必须安装JDK。
+因为Solr是基于java语言开发，且Solr7.x要求的JDK版本最少是JDK8，所以我们在安装solr之前，首先必须安装JDK
 
 ​	![](imgs/2020-02-23_000048.png)
 
 ## 2.2 Solr学习资源
 
-​	 为了方便学习，Solr官方也提供了很多学习资料。可以在官方的Resources中查看；
+为了方便学习，Solr官方也提供了很多学习资料，可以在官方的Resources中查看：
 
 ![1577010476915](imgs/2019-12-22_182748.png)
 
-​	官方提供的4种资料：
+官方提供的4种资料：
 
--    Solr Quick Start（即Solr快速上手教程）；
+-    Solr Quick Start（即Solr快速上手教程）
 
   ​	![](imgs/2019-12-22_183033.png)
 
--    Solr官方使用指南。
+-    Solr官方使用指南
 
   ​	![](imgs/2019-12-22_183134.png)
 
@@ -91,91 +86,91 @@
 
   ​	![](imgs/2019-12-22_183607.png)
 
-- Solr相关的英文书籍，如solr in action ,solr cookbook. 
+- Solr相关的书籍，如Solr in Action，Solr Cookbook
 
-  只不过这些资料都是英文资料。对于英文好的同学来说可以参考。对于英文不好的同学来说，直接参考我们的视频教程即可。
 
 ## 2.3 Window下安装Solr
 
-​	  window系统是我们平时开发和学习使用的一个平台，我们首先先来学习如何在window系统中安装Solr;
+window系统是我们平时开发和学习使用的一个平台，我们首先先来学习如何在window系统中安装Solr
 
 ### 	2.3.1**运行环境**
 
-​		solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以上，Solr默认提供Jetty（java写的Servlet容器），本教程使用Tocmat作为Servlet容器，环境如下：
+Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以上，Solr默认提供Jetty（java写的Servlet容器），本教程使用Tocmat作为Servlet容器，环境如下：
 
 ​		Solr：Solr7.x
 
-​		Jdk：jdk1.8
+​		JDK：jdk1.8
 
 ​		Tomcat：tomcat8.5
 
 ### 	2.3.2 安装步骤
 
-- ​			下载solr-7.zip并解压；
-
-  ​			
+- 下载solr-7.zip并解压；
 
   ​		![](imgs/2019-12-22_201756.png)
 
-  ​	bin：官方提供的一些solr的运行脚本。
+  - bin：官方提供的一些solr的运行脚本
 
-  ​    contrib：社区的一些贡献软件/插件，用于增强solr的功能。
+  - contrib：社区的一些贡献软件/插件，用于增强solr的功能
 
-  ​	dist：Solr的核心JAR包和扩展JAR包
 
-  ​	docs：solr的API文档
+  - dist：Solr的核心JAR包和扩展JAR包
 
-  ​	example：官方提供的一些solr的demo代码
 
-  ​    licenses：solr遵守的一些开源协议文件
+  - docs：Solr的API文档
 
-  ​	server:这个目录有点意思，取名为sever，有点迷惑人，其实就是一个jetty.官方为了方便部署Solr，在安装包中内置了一个Jetty; 我们直接就可以利用内置的jetty部署solr;
 
-  ​	server/solr-webapp/webapp:进入到sever目录中有一个webapp的目录，这个目录下部署的就是solr的war包（solr的服务）;
+  - example：官方提供的一些Solr的demo代码
 
-  接下来我们先来给大家简单演示一下如何使用内置jetty服务器，部署solr服务；
 
-  ​	进入bin目录
+  - licenses：Solr遵守的一些开源协议文件
 
-  ​	启动命令：solr start  
+
+  - server：这个目录有点意思，取名为sever，有点迷惑人，其实就是一个jetty，官方为了方便部署Solr，在安装包中内置了一个jetty，我们就可以利用内置的jetty部署solr
+
+
+  - server/solr-webapp/webapp：进入到sever目录中有一个webapp的目录，这个目录下部署的就是solr的war包（solr的服务）
+
+
+  
+
+  如何使用内置jetty服务器部署solr服务：
+
+  1. 进入bin目录
+
+  2. 启动命令：solr start  
 
   ​	![](imgs/2020-02-28_233040.png)
 
-  ​    关闭命令：solr stop -all
+  3. 关闭命令：solr stop -all
 
   ​	![](imgs/2020-02-28_233110.png)
 
-  ​    重启solr  ：solr restart –p p_num
-
-  
+  4. 重启solr：solr restart –p p_num
 
   使用localhost:8983就可以访问solr后台管理系统；
 
   
 
-  在实际开发中通常我们需要将solr部署到tomcat服务器中；接下来我们要讲解的就是如何将solr部署到tomcat；
+  在实际开发中通常我们需要将solr部署到tomcat服务器中，接下来我们要讲解的就是如何将solr部署到tomcat
 
-- ​    部署solr到tomcat；
+- 部署solr到tomcat：
 
-  ​	1.解压一个新的tomcat
+  1. 解压一个新的tomcat
 
-  ​	2.将安装包下server/solr-webapp/webapp下的solr服务打war包；
+  2. 将安装包下server/solr-webapp/webapp下的solr服务打war包
 
-  ​	进入server/solr-webapp/webapp目录
+     a. 进入server/solr-webapp/webapp目录，使用cmd窗口
 
-  ​	使用cmd窗口
+     b. jar cvf solr.war ./*
 
-  ​     jar cvf  solr.war ./*
-
-  
-
-  ​	3.将solr.war复制到tomcat/webapps目录中；
+  3. 将solr.war复制到tomcat/webapps目录中
 
   ![](imgs/2020-02-28_233259.png)
 
-  4.启动tomcat，解压war包；
+  4. 启动tomcat，解压war包
 
-  5.修改webapp/solr/WEB-INF/web.xml的配置solr_home的位置；
+  5. 修改tomcat/webapps/solr/WEB-INF/web.xml的配置solr_home的位置
 
   ```
   <env-entry>
@@ -185,15 +180,16 @@
    </env-entry>
   ```
 
-  Solr home目录，SolrHome是Solr运行的主目录，将来solr产生的数据就存储在SolrHOME中；
+  - SolrHome是Solr运行的主目录，将来Solr产生的数据及配置文件就存储在SolrHome中
 
-  SolrHOME可以含多个SolrCore；
 
-  SolrCore即Solr实例每个SolrCore可以对外单独提供全文检索的服务.
+  - SolrHome可以含多个SolrCore
 
-  理解为关系型数据库中的数据库. 关于solrCore的创建我们在后面的课程中专门来讲解；
 
-  6.取消安全配置
+  - SolrCore即Solr实例，每个SolrCore可以对外单独提供全文检索的服务，可以理解为关系型数据库中的数据库
+
+
+  6. 取消安全配置
 
   ```
   <!--
@@ -213,132 +209,110 @@
       </web-resource-collection>
     </security-constraint>-->
   ```
-  
-  
-  
-  7.将solr-7.7.2/server/solr中所有的文件复制到solrHome
-  
-  8.拷贝日志工具相关jar包：将solr-7.7.2/server/lib/ext下的jar包拷贝至上面Tomcat下Solr的/WEB-INF/lib/目录下
-  
-  9.拷贝metrics相关jar包：将solr-7.7.2/server/lib下metrics相关jar包也拷贝至/WEB-INF/lib/目录下
-  
-  10.拷贝dataimport相关jar包:solr-7.7.2/dist下dataimport相关jar包也拷贝至/WEB-INF/lib/目录下
-  
-  11.拷贝log4j2配置文件：将solr-7.7.2/server/resources目录中的log4j配置文件拷入web工程目录WEB-INF/classes（自行创建目录） ，并且修改日志文件的路径
-  
-  12.重启tomcat，看到welcome,说明solr就安装完毕
-  
+
+  7. 将solr-7.7.2/server/solr中所有的文件复制到SolrHome（只复制solr.xml和zoo.cfg也可）
+
+  8. 拷贝日志工具相关jar包：将solr-7.7.2/server/lib/ext下的jar包拷贝至上面Tomcat下Solr的/WEB-INF/lib/目录下
+
+  9. 拷贝metrics相关jar包：将solr-7.7.2/server/lib下metrics相关jar包也拷贝至/WEB-INF/lib/目录下
+
+  10. 拷贝dataimport相关jar包:solr-7.7.2/dist下dataimport相关jar包也拷贝至/WEB-INF/lib/目录下
+
+  11. 拷贝log4j2配置文件：将solr-7.7.2/server/resources目录中的两个log4j配置文件拷入web工程目录WEB-INF/classes（自行创建目录）
+
+  12. 重启tomcat，看到welcome,说明solr就安装完毕
+
   ![](imgs/2019-12-23_221350.png)
-  
-  13.访问后台管理系统进行测试
-  
+
+  13. 访问后台管理系统进行测试
+
   http://localhost:8080/solr/index.html
-  
-  14.在tomcat的bin\catalina.bat中配置日志文件的环境参数
-  
+
+  14. 在tomcat的bin\catalina.bat中配置日志文件的环境参数
+
   ```
-  set "JAVA_OPTS=%JAVA_OPTS% -Dsolr.log.dir=C:\webapps\fooFts\logs"
+  set "JAVA_OPTS=%JAVA_OPTS% -Dsolr.log.dir=日志文件位置"
   ```
-  
-  
+
 
 ### 2.4 Linux下安装Solr
 
-​		在实际的生产环境中，通常我们都需要将solr安装到linux服务器中；由于我们目前属于学习阶段。我们就使用虚拟机来模拟一个Linux服务器安装solr；
+在实际的生产环境中，通常我们都需要将solr安装到linux服务器中
 
-- ​	  环境准备：
+- 环境准备：
 
-​			Cent0S 7.0 linux系统；
+  - CentOS 7.0
+  - jdk1.8  linux安装包   https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+  - tomcat：tomcat8.5  https://tomcat.apache.org/
+  - solr7.x 安装包  http://mirror.bit.edu.cn/apache/lucene/solr/7.7.2/solr-7.7.2.tgz
 
-​			 Jdk1.8  linux安装包   
+安装包在资料中已经准备好
 
-​				 https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
-​		    tomcat：tomcat8.5      
 
-​				 https://tomcat.apache.org/
+- 将linux中相关的安装包上传到linux
 
-​            solr7.x 安装包					
+  sftp上传 jdk1.8  tomcat8.5   solr7.x 安装包到linux
 
-​				http://mirror.bit.edu.cn/apache/lucene/solr/7.7.2/solr-7.7.2.tgz
+  1. 使用CRT连接到Linux
 
-​			这一块的安装包在资料中已经准备好了；
-
-- ​    将linux中相关的安装包上传到linux
-
-  ​	sftp上传  Jdk1.8  tomcat8.5   solr7.x 安装包到linux；
-
-  1. ​	使用CRT连接到Linux
-
-  2. ​     alt+p打开sftp,上传相关的软件安装到到linux
+  2. alt+p打开sftp,上传相关的软件安装到到linux
 
      ​	![](imgs/2020-02-04_120708.png)
 
-- ​    安装jdk
+- 安装jdk
 
-  ​	![](imgs/2020-02-04_120955.png)
+  ![](imgs/2020-02-04_120955.png)
 
-  1. ​	解压jdk
+  1. 解压jdk
 
-      ```
-      tar -xzvf jdk18 -C /usr/local
-      ```
-
+      `tar -xzvf jdk1.8 -C /usr/local`
+      
       ![](imgs/2020-02-04_121041.png)
 
   2.    配置环境变量
 
      ```
-     vi /etc/profile
+   vi /etc/profile
      export JAVA_HOME=/usr/local/jdk1.8.0_171
      export PATH=$JAVA_HOME/bin:$PATH
      ```
      
-     
-     
-  3. 重新加载profile文件,让配置文件生效；
-
+  3. 重新加载profile文件，让配置文件生效
+  
        ![](imgs/2020-02-04_121606.png)
-
-  4. 测试
-
-      java -version
+  
+  4. 测试：java -version
 
       ![](imgs/2020-02-04_123052.png)
 
-      
-
--    安装tomcat，tomcat的安装比较简单，只需要解压即可；
+-    安装tomcat，tomcat的安装比较简单，只需要解压即可
 
      ![](imgs/2020-02-04_124804.png)
 
-- ​    安装solr,安装solr的过程和windows系统过程完全相同。只不过通过linux命令来操作而已；
+- 安装solr，安装solr的过程和windows系统过程完全相同，只不过通过linux命令来操作而已
 
-   1. 解压solr安装包,直接解压在宿主目录即可；
+   1. 解压solr安装包，直接解压在宿主目录即可，解压的目录结构和window版的目录结构相同
 
-       解压的目录结构和window版的目录结构相同；
+       ![](imgs/2020-02-23_111347.png)
    
-      ![](imgs/2020-02-23_111347.png)
-   
-      
-   
-   2. 将server/solr-webapp/webapp下的solr服务打war包；
+   2. 将server/solr-webapp/webapp下的solr服务打war包
    
       2.1 进入到webapp目录
    
-      cd server/solr-webapp/webapp
+      `cd server/solr-webapp/webapp`
    
       2.2 将webapp中的代码打成war包
    
-       jar -cvf  solr.war ./*			    
+       `jar -cvf solr.war ./*`			    
 
 ![](imgs/2020-02-04_125441.png)
 
-​		3.将war包部署到tomcat的webapps目录
+​         3. 将war包部署到tomcat的webapps目录
 
 ![](imgs/2020-02-04_125630.png)
 
-​		4.启动tomcat，解压solr.war
+​		 4. 启动tomcat，解压solr.war
 
 ​			4.1进入到tomcat的bin目录
 
@@ -350,9 +324,9 @@
 
 ​			4.3 进入到webapp目录中查看
 
-​				![](imgs/2020-02-04_130034.png)
+​		![](imgs/2020-02-04_130034.png)
 
-5. 修改webapp/solr/WEB-INF/web.xml的配置solrhome的位置；
+5. 修改webapps/solr/WEB-INF/web.xml的配置solrhome的位置
 
    ```
 <env-entry>
@@ -366,41 +340,33 @@
    
    ![](imgs/2020-02-04_130847.png)
 
-6.取消安全配置（和window相同）
+6. 取消安全配置（和window相同）
 
-7.将solr-7.7.2/server/solr中所有的文件复制到solrHome
+7. 将solr-7.7.2/server/solr中所有的文件复制到solrHome
 
-  	7.1进入到solr-7.7.2/server/solr
+​      7.1 进入到solr-7.7.2/server/solr
 
 ![](imgs/2020-02-04_131046.png)
 
-​	  7.2将所有的文件复制到solrHome
+​	  7.2 将所有的文件复制到solrHome
 
 ​		![](imgs/2020-02-04_131238.png)
 
-
-
-8.拷贝日志工具相关jar包：将solr-7.7.2/server/lib/ext下的jar包拷贝至上面Tomcat下Solr的/WEB-INF/lib/目录下
+8. 拷贝日志工具相关jar包：将solr-7.7.2/server/lib/ext下的jar包拷贝至上面Tomcat下Solr的/WEB-INF/lib/目录下
 
 ​	8.1 进入solr-7.7.2/server/lib/ext
 
-```
-	cd solr-7.7.2/server/lib/ext
-```
+​		`		cd solr-7.7.2/server/lib/ext`
 
-   8.2 将所有文件复制到Tomcat下Solr的/WEB-INF/lib/
+   8.2 将所有文件复制到tomcat下solr的/WEB-INF/lib/t
 
 ![](imgs/2020-02-04_131550.png)
 
-9.拷贝 metrics相关jar包：将solr-7.7.2/server/lib下metrics相关jar包也拷贝至/WEB-INF/lib/目录下
+9. 拷贝 metrics相关jar包：将solr-7.7.2/server/lib下metrics相关jar包也拷贝至/WEB-INF/lib/目录下
 
-​	9.1 进入solr-7.7.2/server/lib
+​	9.1 进入solr-7.7.2/server/lib	
 
-​			
-
-```
-cd solr-7.7.2/server/lib
-```
+​		`		cd solr-7.7.2/server/lib`
 
 ![](imgs/2020-02-04_131801.png)
 
@@ -412,17 +378,13 @@ cd solr-7.7.2/server/lib
 
 ![](imgs/2020-02-05_191713.png)
 
-```
- cp solr-dataimporthandler-* /usr/local/apache-tomcat-8.5.50/webapps/solr/WEB-INF/lib/
-```
+`	cp solr-dataimporthandler-* /usr/local/apache-tomcat-8.5.50/webapps/solr/WEB-INF/lib/`
 
 11.拷贝log4j2配置文件：将solr-7.7.2/server/resource目录中的log4j配置文件拷入web工程目录WEB-INF/classes（自行创建目录） ，并且修改日志文件的路径
 
 ​	10.1 进入到solr-7.7.2/server/resource目录中
 
-```
-cd solr-7.7.2/server/resource
-```
+`	cd solr-7.7.2/server/resource`
 
 ​		![](imgs/2020-02-05_135948.png)
 
@@ -432,9 +394,9 @@ cd solr-7.7.2/server/resource
 
 ​			![](imgs/2020-02-05_140208.png)
 
-​			log4j的文件复制；
+​			log4j的文件复制
 
-​			![](imgs/2020-02-05_140523.png)
+![](imgs/2020-02-05_140523.png)
 
 12.重启tomcat
 
