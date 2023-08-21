@@ -403,45 +403,37 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
 
 ## 3.1 SolrCore
 
-​		solr部署启动成功之后，需要创建core才可以使用的，才可以使用Solr；类似于我们安装完毕MySQL以后，需要创建数据库一样；
+Solr部署启动成功之后，需要创建Core才可以使用，类似于我们安装MySQL以后，需要创建数据库一样
 
 ### 3.1.1 什么是SolrCore
 
-​	在Solr中、每一个Core、代表一个索引库、里面包含索引数据及其配置信息。
+在Solr中每一个Core代表一个索引库，里面包含索引数据及其配置信息
 
-​    Solr中可以拥有多个Core、也就是可以同时管理多个索引库、就像mysql中可以有多个数据库一样。
+Solr中可以拥有多个Core，也就是可以同时管理多个索引库，就像mysql中可以有多个数据库一样
 
-​    所以SolrCore可以理解成MySQL中的数据库；
+SolrCore可以理解成MySQL中的数据库
 
 ### 3.1.2 SolrCore维护（windows）
 
-​	简单认识SolrCore以后，接下来要完成的是SolrCore的创建。在创建solrCore之前，我们首先认识一下SolrCore目录结构：
+在创建SolrCore之前，首先认识一下SolrCore目录结构：
 
-​	1.SolrCore目录结构
+1. SolrCore目录结构
 
-​    Core中有二个重要目录：conf和data
+   Core中有二个重要目录：conf和data
 
 ​    ![](imgs/2020-02-05_171038.png)
 
-​    conf:存储SolrCore相关的配置文件；
+- conf：存储SolrCore相关的配置文件
+- data：SolrCore的索引数据
+- core.properties：配置Core的自身属性，比如SolrCore的名称（name=SolrCore名称）
 
-​    data:SolrCore的索引数据；
+所以搭建一个SolrCore只需要创建 2个目录和一个properties文件即可   
 
-​    core.properties：SolrCore的名称,name=SolrCore名称；
+2. SolrHome中搭建SolrCore
 
-​	所以搭建一个SolrCore只需要创建 2个目录和一个properties文件即可；   
+​	2.1 在之前搭建Solr的时候，我们说一个solr_home是由多个SolrCore构成，SolrCore是搭建在solrHome中	
 
-
-
-2.SolrHome中搭建SolrCore
-
-​	2.1 solrCore的目录结构搞清楚以后，接下来就是关于SolrCore在哪里进行创建呢？
-
-​	在之前搭建Solr的时候，我们说一个solr_home是由多个solrCore构成，所以solrCore是搭建在solrHome中；
-
-​	![](imgs/2020-02-05_172533.png)
-
-​	
+![](imgs/2020-02-05_172533.png)
 
 ​	2.2 将solr安装包中的配置文件复制到conf目录；
 
@@ -449,54 +441,47 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
 
 ​         solr安装包中配置文件的位置：solr-7.7.2\example\example-DIH\solr\solr\conf
 
-
-
    2.3 重启solr
 
    2.4 在solr的管理后台来查看
 
 ​		![](imgs/2020-02-05_173832.png)
 
+3. 如何创建多个solrCore
 
+​	只需要复制SolrCore一份，重启solr
 
-3.如何创建多个solrCore；
-
-​	只需要复制SolrCore一份，重启solr；
-
-​    ![](imgs/2020-02-05_174323.png)
-
-
-
-
+![](imgs/2020-02-05_174323.png)
 
 ### 3.1.3 SolrCore维护（linux）
 
-​	5.1 进入到SolrHome
+1. 进入到SolrHome
 
-```
- cd /usr/local/solr_home/
-```
+   `cd /usr/local/solr_home/`
 
 ​        ![](imgs/2020-02-05_175549.png)
 
-​	5.2 创建SolrCore
+2. 创建SolrCore
 
-		 mkdir -p collection1/data
-		 mkdir -p collection1/conf
-		 cd collection1
-		 touch core.properties
-![](imgs/2020-02-05_182151.png)
-	5.3  将solr安装包中提供的示例配置文件复制到conf目录 
+   ```
+   mkdir -p collection1/data
+   mkdir -p collection1/conf
+   cd collection1
+   touch core.properties
+   ```
 
-```
-cd solr-8.3.1/example/example-DIH/solr/solr/conf/
+   ![](imgs/2020-02-05_182151.png)
 
-cp -r *  /usr/local/solr_home/collection1/conf/
-```
+3. 将solr安装包中提供的示例配置文件复制到conf目录
 
-  5.4 重启tomcat
+   ```
+   cd solr-7.7.2/example/example-DIH/solr/solr/conf/
+   cp -r *  /usr/local/solr_home/collection1/conf/
+   ```
 
-  5.5访问后台管理系统
+4. 重启tomcat
+
+5. 访问后台管理系统
 
 ![](imgs/2020-02-23_111646.png)
 
