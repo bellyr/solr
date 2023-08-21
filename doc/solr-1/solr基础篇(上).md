@@ -321,23 +321,23 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
 
       ![](imgs/2020-02-04_130034.png)
 
-   5. 修改webapps/solr/WEB-INF/web.xml的配置solrhome的位置
+   5. 修改webapps/solr/WEB-INF/web.xml的配置SolrHome的位置
 
       ```xml
       <env-entry>
          	<env-entry-name>solr/home</env-entry-name>
-      	<env-entry-value>你的solrhome位置</env-entry-value>
+      	<env-entry-value>你的SolrHome位置</env-entry-value>
          	<env-entry-type>java.lang.String</env-entry-type>
        </env-entry>
       ```
 
-      既然solrhome指定的位置在/user/local/solr_home下面，所以需要创建一个solr_home的文件夹
+      既然SolrHome指定的位置在/user/local/solr_home下面，所以需要创建一个solr_home的文件夹
 
       ![](imgs/2020-02-04_130847.png)
 
    6. 取消安全配置（和window相同）
 
-   7. 将solr-7.7.2/server/solr中所有的文件复制到solrHome
+   7. 将solr-7.7.2/server/solr中所有的文件复制到SolrHome
 
       a. 进入到solr-7.7.2/server/solr
 
@@ -432,11 +432,11 @@ SolrCore可以理解成MySQL中的数据库
 
 2. SolrHome中搭建SolrCore
 
-   2.1 在之前搭建Solr的时候，我们说一个solr_home是由多个SolrCore构成，SolrCore是搭建在solrHome中	
+   2.1 在之前搭建Solr的时候，我们说一个solr_home是由多个SolrCore构成，SolrCore是搭建在SolrHome中	
 
    ![](imgs/2020-02-05_172533.png)2.2 将solr安装包中的配置文件复制到conf目录
 
-   搭建好solrCore以后，conf目录还没没有配置文件，我们需要将solr安装包中提供的所有示例配置文件复制到conf目录 
+   搭建好SolrCore以后，conf目录还没没有配置文件，我们需要将solr安装包中提供的所有示例配置文件复制到conf目录 
 
    solr安装包中配置文件的位置：solr-7.7.2\example\example-DIH\solr\solr\conf
 
@@ -446,7 +446,7 @@ SolrCore可以理解成MySQL中的数据库
 
    ![](imgs/2020-02-05_173832.png)
 
-3. 如何创建多个solrCore
+3. 如何创建多个SolrCore
 
    只需要复制SolrCore一份，重启solr
 
@@ -1764,7 +1764,7 @@ IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采�
 
 ​	tokenizer 的参数：
 
-- dicPath 参数 － 设置词库位置，支持相对路径(相对于 solrCore).
+- dicPath 参数 － 设置词库位置，支持相对路径(相对于 SolrCore).
 
 - mode 参数 － 分词模式。
 
@@ -2340,7 +2340,7 @@ book_num:使用pint类型，索引，并且存储；
 
 ​	1.将MySQL的mysql驱动mysql-connector-5.1.16-bin.jar复制到solr\WEB-INF\lib中。
 
-​	2.查看SolrCore中的配置文件solrconfig.xml，solrconfig.xml文件主要配置了solrcore自身相关的一些参数（后面我们再给大家讲解）。作用：指定DataImport将MySQL数据导入Solr的配置文件为solr-data-config.xml；
+​	2.查看SolrCore中的配置文件solrconfig.xml，solrconfig.xml文件主要配置了SolrCore自身相关的一些参数（后面我们再给大家讲解）。作用：指定DataImport将MySQL数据导入Solr的配置文件为solr-data-config.xml；
 
 	  <requestHandler name="/dataimport" class="solr.DataImportHandler">
 	    <lst name="defaults">
@@ -2404,9 +2404,9 @@ book_num:使用pint类型，索引，并且存储；
  <lib dir="${solr.install.dir:../../../..}/contrib/extraction/lib" regex=".*\.jar" />
 ```
 
-​	告诉solr,第三方依赖包的位置。一般我们并不会在lib中进行设置，因为lib中的设置，只能该solrCore使用。
+​	告诉solr,第三方依赖包的位置。一般我们并不会在lib中进行设置，因为lib中的设置，只能该SolrCore使用。
 
-其他SolrCore无法使用，一般第三方的依赖包，我们直接会放在Solr/WEB-INF/lib下。所有的solrCore共享。
+其他SolrCore无法使用，一般第三方的依赖包，我们直接会放在Solr/WEB-INF/lib下。所有的SolrCore共享。
 
 ​	solr.install.dir：SolrCore所在目录，当前配置文件属于哪个SolrCore，solr.install.dir就是那个SolrCore目录‘
 
