@@ -769,46 +769,34 @@ http://lucene.apache.org/solr/guide/8_1/field-types-included-with-solr.html
 
 ![](imgs/2020-02-13_214028.png)
 
--  **TextField**：支持对字符类型的数据进行分词；对于 solr.TextField 域类型，需要为其定义分析器;
+-  **TextField**：支持对字符类型的数据进行分词；对于 solr.TextField 域类型，需要为其定义分析器（analyzer）
 
 
-###### 	分析器的基本概念
+###### 	分析器（analyzer）的基本概念
 
-​	分析器就是将用户输入的一串文本分割成一个个token，一个个token组成了tokenStream，然后遍历tokenStream对其进行过滤操作，比如去除停用词,特殊字符，标点符号和统一转化成小写的形式等。分词的准确的准确性会直接影响搜索的结果，从某种程度上来讲，分词的算法不同，都会影响返回的结果。因此分析器是搜索的基础；
+分析器就是将用户输入的一串文本分割成一个个token，一个个token组成了tokenStream，然后遍历tokenStream对其进行过滤操作，比如去除停用词，特殊字符，标点符号和统一转化成小写的形式等。分词是否准确会直接影响搜索的结果，从某种程度上来讲，分词的算法不同，都会影响返回的结果。因此分析器是搜索的基础。
 
-​	分析器的工作流程：
-
-​		分词
-
-​		过滤
-
-
+分析器的工作流程：分词 --> 过滤，一个分析器（analyzer）只能有一个分词器（tokenizer），可以有多个过滤器（filter）
 
   ![](imgs/2020-02-13_231822.png)
 
-在solr中已经为我们提供了很多的分词器及过滤器；
+在solr中已经为我们提供了很多的分词器（tokenizer）及过滤器（filter）
 
-Solr中提供的分词器tokenizer：http://lucene.apache.org/solr/guide/8_1/tokenizers.html
-
-标准分词器，经典分词器，关键字分词器，单词分词器等，不同的分词器分词的效果也不尽相同；
+solr中提供的分词器tokenizer：http://lucene.apache.org/solr/guide/8_1/tokenizers.html，标准分词器，经典分词器，关键字分词器，单词分词器等，不同的分词器分词的效果也不尽相同；
 
 ![](imgs/22221.png)
 
-Solr中提供的过滤器tokenfilter：http://lucene.apache.org/solr/guide/8_1/about-filters.html
-
-不同的过滤器过滤效果也不同，有些是去除标点符号的，有些是大写转化小写的；
+Solr中提供的过滤器filter：http://lucene.apache.org/solr/guide/8_1/about-filters.html，不同的过滤器过滤效果也不同，有些是去除标点符号的，有些是大写转化小写的；
 
 ![1581608541470](imgs/1581608541470.png)
 
-这是关于Solr中的分析器我们先介绍到这里；
 
 
+###### 常用分词器（tokenizer）的介绍
 
-###### 常用分词器的介绍
+- **Standard Tokenizer**
 
-​	Standard Tokenizer
-
-​	作用：这个Tokenizer将文本的空格和标点当做分隔符。注意，你的Email地址（含有@符合）可能会被分解开；用点号（就是小数点）连接的部分不会被分解开。对于有连字符的单词，也会被分解开。
+  作用：这个tokenizer将文本的空格和标点当做分隔符。注意，你的Email地址（含有@符合）可能会被分解开；用点号（就是小数点）连接的部分不会被分解开。对于有连字符的单词，也会被分解开。
 
 例子：
 
@@ -823,9 +811,9 @@ Solr中提供的过滤器tokenfilter：http://lucene.apache.org/solr/guide/8_1/a
 输出： “Please”, “email”, “john.doe”, “foo.com”, “by”, “03”, “09”, “re”, “m37”, “xq
 ```
 
-​	Classic Tokenizer
+- **Classic Tokenizer**
 
-作用：基本与Standard Tokenizer相同。注意，用点号（就是小数点）连接的部分不会被分解开；用@号（Email中常用）连接的部分不会被分解开；互联网域名（比如wo.com.cn）不会被分解开；有连字符的单词，如果是数字连接也会被分解开。
+  作用：基本与Standard Tokenizer相同。注意，用点号（就是小数点）连接的部分不会被分解开；用@号（Email中常用）连接的部分不会被分解开；互联网域名（比如wo.com.cn）不会被分解开；有连字符的单词，如果是数字连接也会被分解开。
 
 例子：
 
@@ -840,9 +828,9 @@ Solr中提供的过滤器tokenfilter：http://lucene.apache.org/solr/guide/8_1/a
 输出： “Please”, “email”, “john.doe@foo.com”, “by”, “03-09”, “re”, “m37-xq”
 ```
 
-​	Keyword Tokenizer
+- **Keyword Tokenizer**
 
-​	作用：把整个输入文本当做一个整体。
+  作用：把整个输入文本当做一个整体
 
 例子：
 
@@ -857,9 +845,9 @@ Solr中提供的过滤器tokenfilter：http://lucene.apache.org/solr/guide/8_1/a
 输出： “Please, email john.doe@foo.com by 03-09, re: m37-xq.”
 ```
 
- Letter Tokenizer
+- **Letter Tokenizer**
 
-​	作用：只处理字母，其他的符号都被认为是分隔符
+  作用：只处理字母，其他的符号都被认为是分隔符
 
 例子：
 
@@ -874,9 +862,9 @@ Solr中提供的过滤器tokenfilter：http://lucene.apache.org/solr/guide/8_1/a
 输出： “I”, “can”, “t”
 ```
 
- Lower Case Tokenizer
+- **Lower Case Tokenizer**
 
-​	作用：以非字母元素分隔，将所有的字母转化为小写。
+  作用：以非字母元素分隔，将所有的字母转化为小写。
 
 ```
 <analyzer>
@@ -889,11 +877,9 @@ Solr中提供的过滤器tokenfilter：http://lucene.apache.org/solr/guide/8_1/a
 输出： “i”, “just”, “love”, “my”, “iphone”
 ```
 
- N-Gram Tokenizer
+- **N-Gram Tokenizer**
 
   作用：将输入文本转化成指定范围大小的片段的词，注意，空格也会被当成一个字符处理；
-
-
 
 | 参数        | 值          | 说明                             |
 | ----------- | ----------- | -------------------------------- |
@@ -927,9 +913,9 @@ Solr中提供的过滤器tokenfilter：http://lucene.apache.org/solr/guide/8_1/a
 输出： “bicy”, “bicyc”, “icyc”, “icycl”, “cycl”, “cycle”, “ycle“
 ```
 
-Edge N-Gram Tokenizer
+- **Edge N-Gram Tokenizer**
 
-​		作用：用法和N-Gram Tokenizer类似
+  作用：用法和N-Gram Tokenizer类似，但只取每个片段的第一个词
 
 | 参数        | 值                             | 说明                                   |
 | ----------- | ------------------------------ | -------------------------------------- |
@@ -976,14 +962,14 @@ Edge N-Gram Tokenizer
 输出： “oo”, “loo”, “aloo”, “baloo”
 ```
 
- Regular Expression Pattern Tokenizer
+- **Regular Expression Pattern Tokenizer**
 
- 	作用：可以指定正则表达式来分析文本。
+  作用：可以指定正则表达式来分析文本。
 
-| 参数   | 值                 | 说明                                                         |
-| ------ | ------------------ | ------------------------------------------------------------ |
-| attern | 必选项             | 正规表达式                                                   |
-| roup   | 数字，可选，默认-1 | 负数表示用正则表达式做分界符；非正数表示只分析满足正则表达式的部分；0表示满足整个正则表达式；大于0表示满足正则表达式的第几个括号中的部分 |
+| 参数    | 值                 | 说明                                                         |
+| ------- | ------------------ | ------------------------------------------------------------ |
+| pattern | 必选项             | 正规表达式                                                   |
+| group   | 数字，可选，默认-1 | 负数表示用正则表达式做分界符；非正数表示只分析满足正则表达式的部分；0表示满足整个正则表达式；大于0表示满足正则表达式的第几个括号中的部分 |
 
    例子1：
 
@@ -1026,7 +1012,7 @@ Edge N-Gram Tokenizer
 这个group等于3，表示满足第三个括号”[0-9-]+”中的正则表达式
 ```
 
-  White Space Tokenizer
+- **White Space Tokenizer**
 
   作用：这个Tokenizer将文本的空格当做分隔符。
 
@@ -1047,17 +1033,17 @@ Edge N-Gram Tokenizer
 输出： “To”, “be,”, “or”, “what?”
 ```
 
-在这些分词器中，我们最常用的一个分词器。Standard Tokenizer；但也仅仅只能对英文进行分词；
+在这些分词器中，我们最常用的一个分词器。Standard Tokenizer，但也仅仅只能对英文进行分词；
 
 
 
-###### 常用过滤器介绍
+###### 常用过滤器（filter）介绍
 
-​	上一小结我们学习了Solr中的常用分词器，接下来我们讲解过滤器。过滤器是对分词器的分词结果进行再次处理，比如：将词转化为小写，排除掉停用词等。
+过滤器是对分词器的分词结果进行再次处理，比如：将词转化为小写，排除掉停用词等
 
-​	Lower Case Filter
+- **Lower Case Filter**
 
-​		作用:这个Filter将所有的词中大写字符转化为小写
+  作用：这个Filter将所有的词中大写字符转化为小写
 
 ​		例子：
 
@@ -1074,11 +1060,9 @@ Edge N-Gram Tokenizer
 输出： “down”, “with”, “camelcase”
 ```
 
-​	Length Filter
+- **Length Filter**
 
-​		作用：这个Filter处理在给定范围长度的tokens。
-
-​		参数：
+  作用：这个Filter处理在给定范围长度的tokens。
 
 | 参数 | 值                    | 说明                |
 | ---- | --------------------- | ------------------- |
@@ -1100,11 +1084,9 @@ Edge N-Gram Tokenizer
 输出： “turn”, “right”
 ```
 
-​	pattern Replace Filter
+- **pattern Replace Filter**
 
-​		作用：这个Filter可以使用正则表达式来替换token的一部分内容，与正则表达式想匹配的被替换，不匹配的不变。
-
-​	参数：
+  作用：这个Filter可以使用正则表达式来替换token的一部分内容，与正则表达式想匹配的被替换，不匹配的不变。
 
 | 参数        | 值                          | 说明                       |
 | ----------- | --------------------------- | -------------------------- |
@@ -1142,9 +1124,9 @@ Edge N-Gram Tokenizer
 输出： “dog”, “condogenate”, “dogycat”
 ```
 
-  Stop Words Filter
+- **Stop Words Filter**
 
-​		作用：这个Filter会在解析时忽略给定的停词列表（stopwords.txt）中的内容；
+  作用：这个Filter会在解析时忽略给定的停词列表（stopwords.txt）中的内容
 
 ​	参数：
 
@@ -1165,9 +1147,9 @@ Edge N-Gram Tokenizer
 
 ```
 保留词列表stopwords.txt 
-	be 
-	or 
-	to 
+be 
+or 
+to 
 ```
 
 ```
@@ -1193,15 +1175,14 @@ to
 ```
 
 ```
-
 原始文本： “To be or what?” 
 输入： “To”(1), “be”(2), “or”(3), “what”(4) 
 输出： “what”(4)
 ```
 
- Keep Word Filter
+- **Keep Word Filter**
 
-​	作用：这个Filter将不属于列表中的单词过滤掉。和`Stop Words Filter`的效果相反。
+  作用：这个Filter将不属于列表中的单词过滤掉，和Stop Words Filter的效果相反
 
 | 参数       | 值                     | 说明                     |
 | ---------- | ---------------------- | ------------------------ |
@@ -1253,9 +1234,9 @@ silly
 输出： “Happy”, “funny”
 ```
 
- Synonym Filter
+- **Synonym Filter**
 
-​	作用：这个Filter用来处理同义词；
+  作用：这个Filter用来处理同义词
 
 | 参数       | 值                     | 说明                 |
 | ---------- | ---------------------- | -------------------- |
@@ -1297,25 +1278,21 @@ small => tiny,teeny,weeny
 输出： “the”(1), “large”(2), “large”(3), “couch”(4), “sofa”(4), “divan”(4)
 ```
 
-到这常用的过滤器我们就讲解完毕了，这些常用的过滤器将来我们在开发一些复杂的需求时候，都可能会用到；
-
 
 
 ###### TextField的使用
 
-  	前面我们已经学习完毕solr中的分词器和过滤器，有了这些知识的储备后，我们就可以使用TextField这种类定义FieldType.
-
-​	之前我们说过，在我们在使用TextField作为FieldType的class的时候，必须指定Analyzer，用一个`<analyzer>`标签来声明一个Analyzer；
+之前我们说过，在我们在使用TextField作为FieldType的class的时候，必须指定Analyzer，用一个`<analyzer>`标签来声明一个Analyzer；
 
 方式一：直接通过class属性指定分析器类，该类必须继承org.apache.lucene.analysis.Analyzer
 
-```
+```xml
 <fieldType name="nametext" class="solr.TextField">
   <analyzer class="org.apache.lucene.analysis.core.WhitespaceAnalyzer"/>
 </fieldType>
 ```
 
-这里的`WhitespaceAnalyzer`就是一种分析器，这个分析器中封装了我们之前讲过了一个分词器WhitespaceTokenizer。
+这里的WhitespaceAnalyzer就是一种分析器，这个分析器中封装了我们之前讲过了一个分词器WhitespaceTokenizer。
 
 这种方式写起来比较简单，但是透明度不够，使用者可能不知道这个分析器中封装了哪些分词器和过滤器
 
@@ -1327,12 +1304,12 @@ small => tiny,teeny,weeny
 
 方式二：可以灵活地组合分词器、过滤器
 
-```
+```xml
 <fieldType name="nametext" class="solr.TextField">
   <analyzer>
     <tokenizer class="solr.StandardTokenizerFactory"/>
     <filter class="solr.LowerCaseFilterFactory"/>
-    <filter class="solr.StopFilterFactory" words="stopwords.txt"/>
+    <filter class="solr.StopFilterFactory" words="stopwords.txt"/> <!-- words相对路径相对于schema文件 -->
   </analyzer>
 </fieldType>
 ```
@@ -1345,7 +1322,7 @@ small => tiny,teeny,weeny
 
 方式三：如果该类型字段索引、查询时需要使用不同的分析器，则需区分配置analyzer
 
-```
+```xml
 <fieldType name="nametext" class="solr.TextField">
   <analyzer type="index">
     <tokenizer class="solr.StandardTokenizerFactory"/>
@@ -1357,7 +1334,6 @@ small => tiny,teeny,weeny
     <filter class="solr.LowerCaseFilterFactory"/>
   </analyzer>
 </fieldType>
-
 ```
 
 测试索引分词效果：
@@ -1368,43 +1344,68 @@ small => tiny,teeny,weeny
 
 ![](imgs/2020-02-14_171626.png)
 
- 通过测试我们发现索引和搜索产生的分词结果是不同；
+ 通过测试我们发现索引和搜索产生的分词结果不同
 
 
 
- 接下来我们使用myFeildType3定义一个域。使用该域创建一个文档。我们来测试；
+ 接下来我们使用myFieldType3定义一个域，使用该域创建一个文档，我们来测试
+
+```xml
+<fieldType name="myFieldType3" class="solr.TextField">
+	<analyzer type="index">
+		<tokenizer class="solr.StandardTokenizerFactory"/>
+		<filter class="solr.LowerCaseFilterFactory"/>
+		<filter class="solr.SynonymFilterFactory" synonyms="syns.txt"/>
+	</analyzer>
+	<analyzer type="query">
+		<tokenizer class="solr.StandardTokenizerFactory"/>
+		<filter class="solr.LowerCaseFilterFactory"/>
+	</analyzer>
+</fieldType>
+
+<field name="item_content" type="myFieldType3" indexed="true" stored="true"/>
+
+<!-- syns.txt
+couch,sofa,divan 
+teh => the 
+huge,ginormous,humungous => large 
+small => tiny,teeny,weeny 
+-->
+```
 
 ![](imgs/2020-02-14_172756.png)
 
-item_content:sofa可以搜索到吗？
+item_content:sofa可以搜索到吗？可以
 
-索引的时候:   sofa被分为couch,sofa,divan；
+索引的时候:   sofa被分为couch,sofa,divan
 
 ![1581672842954](imgs/1581672842954.png)
 
-搜索的时候，sofa这个内容就被分为sofa这一个词；
+搜索的时候，sofa这个内容就被分为sofa这一个词
 
-item_content:couch可以搜索到吗？
+item_content:couch可以搜索到吗？可以
 
-item_content:small可以搜索到吗？
+item_content:small可以搜索到吗？不可以
 
-索引的时候,small经过同义词过滤器变成 tiny,teeny,weeny 。small并没有和文档建立倒排索引关系；
+索引的时候，small经过同义词过滤器变成 tiny,teeny,weeny 。small并没有和文档建立倒排索引关系；
 
 搜索的时候small内容只能被分为small这个词；所以找不到；
 
+
+
 结论:
 
-所以一般我们在定义FieldType的时候，索引和搜索往往使用的分析器规则相同；
+所以一般我们在定义FieldType的时候，索引和搜索往往使用的分析器规则相同，或者索引的时候采用细粒度的分词器，目的是让更多的词和文档建立倒排索引，搜索的时候使用粗粒度分词器，词分的少一点，提高查询的精度
 
-或者索引的时候采用细粒度的分词器,目的是让更多的词和文档建立倒排索引；
 
-搜索的时候使用粗粒度分词器，词分的少一点，提高查询的精度；
 
 ###### DateRangeField的使用
 
 ![](imgs/2020-02-14_175844.png)
 
-​		Solr中提供的时间域类型（ DatePointField, DateRangeField）是以时间毫秒数来存储时间的。要求域值以ISO-8601标准格式来表示时间：yyyy-MM-ddTHH:mm:ssZ。Z表示是UTC时间，如1999-05-20T17:33:18Z；
+Solr中提供的时间域类型（ DatePointField, DateRangeField）是以时间毫秒数来存储时间的。
+
+要求域值以ISO-8601标准格式来表示时间：yyyy-MM-ddTHH:mm:ssZ，Z表示是UTC时间，如1999-05-20T17:33:18Z
 
 ```
 秒上可以带小数来表示毫秒如：1972-05-20T17:33:18.772Z、1972-05-20T17:33:18.77Z、1972-05-20T17:33:18.7Z
@@ -1436,7 +1437,7 @@ item_content:small可以搜索到吗？
 ```
 查询时如果是直接的时间串，需要用转义字符进行转义：
 item_birthday:2020-2-14T19\:21\:22Z
-#用字符串表示的则不需要转义
+用字符串表示的则不需要转义
 item_birthday:"2020-2-14T19:21:22Z"
 ```
 
@@ -1450,11 +1451,11 @@ DateRangeField除了支持精确时间查询，也支持对间段数据的搜索
 例子：
 
 ```
-2000-11		#表示2000年11月整个月.
+2000-11		#表示2000年11月整个月
 2000-11T13		#表示2000年11月每天的13点这一个小时
 [2000-11-01 TO 2014-12-01]		#日到日
-[2014 TO 2014-12-01]		#2014年开始到2014-12-01止.
-[* TO 2014-12-01]		#2014-12-01(含）前.
+[2014 TO 2014-12-01]		#2014年开始到2014-12-01止
+[* TO 2014-12-01]		#2014-12-01(含）前
 ```
 
 演示：
@@ -1464,7 +1465,7 @@ item_birthday:2020-11-21
 item_birthday:[2020-02-14T19:21 TO 2020-02-14T19:22]
 ```
 
-Solr中还支持用 【NOW ±/ 时间】的数学表达式来灵活表示时间。
+solr中还支持用 【NOW ±/ 时间】的数学表达式来灵活表示时间。
 
 ```
 NOW+1MONTH  #当前时间加上1个月
@@ -1476,8 +1477,6 @@ NOW+6MONTHS+3DAYS/DAY
 1972-05-20T17:33:18.772Z+6MONTHS+3DAYS/DAY
 ```
 
-
-
 演示：
 
 ```
@@ -1486,13 +1485,15 @@ item_birthday:[NOW/DAY TO NOW] 当前时间的0点到当前时间
 item_birthday:[NOW/HOURS TO NOW] 当前小时的0点到当前时间
 ```
 
-这个关于DateRangeField我们就讲解完毕；
+
 
 ###### EnumFieldType的使用
 
 ![](imgs/2020-02-13_214309.png)
 
-EnumFieldType 用于域值是一个枚举集合，且排序顺序可预定的情况，如新闻分类这样的字段。如果我们想定义一个域类型，他的域值只能取指定的值，我们就可以使用EnumFieldType 定义该域类型；
+EnumFieldType 用于域值是一个枚举集合，且排序顺序可预定的情况，如新闻分类这样的字段。
+
+如果我们想定义一个域类型，他的域值只能取指定的值，我们就可以使用EnumFieldType 定义该域类型；
 
 域类型定义：
 
