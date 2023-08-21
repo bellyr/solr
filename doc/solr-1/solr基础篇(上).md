@@ -138,15 +138,15 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
 
   1. 进入bin目录
 
-  2. 启动命令：solr start  
+  2. 启动命令：`solr start`  
 
   ​	![](imgs/2020-02-28_233040.png)
 
-  3. 关闭命令：solr stop -all
+  3. 关闭命令：`solr stop -all`
 
   ​	![](imgs/2020-02-28_233110.png)
 
-  4. 重启solr：solr restart –p p_num
+  4. 重启solr：`solr restart –p p_num`
 
   使用localhost:8983就可以访问solr后台管理系统；
 
@@ -162,7 +162,7 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
 
      a. 进入server/solr-webapp/webapp目录，使用cmd窗口
 
-     b. jar cvf solr.war ./*
+     b. `jar -cvf solr.war ./*`
 
   3. 将solr.war复制到tomcat/webapps目录中
 
@@ -220,7 +220,7 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
 
   11. 拷贝log4j2配置文件：将solr-7.7.2/server/resources目录中的两个log4j配置文件拷入web工程目录WEB-INF/classes（自行创建目录）
 
-  12. 重启tomcat，看到welcome,说明solr就安装完毕
+  12. 重启tomcat，看到welcome，说明solr就安装完毕
 
   ![](imgs/2019-12-23_221350.png)
 
@@ -235,7 +235,7 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
   ```
 
 
-### 2.4 Linux下安装Solr
+## 2.4 Linux下安装Solr
 
 在实际的生产环境中，通常我们都需要将solr安装到linux服务器中
 
@@ -273,7 +273,7 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
   2.    配置环境变量
 
      ```
-   vi /etc/profile
+  vi /etc/profile
      export JAVA_HOME=/usr/local/jdk1.8.0_171
      export PATH=$JAVA_HOME/bin:$PATH
      ```
@@ -282,7 +282,7 @@ Solr 需要运行在一个Servlet容器中，Solr7.x 要求jdk最少使用1.8以
   
        ![](imgs/2020-02-04_121606.png)
   
-  4. 测试：java -version
+  4. 测试：`java -version`
 
       ![](imgs/2020-02-04_123052.png)
 
@@ -431,27 +431,25 @@ SolrCore可以理解成MySQL中的数据库
 
 2. SolrHome中搭建SolrCore
 
-​	2.1 在之前搭建Solr的时候，我们说一个solr_home是由多个SolrCore构成，SolrCore是搭建在solrHome中	
+   2.1 在之前搭建Solr的时候，我们说一个solr_home是由多个SolrCore构成，SolrCore是搭建在solrHome中	
 
-![](imgs/2020-02-05_172533.png)
+   ![](imgs/2020-02-05_172533.png)2.2 将solr安装包中的配置文件复制到conf目录
 
-​	2.2 将solr安装包中的配置文件复制到conf目录；
+   搭建好solrCore以后，conf目录还没没有配置文件，我们需要将solr安装包中提供的所有示例配置文件复制到conf目录 
 
-​		搭建好solrCore以后，conf目录还没没有配置文件，我们需要将solr安装包中提供的示例配置文件复制到conf目录 
-
-​         solr安装包中配置文件的位置：solr-7.7.2\example\example-DIH\solr\solr\conf
+   solr安装包中配置文件的位置：solr-7.7.2\example\example-DIH\solr\solr\conf
 
    2.3 重启solr
 
    2.4 在solr的管理后台来查看
 
-​		![](imgs/2020-02-05_173832.png)
+   ![](imgs/2020-02-05_173832.png)
 
 3. 如何创建多个solrCore
 
-​	只需要复制SolrCore一份，重启solr
+   只需要复制SolrCore一份，重启solr
 
-![](imgs/2020-02-05_174323.png)
+   ![](imgs/2020-02-05_174323.png)
 
 ### 3.1.3 SolrCore维护（linux）
 
@@ -484,8 +482,6 @@ SolrCore可以理解成MySQL中的数据库
 5. 访问后台管理系统
 
 ![](imgs/2020-02-23_111646.png)
-
-
 
 ## 3.2 Solr后台管理系统的使用
 
