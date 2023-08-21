@@ -1554,34 +1554,32 @@ item_sex:男
 
 item_sex:女
 
-到此关于FieldType就讲解完毕；
-
 
 
 ### 3.2.6  Solr的配置-DynamicField 动态域
 
-​		在schema文件中我们还可以看到一种标签dynamicField，这个标签也是用来定义域的；他和field标签有什么区别呢
+在schema文件中我们还可以看到一种标签dynamicField，这个标签也是用来定义域的，和Field标签有什么区别呢
 
-​	作用：如果某个业务中有近百个域需要定义，其中有很多域类型是相同，重复地定义域就十分的麻烦，因此可以定一个域名的规则，索引的时候，只要域名符合该规则即可；
+作用：如果某个业务中有近百个域需要定义，其中有很多域类型是相同，重复地定义域就十分的麻烦，因此可以定一个域名的规则，索引的时候，只要域名符合该规则即可
 
-​	如：整型域都是一样的定义，则可以定义一个动态域如下
+如：整型域都是一样的定义，则可以定义一个动态域如下
 
 	<dynamicField name="*_i"  type="pint"    indexed="true"  stored="true"/>
 	注意：动态域只能用符号*通配符进行表示，且只有前缀和后缀两种方式
 
-基于动态域索引；
+基于动态域索引：
 
 ```
 {id:38383,item_birthday:"1992-04-20T20:33:33Z",item_content:"i love sofa",item_sex:"女",
 bf_i:5}
-bf_i就是符合上面动态域的域名；
+bf_i就是符合上面动态域的域名
 ```
 
 ### 3.2.7  Solr的配置-复制域
 
-​	在schema文件中我们还可以看到一种标签copyField ，这个标签是用来定义复制域的；赋值域的作用是什么呢？
+在schema文件中我们还可以看到一种标签copyField ，这个标签是用来定义复制域的，复制域的作用是什么呢？
 
-​	作用：复制域允许将一个或多个域的数据填充到另外一个域中。他的最主要的作用，基于某一个域搜索，相当于在多个域中进行搜索；
+作用：复制域允许将一个或多个域的数据填充到另外一个域中。他的最主要的作用，基于某一个域搜索，相当于在多个域中进行搜索；
 
 ```
    <copyField source="cat" dest="text"/>
@@ -1589,17 +1587,13 @@ bf_i就是符合上面动态域的域名；
    <copyField source="manu" dest="text"/>
    <copyField source="features" dest="text"/>
    <copyField source="includes" dest="text"/>
-   cat name manu features includes text都是solr提前定义好的域。
-   将 cat name manu features includes域的内容填充到text域中；
-   将来基于text域进行搜索，相当于在cat name manu features includes域中搜索；
+   cat name manu features includes text都是solr提前定义好的域
+   将 cat name manu features includes域的内容填充到text域中
+   将来基于text域进行搜索，相当于在cat name manu features includes域中搜索；	
 ```
 
-​	演示：
-
-​	
-
 ```
-索引:
+添加索引:
 {id:1,name:"pitter wang"}
 {id:2,name:"pitter ma"}
 {id:3,manu:"jack ma"}
@@ -1617,11 +1611,9 @@ text:ma
 
 
 
-
-
 ### 3.2.8  Solr的配置-主键域
 
-​	指定用作唯一标识文档的域，必须。在solr中默认将id域作为主键域；也可以将其他改为主键域，但是一般都不会修改；
+指定用作唯一标识文档的域，必须。在solr中默认将id域作为主键域，也可以将其他改为主键域，但是一般都不会修改
 
 ```
  <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
@@ -1633,11 +1625,9 @@ text:ma
 
 ###### 	中文分词器的介绍
 
-​	之前我们给大家讲解Solr中的分词器的时候，我们说Solr中最常用的分词器是Standard Tokenizer，
+Solr中最常用的分词器是Standard Tokenizer，Standard Tokenizer可以对英文完成精确的分词，但是对中文分词是有问题的。
 
-Standard Tokenizer可以对英文完成精确的分词，但是对中文分词是有问题的。
-
-​	之前我们在schema文件中定义的一个FieldType.name为myFeildType2，class为TextField。使用TextField定义的域类型需要指定分析器，该分析器中使用的分词器就是Standard Tokenizer。
+之前我们在schema文件中定义的一个FieldType.name为myFeildType2，class为TextField。使用TextField定义的域类型需要指定分析器，该分析器中使用的分词器就是Standard Tokenizer。
 
 ```
     <fieldType name="myFeildType2" class="solr.TextField">
@@ -1649,31 +1639,31 @@ Standard Tokenizer可以对英文完成精确的分词，但是对中文分词�
 	</fieldType>
 ```
 
-​		测试myFeildType2的分词效果：
+测试myFeildType2的分词效果：
 
-​	![](imgs/2020-02-14_230646.png)
+![](imgs/2020-02-14_230646.png)
 
-对于这种分词效果，显然不符合我们的要求.
+对于这种分词效果，显然不符合我们的要求
 
-中文分词一直以来是分词领域的一个难题，因为中文中的断词需要依赖语境。相同的一句话语境不同可能分出的词就不同。
+中文分词一直以来是分词领域的一个难题，因为中文中的断词需要依赖语境，相同的一句话语境不同可能分出的词就不同
 
-在Solr中提供了一个中文分词器SmartCN。但是该分词器并没有纳入到Solr的正式包中，属于扩展包。
+在Solr中提供了一个中文分词器SmartCN，但是该分词器并没有纳入到Solr的正式包中，属于扩展包。
 
 位置：solr-7.7.2\contrib\analysis-extras\lucene-libs\lucene-analyzers-smartcn-7.7.2.jar
 
-而且SmartCN对中文分词也不太理想，目前市面上比较主流的中文分词器有IK，MMSeg4J,Ansj,Jcseg,TCTCLAS,HanLP.等
+而且SmartCN对中文分词也不太理想，目前市面上比较主流的中文分词器有IK，MMSeg4J，Ansj，Jcseg，TCTCLAS，HanLP等
 
-接下来我们就介绍一下这些分词器。并且使用这些分词器定义FieldType；
+
 
 ###### IK Analyzer
 
-​	IK Analyzer是一个基于java语言开发的轻量级中文分词器包。采用词典分词的原理，允许使用者扩展词库。
+IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采用词典分词的原理，允许使用者扩展词库
 
 使用流程：
 
 ​	1.下载地址：https://github.com/EugenePig/ik-analyzer-solr5
 
-​	2.编译打包源码:mvn package
+​	2.编译打包源码：mvn package
 
 ​	3.安装: 把ik-analyzer-solr5-5.x.jar拷贝到Tomcat的Solr/WEB-INF/lib目录；
 
@@ -1689,7 +1679,7 @@ Standard Tokenizer可以对英文完成精确的分词，但是对中文分词�
 
 ​	6.测试text_ik分词效果。
 
-​	![](imgs/2020-02-15_001958.png)
+![](imgs/2020-02-15_001958.png)
 
 ​	7.传智播客，被单字分词，此处我们也可以添加扩展词库，让传智播客分成一个词；
 
