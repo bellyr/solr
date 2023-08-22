@@ -130,7 +130,7 @@ Solr提供的查询解析器包含以下：
 | /select                                                      | 请求处理器   |
 | ?q=xxx                                                       | 查询的参数   |
 
-### 4.4.1基本查询参数
+### 4.4.1 基本查询参数
 
 | 参数名 | 描述                                                         |
 | ------ | ------------------------------------------------------------ |
@@ -233,7 +233,7 @@ q=java&df=book_name
 | ------ | ------------------------------------------------------------ |
 | ?      | 通配符，替代任意单个字符（不能在检索的项开始使用*或者?符号） |
 | *      | 通配符，替代任意多个字符（不能在检索的项开始使用*或者?符号） |
-| ~      | 表示相似度查询，如查询类似于"roam"的词，我们可以这样写：roam~将找到形如foam和roams的单词；roam~0.8，检索返回相似度在0.8以上的文档。 邻近检索，如检索相隔10个单词的"apache"和"jakarta"，"jakarta apache"~10 |
+| ~      | 表示相似度查询，如查询类似于"roam"的词，可以这样写："roam~"将找到形如foam和roams的单词（roam~0.8，检索返回相似度在0.8以上的文档）（ 邻近检索，如检索相隔10个单词的"apache"和"jakarta"，"jakarta apache"~10） |
 | AND    | 表示且，等同于 “&&”                                          |
 | OR     | 表示或，等同于 “\|\|”                                        |
 | NOT    | 表示否                                                       |
@@ -245,19 +245,19 @@ q=java&df=book_name
 
 实例：
 
-​	[?]查询book_name中包含c?的词。
+?：查询book_name中包含c?的词
 
 ```
 http://localhost:8080/solr/collection1/select?q=book_name:c?
 ```
 
-​	[`*`]查询book_name总含spring*的词
+\*：查询book_name总含spring*的词
 
 ```
 http://localhost:8080/solr/collection1/select?q=book_name:spring*
 ```
 
-​	[~]模糊查询book_name中包含和java及和java比较像的词，相似度0.75以上
+~：模糊查询book_name中包含和java及和java比较像的词，相似度0.75以上
 
 ```
 http://localhost:8080/solr/collection1/select?q=book_name:java~0.75
@@ -266,9 +266,7 @@ java和jave相似度就是0.75.4个字符中3个相同。
 
 ![](imgs/2020-02-16_210920.png)
 
-
-
-​	[AND]查询book_name域中既包含servlet又包含jsp的文档；
+AND：查询book_name域中既包含servlet又包含jsp的文档
 
 ​		方式1：使用and
 
@@ -283,23 +281,21 @@ q=book_name:servlet && book_name:jsp
 q=+book_name:servlet +book_name:jsp
 ```
 
-[OR]查询book_name域中既包含servlet或者包含jsp的文档；
+OR：查询book_name域中包含servlet或者包含jsp的文档
 
 ```
 q=book_name:servlet OR book_name:jsp
 q=book_name:servlet || book_name:jsp
 ```
 
-[NOT]查询book_name域中包含spring，并且id不是4的文档
+NOT：查询book_name域中包含spring，并且id不是4的文档
 
 ```
 book_name:spring AND NOT id:4
-+book_name:spring  -id:4
++book_name:spring -id:4
 ```
 
-
-
-[范围查询]
+范围查询：
 
 ​	查询商品数量>=4并且<=10
 
@@ -319,107 +315,93 @@ http://localhost:8080/solr/collection1/select?q=book_num:{4 TO 10}
 http://localhost:8080/solr/collection1/select?q=book_num:{125 TO *]
 ```
 
+### 4.4.3 q和fq的区别
 
-
-##### 4.4.3 q和fq的区别
-
-​		在讲解基础查询的时候我们使用了q和fq,这2个参数从使用上比较的类似，很多使用者可能认为他们的功能相同，下面我们来阐述他们两者的区别；
-
-​		从使用上：q必须传递参数,fq可选的参数。在执行查询的时候，必须有q,而fq可以有，也可以没有；
+​		从使用上：q必须传递参数，fq参数可选，即在执行查询的时候，必须有q，而fq可以有，也可以没有
 
 ​		从功能上：q有2项功能
 
-​				第一项：根据用户输入的查询条件，查询符合条件的文档。
+​				第一项：根据用户输入的查询条件，查询符合条件的文档
 
-​				第二项：使用相关性算法,匹配到的文档进行相关度排序。
+​				第二项：使用相关性算法，匹配到的文档进行相关度排序
 
 ​						fq只有一项功能
 
-​				对匹配到的文档进行过滤,不会影响相关度排序,效率高；
+​				对匹配到的文档进行过滤，不会进行相关度排序，效率高
+
+
 
 演示：
 
-​		需求：查询book_descrption中包含java并且book_name中包含java文档；
+​		需求：查询book_descrption中包含java并且book_name中包含java文档
 
-​		单独使用q来完成；
+​		1.单独使用q来完成
 
 ![1581905637539](imgs/1581905637539.png)
 
-​	由于book_name条件的加入造成排序结果的改变；说明q查询符合条件的文档，也可以进行相关度排序；
+​	由于book_name条件的加入造成排序结果的改变，说明q查询符合条件的文档，也进行相关度排序
 
-​	使用q + fq完成
+​	2.使用q + fq完成
 
-![1581906045538](imgs/\1581906045538.png)
+![1581906045538](imgs/\1581906045538.png)	fq仅仅只会进行条件过滤，不会影响相关度排序				
 
-说明fq:仅仅只会进行条件过滤，不会影响相关度排序；				
+### 4.4.4 Solr返回结果和排序
 
+#### 4.4.4.1 返回结果
 
-
-##### 4.4.4 Solr返回结果和排序
-
-​	返回结果的格式
-
-​		在Solr中默认支持多种返回结果的格式。分别是XML，JSON,Ruby,Python,Binary Java,PHP,CVS等。下面是Solr支持的响应结果格式以及对应的实现类。
+**在Solr中默认支持多种返回结果的格式**。分别是XML，JSON，Ruby，Python，Binary Java，PHP，CVS等，下面是Solr支持的响应结果格式以及对应的实现类。
 
 ![](imgs/2020-02-19_130205.png)
 
-​	对于使用者来说，我们只需要指定wt参数即可；
-
-​	查询所有数据文档返回xml
+对于使用者来说，只需要指定wt参数即可
 
 ```
+查询所有数据文档返回xml
 http://localhost:8080/solr/collection1/select?q=*:*&wt=xml
 ```
 
-​	返回结果文档包含的域
+​	
 
-​		通过fl指定返回的文档包含哪些域。
-
-​	返回伪域。
-
-​		将返回结果中价格转化为分。product是Solr中的一个函数，表示乘法。后面我们会讲解。
+**返回结果文档包含的域：通过fl指定返回的文档包含哪些域以及返回伪域**		
 
 ```
+将返回结果中价格转化为分。product是Solr中的一个函数，表示乘法。后面我们会讲解。
 http://localhost:8080/solr/collection1/select?q=*:*&fl=*,product(book_price,100)
 ```
 
-​		![](imgs/2020-02-19_131447.png)
+![](imgs/2020-02-19_131447.png)
 
-​	域指定别名
-
-​		上面的查询我们多了一个伪域。可以为伪域起别名fen
+**域指定别名**	
 
 ```
+上面的查询我们多了一个伪域。可以为伪域起别名fen
 http://localhost:8080/solr/collection1/select?q=*:*&fl=*,fen:product(book_price,100)
 ```
 
 ​		![](imgs/2020-02-19_132149.png)
 
-​		同理也可以给原有域起别名
-
 ```
+同理也可以给原有域起别名
 http://localhost:8080/solr/collection1/select?q=*:*&fl=name:book_name,price:book_price
 ```
 
 ​	![](imgs/2020-02-19_132318.png)
 
-​	这是返回结果，接下来我们再来说一下排序；
+#### 4.4.4.2 排序
 
-​	在Solr中我们是通过sort参数进行排序。
+在Solr中通过sort参数进行排序
 
 ```
 http://localhost:8080/solr/collection1/select?q=*:*&sort=book_price+asc&wt=json&rows=50
 ```
 
-​	特殊情况：某些文档book_price域值为null,null值排在最前面还是最后面。
+特殊情况：某些文档book_price域值为null，null值排在最前面还是最后面？
 
-​	定义域类型的时候需要指定2个属性sortMissingLast,sortMissingFirst
-
-​	sortMissingLast=true,无论升序还是降序，null值都排在最后
-
-​	sortMissingFirst=true,无论升序还是降序，null值都排在最前
+方案：定义域类型的时候需要指定2个属性sortMissingLast，sortMissingFirst
 
 ```
+sortMissingLast=true,无论升序还是降序，null值都排在最后
+sortMissingFirst=true,无论升序还是降序，null值都排在最前
 <fieldtype name="fieldName" class="xx" sortMissingLast="true" sortMissingFirst="false"/>
 ```
 
@@ -427,48 +409,45 @@ http://localhost:8080/solr/collection1/select?q=*:*&sort=book_price+asc&wt=json&
 
 ## 4.5 高级查询-facet查询
 
-##### 4.5.1简单介绍
+### 4.5.1 简单介绍
 
-​		facet 是 solr 的高级搜索功能之一 , 可以给用户提供更友好的搜索体验 。
+facet 是 solr 的高级搜索功能之一 , 可以给用户提供更友好的搜索体验 
 
-​		作用：可以根据用户搜索条件 ,按照指定域进行分组并统计,类似于关系型数据库中的group by分组查询；
+作用：可以根据用户搜索条件，按照指定域进行分组并统计，类似于关系型数据库中的group by分组查询
 
-​		eg:查询title中包含手机的商品，按照品牌进行分组，并且统计数量。
+eg：查询title中包含手机的商品，按照品牌进行分组，并且统计数量
 
 ```
 select brand,COUNT(*)from tb_item where title like '%手机%' group by brand
 ```
 
-​		适合场景：在电商网站的搜索页面中，我们根据不同的关键字搜索。对应的品牌列表会跟着变化。
-
-这个功能就可以基于Facet来实现；
+适合场景：在电商网站的搜索页面中，我们根据不同的关键字搜索，对应的品牌列表会跟着变化，这个功能就可以基于facet来实现
 
 ![](imgs/2020-02-17_002123.png)
 
 ![](imgs/2020-02-17_002750.png)
 
-Facet比较适合的域
+facet比较适合的域
 
-​	一般代表了实体的某种公共属性的域 , 如商品的品牌，商品的分类 , 商品的制造厂家 , 书籍的出版商等等； 
+​	一般代表了实体的某种公共属性的域 , 如商品的品牌，商品的分类 , 商品的制造厂家 , 书籍的出版商等 
 
-Facet域的要求
+facet域的要求
 
-​	Facet 的域必须被索引 . 一般来说该域无需分词，无需存储 ,无需分词是因为该域的值代表了一个整体概念 , 如商品的品牌 ” 联想 ” 代表了一个整体概念 , 如果拆成 ” 联 ”,” 想 ” 两个字都不具有实际意义 . 另外该字段的值无需进行大小写转换等处理 , 保持其原貌即可 .无需存储是因为查询到的文档中不需要该域的数据 , 而是作为对查询结果进行分组的一种手段 , 用户一般会沿着这个分组进一步深入搜索 .
+​	facet 的域必须被索引， 一般来说该域无需分词，无需存储，无需分词是因为该域的值代表了一个整体概念， 如商品的品牌 ” 联想 ” 代表了一个整体概念 , 如果拆成 ” 联 ”,” 想 ” 两个字都不具有实际意义。另外该字段的值无需进行大小写转换等处理，保持其原貌即可。无需存储是因为查询到的文档中不需要该域的数据，而是作为对查询结果进行分组的一种手段，用户一般会沿着这个分组进一步深入搜索。
 
-##### 4.5.2 数据准备
+### 4.5.2 数据准备
 
-​	为了更好的学习我们后面的知识，我们将商品表数据导入到Solr索引库；
-
-​	删除图书相关的数据
+将商品表数据导入到Solr索引库
 
 ```
+删除图书相关的数据
 <delete>
  <query>*:*</query>
 </delete>
 <commit/>
 ```
 
-​	创建和商品相关的域
+1. 创建和商品相关的域
 
 ```
 	<field name="item_title" type="text_ik" indexed="true" stored="true"/>   标题域
@@ -480,7 +459,7 @@ Facet域的要求
 	<field name="item_brand" type="string" indexed="true" stored="true"/>     品牌域
 ```
 
-​	修改solrcore/conf目录中solr-data-config.xml配置文件，使用DataImport进行导入；
+2. 修改solrcore/conf目录中solr-data-config.xml配置文件，使用DataImport进行导入
 
 ```
 <entity name="item" query="select id,title,price,image,create_time,update_time,category,brand from tb_item">
@@ -496,29 +475,30 @@ Facet域的要求
  </entity>
 ```
 
-​	重启服务，使用DateImport导入；
+3. 重启服务，使用DateImport导入
 
 ![](imgs/2020-02-17_105318.png)
 
-测试
+
 
 ![](imgs/2020-02-17_111434.png)
 
-##### 4.5.3 Facet查询的分类
+### 4.5.3 facet查询的分类
 
-​		facet_queries:表示根据条件进行分组统计查询。
+- facet_queries：表示根据条件进行分组统计查询
 
-​		facet_fields：代表根据域分组统计查询。
+- facet_fields：表示根据域进行分组统计查询
 
-​		facet_ranges：可以根据时间区间和数字区间进行分组统计查询；
+- facet_ranges：可以根据时间区间和数字区间进行分组统计查询
 
-​		facet_intervals：可以根据时间区间和数字区间进行分组统计查询；
+- facet_intervals：可以根据时间区间和数字区间进行分组统计查询
 
-##### 4.5.4 facet_fields
 
-​	需求：对item_title中包含手机的文档，按照品牌域进行分组，并且统计数量；
+### 4.5.4 facet_fields
 
-​		1.进行 Facet 查询需要在请求参数中加入 ”facet=on” 或者 ”facet=true” 只有这样 Facet 组件才起作用
+​	需求：对item_title中包含手机的文档，按照品牌域进行分组，并且统计数量
+
+​		1.进行 Facet 查询需要在请求参数中加入 ”facet=on” 或者 ”facet=true” 只有这样 facet 组件才起作用
 
 ​		2.分组的字段通过在请求中加入 ”facet.field” 参数加以声明 
 
@@ -534,7 +514,7 @@ http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet
 
 
 
-3.如果需要对多个字段进行 Facet查询 , 那么将该参数声明多次；各个分组结果互不影响eg:还想对分类进行分组统计.
+3.如果需要对多个字段进行 facet查询 , 那么将该参数声明多次，各个分组独立互不影响（与数据库中group by加多个参数不同）
 
 ```
 http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet.field=item_brand&facet.field=item_category
@@ -548,11 +528,11 @@ http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet
 
 4.其他参数的使用
 
-​	在facet中，还提供的其他的一些参数，可以对分组统计的结果进行优化处理；
+​	在facet中，还提供的其他的一些参数，可以对分组统计的结果进行优化处理
 
 | 参数           | 说明                                                         |
 | -------------- | ------------------------------------------------------------ |
-| facet.prefix   | 表示 Facet 域值的前缀 . 比如 ”facet.field=item_brand&facet.prefix=中国”, 那么对 item_brand字段进行 Facet 查询 , 只会分组统计以中国为前缀的品牌。 |
+| facet.prefix   | 表示 Facet 域值的前缀 . 比如 ”facet.field=item_brand&facet.prefix=中国”, 那么对 item_brand字段进行 Facet 查询，只会分组统计以中国为前缀的品牌 |
 | facet.sort     | 表示 Facet 字段值以哪种顺序返回 . 可接受的值为 true\|false. true表示按照 count 值从大到小排列 . false表示按照域值的自然顺序( 字母 , 数字的顺序 ) 排列 . 默认情况下为 true. |
 | facet.limit    | 限制 Facet 域值返回的结果条数 . 默认值为 100. 如果此值为负数 , 表示不限制 . |
 | facet.offset   | 返回结果集的偏移量 , 默认为 0. 它与 facet.limit 配合使用可以达到分页的效果 |
@@ -560,7 +540,7 @@ http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet
 | facet.missing  | 默认为 ””, 如果设置为 true 或者 on, 那么将统计那些该 Facet 字段值为 null 的记录. |
 | facet.method   | 取值为 enum 或 fc, 默认为 fc. 该参数表示了两种 Facet 的算法 , 与执行效率相关 .enum 适用于域值种类较少的情况 , 比如域类型为布尔型 .fc适合于域值种类较多的情况。 |
 
-[facet.prefix] 分组统计以中国前缀的品牌
+facet.prefix：分组统计以中国前缀的品牌
 
 ```
 &facet=on
@@ -570,7 +550,7 @@ http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet
 
 ![](imgs/2020-02-17_170253.png)
 
-[facet.sort] 按照品牌值进行字典排序
+facet.sort：按照品牌名字进行字典排序
 
 ```
 &facet=on
@@ -580,7 +560,7 @@ http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet
 
 ![](imgs/2020-02-17_170454.png)
 
-[facet.limit] 限制分组统计的条数为10
+facet.limit：限制分组统计的条数为10
 
 ```
 &facet=on
@@ -590,7 +570,7 @@ http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet
 
 ![](imgs/2020-02-17_170841.png)
 
-[facet.offset]结合facet.limit对分组结果进行分页
+facet.offset：结合facet.limit对分组结果进行分页
 
 ```
 &facet=on
@@ -601,7 +581,7 @@ http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet
 
 ![](imgs/2020-02-17_171236.png)
 
-[facet.mincount] 搜索标题中有手机的商品，并且对品牌进行分组统计查询，排除统计数量为0的品牌
+facet.mincount：搜索标题中有手机的商品，并且对品牌进行分组统计查询，排除统计数量为0的品牌
 
 ```
 q=item_title:手机
@@ -612,13 +592,17 @@ q=item_title:手机
 
 ![](imgs/2020-02-17_171759.png)
 
-##### 4.5.5 facet_ranges
+### 4.5.5 facet_ranges
 
-​	除了字段分组查询外，还有日期区间，数字区间分组查询。作用：将某一个时间区间(数字区间)，按照指定大小分割,统计数量；
+除了字段分组查询外，还有日期区间，数字区间分组查询
 
-需求：分组查询2015年，每一个月添加的商品数量；
+作用：将某一个时间区间(数字区间)，按照指定大小分割，统计数量
 
-​	参数：
+需求：分组查询2015年，每一个月添加的商品数量
+
+
+
+facet_ranges参数：
 
 | 参数                | 说明                                                         |
 | ------------------- | ------------------------------------------------------------ |
