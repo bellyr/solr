@@ -538,7 +538,7 @@ SolrCore可以理解成MySQL中的数据库
 
 ​			将来我们就可以根据域中的词，快速查找到对应的文档
 
-#### 2.添加文档
+#### 2. 添加文档
 
 ​			使用后台管理系统，向Solr中添加文档，文档的数据格式可以是JSON，也可以XML
 
@@ -550,11 +550,11 @@ SolrCore可以理解成MySQL中的数据库
 
 ​				![](imgs/2020-02-09_180244.png)
 
-#### 3.修改数据
+#### 3. 修改数据
 
 ​	Solr要求每一个文档都需要有一个id域，如果添加的文档id在SolrCore中已经存在，即可完成数据修改
 
-#### 4.删除数据
+#### 4. 删除数据
 
 ​	 只能通过XML的格式删除文档，下面我们提供2种删除方式
 
@@ -592,7 +592,7 @@ SolrCore可以理解成MySQL中的数据库
 
 ​	 要想搞清楚这些问题，我们需要学习Solr的配置
 
-### 3.2.4 Solr的配置-Field
+### 3.2.4 Solr的配置-Field ★★★
 
 在Solr中我们需要学习其中4个配置文件：
 
@@ -606,7 +606,7 @@ SolrCore可以理解成MySQL中的数据库
 
 其中我们最常用的一个配置文件，managed-schema
 
-#### managed-schema（掌握）
+#### managed-schema ★★★
 
 - 在Solr中进行索引时，文档中的域需要提前在managed-schema文件中定义，在这个文件中，solr已经提前定义了一些域，比如我们之前使用的id, price, title域
 
@@ -721,7 +721,7 @@ Solr中已经提供好了一些域类型
 
 - **plong**：适合长整数类型的域，特殊分词，支持大小比较；
 
-以text_general为例看一下如何定义FiledType，text_general是solr中内置的域类型，定义如下
+以text_general为例看一下如何定义FieldType，text_general是solr中内置的域类型，定义如下
 
 ```
   <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
@@ -780,13 +780,13 @@ http://lucene.apache.org/solr/guide/8_1/field-types-included-with-solr.html
 
   ![](imgs/2020-02-13_231822.png)
 
-在solr中已经为我们提供了很多的分词器（tokenizer）及过滤器（filter）
+在Solr中已经为我们提供了很多的分词器（tokenizer）及过滤器（filter）
 
-solr中提供的分词器tokenizer：http://lucene.apache.org/solr/guide/8_1/tokenizers.html，标准分词器，经典分词器，关键字分词器，单词分词器等，不同的分词器分词的效果也不尽相同；
+Solr中提供的分词器tokenizer：标准分词器，经典分词器，关键字分词器，单词分词器等，不同的分词器分词的效果也不尽相同  http://lucene.apache.org/solr/guide/8_1/tokenizers.html
 
 ![](imgs/22221.png)
 
-Solr中提供的过滤器filter：http://lucene.apache.org/solr/guide/8_1/about-filters.html，不同的过滤器过滤效果也不同，有些是去除标点符号的，有些是大写转化小写的；
+Solr中提供的过滤器filter：不同的过滤器过滤效果也不同，有些是去除标点符号的，有些是大写转化小写的  http://lucene.apache.org/solr/guide/8_1/about-filters.html，
 
 ![1581608541470](imgs/1581608541470.png)
 
