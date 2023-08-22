@@ -6,17 +6,19 @@
 
 ## 4.1 Solr查询概述(理解)
 
-​	我们先从整体上对solr查询进行认识。当用户发起一个查询的请求，这个请求会被Solr中的Request Handler所接受并处理，Request Handler是Solr中定义好的组件，专门用来处理用户查询的请求。
+当用户发起一个查询的请求，这个请求会被Solr中的Request Handler所接受并处理，Request Handler是Solr中定义好的组件，专门用来处理用户查询的请求。
 
-​	Request Handler相关的配置在solrconfig.xml中；
+Request Handler相关的配置在solrconfig.xml中；
 
-​	下面就是一个请求处理器的配置
+​	
 
-name:uri;
+下面就是一个请求处理器的配置
 
-class:请求处理器处理请求的类；
+name：uri
 
-lst:参数设置,eg:rows每页显示的条数。wt:结果的格式
+class：请求处理器处理请求的类；
+
+lst：参数设置；eg：rows每页显示的条数  wt：结果的格式
 
 ```
  <requestHandler name="/select" class="solr.SearchHandler">
@@ -40,94 +42,83 @@ lst:参数设置,eg:rows每页显示的条数。wt:结果的格式
   </requestHandler>
 ```
 
-这是Solr底层处理查询的组件，RequestHandler,简单认识一下；
 
-宏观认识Solr查询的流程；
 
-​	![](/imgs/2020-02-16_164833.png)
+宏观认识Solr查询的流程
 
-当用户输入查询的字符串eg:book_name:java,选择查询处理器/select.点击搜索；
+![](/imgs/2020-02-16_164833.png)
 
-请求首先会到达RequestHandler。RequestHandler会将查询的字符串交由QueryParser进行解析。
+当用户输入查询的字符串eg：book_name:java，选择查询处理器/select，点击搜索
 
-QueryParser会从索引库中搜索出相关的结果。
+1. 请求首先会到达RequestHandler，RequestHandler会将查询的字符串交由QueryParser进行解析
 
-ResponseWriter将最终结果响应给用户；
+2. QueryParser解析完成会调用IndexSearcher从索引库中搜索出相关的结果
 
-通过这幅图大家需要明确的是，查询的本质就是基于Http协议和Solr服务进行请求和响应的一个过程。
+3. ResponseWriter将最终结果响应给用户
+
+
+通过这幅图大家需要明确的是，查询的本质就是基于Http协议和Solr服务进行请求和响应的一个过程
 
 ## 4.2 相关度排序
 
-​	上一节我们了解完毕Solr的查询流程，接下来我们来讲解相关度排序。什么叫相关度排序呢？
-
-比如查询book_description中包含java的文档。
-
-查询结果；
+什么叫相关度排序呢？比如查询book_description中包含java的文档
 
 ![](imgs/2020-03-16_082630.png)
 
-疑问：为什么id为40的文档再最前面？这里面就牵扯到Lucene的相关度排序；
+疑问：为什么id为40的文档再最前面？这里面就牵扯到Lucene的相关度排序
 
-​		相关度排序是查询结果按照与查询关键字的相关性进行排序，越相关的越靠前。比如搜索“java”关键字，与该关键字最相关的文档应该排在前边。
+相关度排序是查询结果按照与查询关键字的相关性进行排序，越相关的越靠前。比如搜索“java”关键字，与该关键字最相关的文档应该排在前边。
 
-​		影响相关度排序2个要素
+影响相关度排序2个要素
 
-​			Term Frequency (tf)：
+- Term Frequency (tf)：指此Term在此文档中出现了多少次。tf越大说明越重要，词(Term)在文档中出现的次数越多，说明此词(Term)对该文档越重要，如“java”这个词，在文档中出现的次数很多，说明该文档主要就是讲java技术的。
 
-​			指此Term在此文档中出现了多少次。tf越大说明越重要。词(Term)在文档中出现的次数越多，说明此词(Term)对该文档越重要，如“java”这个词，在文档中出现的次数很多，说明该文档主要就是讲java技术的。
 
-​			 Document Frequency (df)：
+- Document Frequency (df)：指有多少文档包含该Term。df越大说明越不重要。比如，在一篇英语文档中，this出现的次数更多，就说明越重要吗？不是的，有越多的文档包含此词(Term)，说明此词(Term)太普通，不足以区分这些文档，因而重要性越低。
 
-​		指有多少文档包含次Term。df越大说明越不重要。比如，在一篇英语文档中，this出现的次数更多，就说明越重要吗？不是的，有越多的文档包含此词(Term),说明此词(Term)太普通，不足以区分这些文档，因而重要性越低。
 
-​		相关度评分
+相关度评分：Solr底层会根据一定的算法，对文档进行一个打分。打分比较高的排名靠前，打分比较低的排名靠后。我们也可以设置boost（权重）值影响相关度打分
 
-​		Solr底层会根据一定的算法，对文档进行一个打分。打分比较高的排名靠前，打分比较低的排名靠后。
+​	
 
-​		设置boost（权重）值影响相关度打分；
+举例：查询book_name或者book_description域中包含java的文档
 
-​	举例：查询book_name或者book_description域中包含java的文档；
+book_name中包含java或者book_description域中包含java的文档都会被查询出来。假如我们认为book_name中包含java应该排名靠前，可以给book_name域增加权重值，book_name域中有java的文档就可以靠前。
 
-​	book_name中包含java或者book_description域中包含java的文档都会被查询出来。假如我们认为book_name中包含java应该排名靠前。可以给book_name域增加权重值。book_name域中有java的文档就可以靠前。
+## 4.3 查询解析器（QueryParser）
 
-## 4.3 查询解析器(QueryParser)
-
-​		之前我们在讲解查询流程的时候，我们说用户输入的查询内容，需要被查询解析器解析。所以查询解析器QueryParser作用就是对查询的内容进行解析。
-
-​		solr提供了多种查询解析器，为我们使用者提供了极大的灵活性及控制如何解析器查询内容。
+之前我们在讲解查询流程的时候，我们说用户输入的查询内容，需要被查询解析器解析，查询解析器QueryParser作用就是对查询的内容进行解析。solr提供了多种查询解析器，为我们使用者提供了极大的灵活性及控制解析器如何解析查询内容
 
 Solr提供的查询解析器包含以下：
 
-​		Standard Query Parser:标准查询解析器；
+- Standard Query Parser：标准查询解析器
 
-​		DisMax Query Parser:DisMax 查询解析器；
+- DisMax Query Parser：DisMax 查询解析器
 
-​		Extends DisMax Query Parser:扩展DisMax 查询解析器
+- Extends DisMax Query Parser：扩展DisMax 查询解析器
 
-​		Others Query Parser:其他查询解析器
-
-当然Solr也运行用户自定义查询解析器。需要继承QParserPlugin类；
-
-​		默认解析器：lucene
-
-​		solr默认使用的解析器是lucene，即Standard Query Parser。Standard Query Parser支持lucene原生的查询语法，并且进行增强,使你可以方便地构造结构化查询语句。当然，它还有不好的，就是容错比较差，总是把错误抛出来，而不是像dismax一样消化掉。
-
-​		查询解析器: disMax
-
-​		只支持lucene查询语法的一个很小的子集：简单的短语查询、+  - 修饰符、AND OR 布尔操作；
-可以灵活设置各个查询字段的相关性权重，可以灵活增加满足某特定查询文档的相关性权重。
-
-​	 查询解析器:edisMax
-
-​		扩展 DisMax Query Parse 使支标准查询语法（是 Standard Query Parser 和 DisMax Query Parser 的复合）。也增加了不少参数来改进disMax。支持的语法很丰富；很好的容错能力；灵活的加权评分设置。
-
-​	对于不同的解析器来说，支持的查询语法和查询参数，也是不同的。我们不可能把所有解析器的查询语法和参数讲完。实际开发也用不上。我们重点讲解的是Standard Query Parser支持的语法和参数。
+- Others Query Parser：其他查询解析器
 
 
+当然Solr也运行用户自定义查询解析器，需要继承QParserPlugin类
+
+
+
+1. 默认解析器：lucene（标准查询解析器）
+
+​		solr默认使用的解析器是lucene，即Standard Query Parser。Standard Query Parser支持lucene原生的查询语法，并且进行增强，使你可以方便地构造结构化查询语句。当然，它还有缺点，容错比较差，总是把错误抛出来，而不是像dismax一样消化掉。
+
+2. DisMax 查询解析器
+
+​		只支持lucene查询语法的一个很小的子集：简单的短语查询、+  - 修饰符、AND OR 布尔操作，可以灵活设置各个查询字段的相关性权重，可以灵活增加满足某特定查询文档的相关性权重。
+
+3. 扩展DisMax 查询解析器
+
+​		扩展 DisMax Query Parser 是 Standard Query Parser 和 DisMax Query Parser 的复合，也增加了不少参数来改进disMax，支持的语法很丰富，很好的容错能力，灵活的加权评分设置。
 
 ## 4.4 查询语法
 
-​	之前我们查询功能都是通过后台管理界面完成查询的。实际上，底层就是向Solr请求处理器发送了一个查询的请求，传递了查询的参数，下面我们要讲解的就是查询语法和参数。
+​	之前我们查询功能都是通过后台管理界面完成查询的。实际上，底层就是向Solr请求处理器发送了一个查询的请求，传递了查询的参数。
 
 ![](imgs/2020-02-16_170250.png)
 
@@ -139,27 +130,26 @@ Solr提供的查询解析器包含以下：
 | /select                                                      | 请求处理器   |
 | ?q=xxx                                                       | 查询的参数   |
 
-##### 4.4.1基本查询参数
+### 4.4.1基本查询参数
 
 | 参数名 | 描述                                                         |
 | ------ | ------------------------------------------------------------ |
 | q      | 查询条件，必填项                                             |
 | fq     | 过滤查询                                                     |
-| start  | 结果集第一条记录的偏移量，用于分页，默认值0                  |
+| start  | 结果集第一条记录的偏移量，用于分页，默认值0（start = “当前页 -1” * 分页的条数） |
 | rows   | 返回文档的记录数，用于分页，默认值10                         |
-| sort   | 排序，格式：sort=`<field name>+<asc|desc>[,<field name>+<asc|desc>`默认是相关性降序 |
-| fl     | 指定返回的域名，多个域名用逗号或者空格分隔，默认返回所有域   |
-| wt     | 指定响应的格式，例如xml、json等；                            |
-|        |                                                              |
+| sort   | 排序，格式：sort=`<field name>+<asc|desc>[,<field name>+<asc|desc>`    默认是相关性降序 |
+| fl     | 指定返回的域，多个域用逗号或者空格分隔，默认返回所有域       |
+| wt     | 指定响应的格式，例如xml、json等                              |
 
 
 
-​	演示：
+演示：
 
 ​		查询所有文档：
 
 ```
-	http://localhost:8080/solr/collection1/select?q=*:*
+http://localhost:8080/solr/collection1/select?q=*:*
 ```
 
 ​		查询book_name域中包含java的文档
@@ -168,7 +158,7 @@ Solr提供的查询解析器包含以下：
 http://localhost:8080/solr/collection1/select?q=book_name:java
 ```
 
-​		查询book_description域中包含java,book_name中包含java。
+​		查询book_description域中包含java，book_name中包含java
 
 ```
 http://localhost:8080/solr/collection1/select?q=book_description:java&fq=book_name:java
@@ -176,60 +166,58 @@ http://localhost:8080/solr/collection1/select?q=book_description:java&fq=book_na
 
 ​		查询第一页的2个文档
 
-​		查询第一页的2个文档
+​		查询第二页的2个文档
 
 ```
 http://localhost:8080/solr/collection1/select?q=*:*&start=0&rows=2
 http://localhost:8080/solr/collection1/select?q=*:*&start=2&rows=2
 ```
 
-​		查询所有文档并且按照book_num升序,降序
+​		查询所有文档并且按照book_num升序，降序
 
 ```
 http://localhost:8080/solr/collection1/select?q=*:*&sort=book_num+asc
 http://localhost:8080/solr/collection1/select?q=*:*&sort=book_num+desc
 ```
 
-​	查询所有文档并且按照book_num降序,如果数量一样按照价格升序。
+​	    查询所有文档并且按照book_num降序，如果数量一样按照价格升序
 
 ```
 http://localhost:8080/solr/collection1/select?q=*:*&sort=book_num+desc,book_price+asc
 ```
 
-​	查询所有数据文档,将id域排除
+​	   查询所有数据文档，将id域排除
 
 ```
-http://localhost:8080/solr/collection1/select?q=*:*&fl=book_name,book_price,book_num,
-book_pic
+http://localhost:8080/solr/collection1/select?q=*:*&fl=book_name,book_price,book_num,book_pic
 ```
 
 
 
-对于基础查询来说还有其他的一些系统级别的参数，但是一般用的较少。简单说2个。
+对于基础查询来说还有其他的一些系统级别的参数，但是一般用的较少
 
 | 描述                                                         | 参数名称 |
 | ------------------------------------------------------------ | -------- |
 | 选择哪个查询解析器对q中的参数进行解析，默认lucene，还可以使用dismax\|edismax | defType  |
-| 覆盖schema.xml的defaultOperator（有空格时用"AND"还是用"OR"操作逻辑）.默认为OR。 | q.op     |
-| 默认查询字段                                                 | `df`     |
-| （query type）指定那个类型来处理查询请求，一般不用指定，默认是standard | `qt`     |
-| 查询结果是否进行缩进，开启，一般调试json,php,phps,ruby输出才有必要用这个参数 | `indent` |
+| 覆盖schema.xml的defaultOperator（有空格时用"AND"还是用"OR"操作逻辑）默认为OR | q.op     |
+| 默认查询字段                                                 | df       |
+| （query type）指定哪个类型来处理查询请求，一般不用指定，默认是standard | qt       |
+| 查询结果是否进行缩进，开启，一般调试json,php,phps,ruby输出才有必要用这个参数 | indent   |
 | 查询语法的版本，建议不使用它，由服务器指定默认值             | version  |
 
-defType:更改Solr的查询解析器的。一旦查询解析器发生改变，支持其他的查询参数和语法。
+defType：更改Solr的查询解析器的，一旦查询解析器发生改变，将支持其他的查询参数和语法
 
-q.op：如果我们搜索的关键字可以分出很多的词，到底是基于这些词进行与的关系还是或关系。
+q.op：如果我们搜索（query）的关键字可以分出很多的词，到底是基于这些词进行"与"关系还是"或"关系查找，默认"或"
 
 ```
 q=book_name:java编程 搜索book_name中包含java编程关键字   
-java编程---->java 编程词。
-搜索的条件时候是book_name中不仅行包含java而且包含编程，还是只要有一个即可。
+java编程query分词为：java 编程
+搜索的条件是book_name中既要包含java还要包含编程，还是只要有一个即可
 q=book_name&q.op=AND 
 q=book_name&q.op=OR
 ```
 
-df:指定默认搜索的域,一旦我们指定了默认搜索的域，在搜索的时候，我们可以省略域名,仅仅指定搜索的关键字
-就可以在默认域中搜索
+df：指定默认搜索的域,一旦我们指定了默认搜索的域，在搜索的时候，我们可以省略域名，仅仅指定搜索的关键字就可以在默认域中搜索
 
 ```
 q=java&df=book_name
@@ -237,11 +225,9 @@ q=java&df=book_name
 
 
 
-##### 4.4.2 组合查询
+### 4.4.2 组合查询
 
-​	上一节我们讲解了基础查询，接下来我们讲解组合查询。在Solr中提供了运算符，通过运算符我们就可以进行组合查询。
-
-
+在Solr中提供了运算符，通过运算符可以进行组合查询
 
 | 运算符 | 说明                                                         |
 | ------ | ------------------------------------------------------------ |
