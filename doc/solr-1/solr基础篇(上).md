@@ -703,7 +703,7 @@ SolrCore可以理解成MySQL中的数据库
 
 通过测试，我们发现不能通过item_pic域进行搜索
 
-### 3.2.5 Solr的配置-FieldType
+### 3.2.5 Solr的配置-FieldType ★★★
 
 每个域（Field）都需要指定域类型（FieldType），而且域类型必须提前定义，域类型决定该域使用的索引和搜索的分词器，影响分词效果
 
@@ -1665,11 +1665,11 @@ IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采�
 
 ​	2.编译打包源码：mvn package
 
-​	3.安装: 把ik-analyzer-solr5-5.x.jar拷贝到Tomcat的Solr/WEB-INF/lib目录；
+​	3.安装: 把ik-analyzer-solr5-5.x.jar拷贝到Tomcat的Solr/WEB-INF/lib目录
 
-​	4.配置: 把IKAnalyzer.cfg.xml和stopword.dic(停用词库)，ext.dic(扩展词库)拷贝到Solr/WEB-INF/classes。
+​	4.配置: 把IKAnalyzer.cfg.xml和stopword.dic(停用词库)，ext.dic(扩展词库)拷贝到Solr/WEB-INF/classes
 
-​	5.使用IK的分析器定义FiledType，IKAnalyzer分析器中提供了中分词器和过滤器。
+​	5.使用IK的分析器定义FiledType，IKAnalyzer分析器中提供了中文分词器和过滤器
 
 ```
 <fieldType name ="text_ik" class ="solr.TextField">
@@ -1677,23 +1677,19 @@ IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采�
 </fieldType>
 ```
 
-​	6.测试text_ik分词效果。
+​	6.测试text_ik分词效果
 
 ![](imgs/2020-02-15_001958.png)
 
-​	7.传智播客，被单字分词，此处我们也可以添加扩展词库，让传智播客分成一个词；
+​	7.传智播客，被单字分词，此处我们也可以修改扩展词库，让传智播客分成一个词
 
-​		编辑Solr/WEB-INF/classes/ext.dic(扩展词库)，加入传智播客；
-
-​		再次测试
+​		编辑Solr/WEB-INF/classes/ext.dic(扩展词库)，加入传智播客，再次测试
 
 ​		![](imgs/2020-02-15_002440.png)
 
-到此关于IKAnalyzer我们就讲解完毕。
-
 #### Ansj
 
-​	Ansj 是一个开源的 Java 中文分词工具，基于中科院的 ictclas 中文分词算法，比其他常用的开源分词工具（如mmseg4j）的分词准确率更高。Ansj中文分词是一款纯Java的、主要应用于自然语言处理的、高精度的中文分词工具，目标是“准确、高效、自由地进行中文分词”，可用于人名识别、地名识别、组织机构名识别、多级词性标注、关键词提取、指纹提取等领域，支持行业词典、用户自定义词典。
+Ansj 是一个开源的 Java 中文分词工具，基于中科院的 ictclas 中文分词算法，比其他常用的开源分词工具（如mmseg4j）的分词准确率更高。Ansj中文分词是一款纯Java的、主要应用于自然语言处理的、高精度的中文分词工具，目标是“准确、高效、自由地进行中文分词”，可用于人名识别、地名识别、组织机构名识别、多级词性标注、关键词提取、指纹提取等领域，支持行业词典、用户自定义词典。
 
 ​	使用流程：
 
@@ -1709,40 +1705,34 @@ IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采�
 
 ​		打包nlp-lang![](imgs/2020-02-15_094631.png)
 
-​	进入到ansj/plugin/ansj_lucene5_plugin目录，打包ansj_lucene5
+​	进入到ansj/plugin/ansj_lucene5_plugin目录，打包ansj_lucene5	![](imgs/2020-02-15_100838.png)
 
-​	![](imgs/2020-02-15_100838.png)
+​	3.安装：将以上三个jar包复制到solr/WEB-INF/lib目录
 
-​	
-
-​	4.安装：将以上三个jar包复制到solr/WEB-INF/lib目录
-
-​	5.配置：将ansj的词库和配置文件复制到solr/WEB-INF/classes目录
+​	4.配置：将ansj的词库和配置文件复制到solr/WEB-INF/classes目录
 
 ​	![](imgs/2020-02-15_101316.png)
 
-​	6.使用ansj中提供的分析器，分词器配置FieldType
+​	5.使用ansj中提供的分析器，分词器配置FieldType
 
 ```
-   <fieldType name="text_ansj" class="solr.TextField" positionIncrementGap="100">
-            <analyzer type="index">
-                 <tokenizer class="org.ansj.lucene.util.AnsjTokenizerFactory" isQuery="false"/>
-            </analyzer>
-            <analyzer type="query">
-                <tokenizer class="org.ansj.lucene.util.AnsjTokenizerFactory"/>
-            </analyzer>
-    </fieldType>
+<fieldType name="text_ansj" class="solr.TextField" positionIncrementGap="100">
+	<analyzer type="index">
+		<tokenizer class="org.ansj.lucene.util.AnsjTokenizerFactory" isQuery="false"/>
+	</analyzer>
+	<analyzer type="query">
+		<tokenizer class="org.ansj.lucene.util.AnsjTokenizerFactory"/>
+	</analyzer>
+</fieldType>
 ```
 
-​	7.测试
+​	6.测试
 
 ![](imgs/2020-02-15_103042.png)
 
-关于Ansj中文分词器的使用我们就给大家讲解完毕。
-
 #### MMSeg4J
 
-​	mmseg4j用Chih-Hao Tsai 的MMSeg算法实现的中文分词工具包，并实现lucene的analyzer和solr的r中使用。 MMSeg 算法有两种分词方法：Simple和Complex，都是基于正向最大匹配。Complex加了四个规则。官方说：词语的正确识别率达到了 98.41%。mmseg4j已经实现了这两种分词算法。
+MMSeg4J是使用Chih-Hao Tsai 的MMSeg算法实现的中文分词工具包， MMSeg 算法有两种分词方法：Simple和Complex，都是基于正向最大匹配。Complex相对于Simple新增了四个规则。
 
 ​	流程：
 
@@ -1766,9 +1756,9 @@ IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采�
 
 - dicPath 参数 － 设置词库位置，支持相对路径(相对于 SolrCore).
 
-- mode 参数 － 分词模式。
+- mode 参数 － 分词模式
 
-  complex：复杂模式，针对语义复杂的情况
+  a. complex：复杂模式，针对语义复杂的情况
 
 ```
 <fieldtype name="textComplex" class="solr.TextField" positionIncrementGap="100">
@@ -1778,7 +1768,7 @@ IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采�
 </fieldtype>
 ```
 
-​		max-word：最大词模式，针对分出的词最多
+​		b. max-word：最大词模式，分出的词最多
 
 ```
 <fieldtype name="textMaxWord" class="solr.TextField" positionIncrementGap="100">
@@ -1789,7 +1779,7 @@ IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采�
 </fieldtype>
 ```
 
-​		simple：简单模式，针对一般情况
+​		c. simple：简单模式，针对一般情况
 
 ```
 <fieldtype name="textSimple" class="solr.TextField" positionIncrementGap="100">
@@ -1817,13 +1807,11 @@ words.dic 是词库文件，一行一词，可以自己进行扩展词库。
 
 ![](imgs/2020-02-15_115814.png)
 
-​	综上所述可以看出，三种分词方法存在着一些同样的错误，比如名词“英特尔“和”谷歌“都没有识别出来。综合比较Complex的分词方法准确率最高。
-
-​	到这关于mmseg4j分词器就讲解完毕。
+综上所述可以看出，三种分词方法存在着一些同样的错误，比如名词“英特尔“和”谷歌“都没有识别出来。综合比较Complex的分词方法准确率最高
 
 #### jcseg
 
-​	Jcseg是基于mmseg算法的一个轻量级Java中文分词工具包，同时集成了关键字提取，关键短语提取，关键句子提取和文章自动摘要等功能，并且提供了一个基于Jetty的web服务器，方便各大语言直接http调用，同时提供了最新版本的lucene，solr和elasticsearch的搜索分词接口;
+jcseg是基于mmseg算法的一个轻量级Java中文分词工具包，同时集成了关键字提取，关键短语提取，关键句子提取和文章自动摘要等功能，并且提供了一个基于Jetty的web服务器，方便各大语言直接http调用，同时提供了最新版本的lucene，solr和elasticsearch的搜索分词接口
 
 使用流程：
 
@@ -1835,9 +1823,7 @@ words.dic 是词库文件，一行一词，可以自己进行扩展词库。
 
 ​	3.安装: 将jcseg-analyze.jar和jcseg-core.jar复制到Solr/WEB-INF/lib目录
 
-​	4.使用jcseg的分析器定义FieldType,Jcseg提供了很多模式；复杂模式最常用。
-
- 
+​	4.使用jcseg的分析器定义FieldType，Jcseg提供了很多模式，复杂模式最常用
 
 ```
 (1).简易模式：FMM算法，适合速度要求场合。
@@ -1900,7 +1886,7 @@ words.dic 是词库文件，一行一词，可以自己进行扩展词库。
 
 ​			将jcseg的配置文件从jc-core/jcseg.properties复制到solr/WEB-INF/classess目录
 
-​			编辑jcseg.properties配置文件，指定lexicon.path即词库位置。
+​			编辑jcseg.properties配置文件，指定lexicon.path即词库位置
 
 ```
 	lexicon.path = D:/jcseg/lexicon
@@ -1915,15 +1901,15 @@ words.dic 是词库文件，一行一词，可以自己进行扩展词库。
 	传智播客/nt/chuan zhi bo ke/null
 ```
 
-​	7.测试jcseg分词效果。
+​	7.测试jcseg分词效果
 
-​		![](imgs/2020-02-15_145844.png)
+![](imgs/2020-02-15_145844.png)
 
 ​	
 
 #### ICTCLAS（中科院分词器）
 
-​		ICTCLAS分词器是中国科学院计算技术研究所在多年研究工作积累的基础上，研制出了汉语词法分析系统ICTCLAS(Institute of Computing Technology, Chinese Lexical Analysis System)，基于完全C/C++编写，主要功能包括中文分词；词性标注；命名实体识别；新词识别；同时支持用户词典。先后精心打造五年，内核升级6次，目前已经升级到了ICTCLAS3.0。ICTCLAS3.0分词速度单机996KB/s，分词精度98.45%，API不超过200KB，各种词典数据压缩后不到3M，是当前世界上最好的汉语词法分析器，商业收费。
+ICTCLAS分词器是中国科学院计算技术研究所在多年研究工作积累的基础上，研制出了汉语词法分析系统ICTCLAS(Institute of Computing Technology, Chinese Lexical Analysis System)，基于完全C/C++编写，主要功能包括中文分词、词性标注、命名实体识别、新词识别，同时支持用户词典。先后精心打造五年，内核升级6次，目前已经升级到了ICTCLAS3.0。ICTCLAS3.0分词速度单机996KB/s，分词精度98.45%，API不超过200KB，各种词典数据压缩后不到3M，是当前世界上最好的汉语词法分析器，商业收费。
 
 使用流程：
 
@@ -1964,13 +1950,11 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
   </fieldType>
 ```
 
-​	6.测试text_ictclas分词效果。
-
-​	
+​	6.测试text_ictclas分词效果
 
 #### 	HanLP
 
-​		HanLP是由一系列模型与算法组成的java开源工具包，目标是普及自然语言处理在生产环境中的应用。HanLP具备功能完善、性能高效、架构清晰、语料时新、可自定义的特点；提供词法分析（中文分词、词性标注、命名实体识别）、句法分析、文本分类和情感分析等功能。
+HanLP是由一系列模型与算法组成的java开源工具包，目标是普及自然语言处理在生产环境中的应用。HanLP具备功能完善、性能高效、架构清晰、语料时新、可自定义的特点；提供词法分析（中文分词、词性标注、命名实体识别）、句法分析、文本分类和情感分析等功能。
 
 ​		使用流程：
 
@@ -1986,15 +1970,11 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 
 ​	4.安装: 将hanlp.jar和hanlp-lucene-plugin.jar包复制到solr/WEB-INF/lib
 
-​	5.配置:将配置文件hanlp.properties复制solr/WEB-INF/classes
+​	5.配置:将配置文件hanlp.properties复制solr/WEB-INF/classes![](imgs/2020-02-15_163034.png)
 
-​	![](imgs/2020-02-15_163034.png)
+​	6.配置：在hanlp.properties中指定词典数据的目录![](imgs/2020-02-15_163653.png)
 
-​	6.配置：在hanlp.properties中指定词典数据的目录
-
-​	![](imgs/2020-02-15_163653.png)
-
-​	7.配置停用词，扩展词等。
+​	7.配置停用词，扩展词等
 
 ![](imgs/2020-02-15_163759.png)
 
@@ -2012,7 +1992,7 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 	</fieldType>
 ```
 
-​	6.测试test_hanlp分词效果。
+​	6.测试test_hanlp分词效果
 
 ​	![](imgs/2020-02-15_165658.png)
 
@@ -2022,7 +2002,7 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 
 ​	中文分词器核心就是算法和字典，算法决定了分词的效率，字典决定了分词的结果。词库不完善导致词语分不出来，虽然可以通过扩展词典进行补充，但是补充只能是发现问题再去补充，所以分词器自动发现新词的功能就很重要。
 
-​	CRF（条件随机场）算法是目前最好的识别新词的分词算法。Ansj和HanLp都支持CRF，自动补充词库；
+​	CRF（条件随机场）算法是目前最好的识别新词的分词算法。Ansj和HanLp都支持CRF，自动补充词库。
 
 ​	Ansj缺点是核心词典不能修改，只能借助扩展词典进行补充。
 
@@ -2030,7 +2010,7 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 
 ​	MMseg4J和Jcseg两者都采用MMseg算法。但是Jcseg更活跃。MMseg4J基本不再更新。
 
-​	IK分词器是使用最多的一种分词器，虽然词典不支持自动扩展词汇，但是简单，所以使用率最高；
+​	IK分词器是使用最多的一种分词器，虽然词典不支持自动扩展词汇，但是简单，所以使用率最高。
 
 ​	最后一个就是Ictclas他是功能最强大的一款分词器，但是是基于C/C++编写，而且要进行商业授权。比较适合对分词要求较高且不差钱的公司。
 
@@ -2038,19 +2018,11 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 
 ​		一般对于追求简单来说建议使用IK分词器；
 
-​		对分词要求较高，但是希望免费，可以使用HanLp；
-
-​		关于中文分词器的使用我们就全部讲解完毕。
+​		对分词要求较高，但是希望免费，可以使用HanLp。
 
 #### 自定义分词器（了解）
 
-​	我们都知道分析器由分词器和过滤器构成。
-
-​	要想使用分析器，首先要定义分词器。如果不需要对分词结果进行过滤，过滤器是可选的。
-
-​	之前我们在使用分词器的时候，都是使用Solr自带的分词器，比如标准分词器。当然也使用到第三方的一些中文分词器，比如IK分词器。为了更好的理解分析器的java体系结构，下面讲解自定义分词器。
-
-​	
+分析器由分词器和过滤器构成，要想使用分析器，首先要定义分词器。如果不需要对分词结果进行过滤，过滤器是可选的。之前我们在使用分词器的时候，都是使用Solr自带的分词器，比如标准分词器。当然也使用到第三方的一些中文分词器，比如IK分词器。为了更好的理解分析器的java体系结构，下面讲解自定义分词器。
 
 
 
@@ -2058,9 +2030,7 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 
 ​		继承Tokenizer或者CharTokenizer抽象类；Tokenizer字符串级别的分词器，适合复杂分词器。CharTokenizer字符级别的分词器，适合简单分词器；
 
-​	定义过滤器的步骤：
 
-​		继承TokenFiler或者FilteringTokenFilter
 
 ​	需求：
 
@@ -2104,13 +2074,13 @@ public class PlusSignTokenizerFactory extends TokenizerFactory {
     /**
      * 在schem配置文件中配置分词器的时候，指定参数args配置分词器时候的指定的参数
      *    <analyzer>
-     *         <tokenizer class="cn.itcast.tokenizer.PlausSignTokenizerFactory" mode="complex"/>
+     *         <tokenizer class="cn.itcast.tokenizer.PlusSignTokenizerFactory" mode="complex"/>
      *     </analyzer>
      * @param args
      */
 
     public PlusSignTokenizerFactory(Map<String, String> args) {
-        //分词器属性配置
+        //分词器属性配置，比如 mode="complex"
         super(args);
     }
 
@@ -2140,15 +2110,13 @@ public class PlusSignTokenizerFactory extends TokenizerFactory {
 
 #### 	自定义过滤器（了解）
 
-上一节课，我们学习了分词器的定义，下面我们讲解定义过滤器。
-
 在Solr中要定义一个过滤器，需要继承TokenFiler或者FilteringTokenFilter
 
-​	需求：过滤掉"love"词
 
-​	
 
-我们可以参考一个solr内置过滤器LenthFilter;
+需求：过滤掉"love"词
+
+我们可以参考一个solr内置过滤器LenthFilter
 
 ```
 public final class LengthFilter extends FilteringTokenFilter {
@@ -2169,7 +2137,7 @@ public final class LengthFilter extends FilteringTokenFilter {
     this.max = max;
   }
 
-  //该方法返回true，保留该词否则不保留；
+  //该方法返回true，保留该词，否则不保留
   @Override
   public boolean accept() {
     final int len = termAtt.length();
@@ -2244,27 +2212,25 @@ public class LoveTokenFilterFactory extends TokenFilterFactory {
 
 6.梳理工作流程：
 
-​	![1581831142031](C:\Users\ligan\AppData\Roaming\Typora\typora-user-images\1581831142031.png)
+![](imgs/1581831142031.png)
 
 7.打包安装重写测试
 
 ![](imgs/2020-02-16_134708.png)
 
-###### 自定义分析器（了解）
+#### 自定义分析器（了解）
 
 ​	在Solr中我们通常会使用`<tokenizer>` + `<filter>`的形式来组合分析器，这种方式耦合性低，使用起来灵活。
 
-​	在Solr中也允许我们将一个分词器和一个过滤器直接封装到分析器类中；将来直接使用分析器。
+​	在Solr中也允许我们将一个分词器和一个过滤器直接封装到分析器类中，将来直接使用分析器。
 
 ​	流程：
 
-​		1.定义类继承Analyzer类。
+​		1.定义类继承Analyzer类；
 
 ​		2.重写createComponents()方法；
 
-​		3.将分词器和过滤器封装在createComponents()方法的返回值即可；
-
-​	
+​		3.将分词器和过滤器封装在createComponents()方法的返回值即可。
 
 ```
 
@@ -2296,23 +2262,17 @@ public class MyAnalyzer extends Analyzer {
 
 ### 3.2.10 Solr的数据导入（DataImport）
 
-​	
-
-​	在Solr后台管理系统中提供了一个功能叫DataImport,作用就是将数据库中的数据导入到索引库，简称DHI；
+​	在Solr后台管理系统中提供了一个功能叫DataImport，作用就是将数据库中的数据导入到索引库，简称DHI
 
 ​	DataImport如何将数据库中的数据导入到索引库呢？
 
 ​	1.查询数据库中的记录；
 
-​	2.将数据库中的一条记录转化为Document，并进行索引；
+​	2.将数据库中的一条记录转化为Document，并进行索引。
 
 
 
 需求：将以下表中数据导入到MySQL
-
-```
-sql脚本在资料中；
-```
 
 ![](imgs/2020-02-15_182240.png)
 
@@ -2380,66 +2340,66 @@ book_num:使用pint类型，索引，并且存储；
 
 ```
 
-​	4.使用DataImport导入。
+​	4.使用DataImport导入
 
 ​	![](imgs/2020-02-15_190412.png)
 
-到这关于DataImport我们就讲解完毕。
-
 ### 3.2.11 solrconfig.xml
 
-​	上一节在使用DataImport的时候，使用到了一个配置文件solrconfig.xml,这个配置文件是solr中常用的4个配置文件之一。但是相对schema文件，用的很少。
+solrconfig.xml 是solr中常用的4个配置文件之一，但是相对schema文件，用的很少。
 
-​	solrconfig.xml作用：主要配置SolrCore相关的一些信息。Lucene的版本,第三方依赖包加载路径，索引和搜索相关的配置；JMX配置，缓存配置等；
+solrconfig.xml作用：主要配置SolrCore相关的一些信息。例如Lucene的版本，第三方依赖包加载路径，索引和搜索相关的配置，JMX配置，缓存配置等。
 
-1.Lucene的版本配置；一般和Solr版本一致；
+1.Lucene的版本配置：一般和Solr版本一致
 
 ```
- <luceneMatchVersion>7.7.2</luceneMatchVersion>
+<luceneMatchVersion>7.7.2</luceneMatchVersion>
 ```
 
 2.第三方依赖包加载路径
 
 ```
- <lib dir="${solr.install.dir:../../../..}/contrib/extraction/lib" regex=".*\.jar" />
+<lib dir="${solr.install.dir:../../../..}/contrib/extraction/lib" regex=".*\.jar" />
 ```
 
-​	告诉solr,第三方依赖包的位置。一般我们并不会在lib中进行设置，因为lib中的设置，只能该SolrCore使用。
+solr.install.dir：SolrCore所在目录，当前配置文件属于哪个SolrCore，solr.install.dir就是那个SolrCore目录
 
-其他SolrCore无法使用，一般第三方的依赖包，我们直接会放在Solr/WEB-INF/lib下。所有的SolrCore共享。
-
-​	solr.install.dir：SolrCore所在目录，当前配置文件属于哪个SolrCore，solr.install.dir就是那个SolrCore目录‘
+指定solr第三方依赖包的位置。一般我们并不会在lib中进行设置，因为lib中的设置，只能该SolrCore使用，其他SolrCore无法使用。一般第三方的依赖包，我们直接会放在Solr/WEB-INF/lib下。所有的SolrCore共享
 
 ```
-  <dataDir>${solr.data.dir:}</dataDir>
+<dataDir>${solr.data.dir:}</dataDir>
 ```
 
-​	索引数据所在目录：默认位置SolrCore/data
+索引数据所在目录：默认位置SolrCore/data
 
 3.用来配置创建索引的类
 
 ```
- <directoryFactory name="DirectoryFactory"
+<directoryFactory name="DirectoryFactory"
                     class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
 ```
 
-4. 用来设置Lucene倒排索引的编码工厂类，默认实现是官方提供的SchemaCodecFactory类。；
+4.用来设置Lucene倒排索引的编码工厂类，默认实现是官方提供的SchemaCodecFactory类
 
 ```
 <codecFactory class="solr.SchemaCodecFactory"/>
 ```
 
-​	5.索引相关配置
+5.索引相关配置
 
-​		![](imgs/2020-02-15_200805.png)
+```
+<indexConfig></indexConfig>
+```
+
+![](imgs/2020-02-15_200805.png)
 
 ​	6.搜索相关配置
 
-​	![](imgs/2020-02-15_201038.png)
+```
+<query></query>
+```
 
-
-
-
+![](imgs/2020-02-15_201038.png)
 
 ### 3.2.12 Query
 
@@ -2449,15 +2409,15 @@ book_num:使用pint类型，索引，并且存储；
 
 ![](imgs/2020-02-15_202357.png)
 
-q:表示主查询条件，必须有.
+**q**：表示主查询条件，必须有
 
-fq:过滤条件。
+**fq**：过滤条件
 
-start,rows:指定分页；
+**start,rows**：指定分页
 
-fl:指定查询结果文档中需要的域；
+**fl**：指定查询结果文档中需要的域
 
-wt:查询结果的格式，JSON/XML;
+**wt**：查询结果的格式，JSON/XML
 
 演示：
 
@@ -2465,27 +2425,25 @@ wt:查询结果的格式，JSON/XML;
 
 ​	查询book_description中包含java并且book_name中包含lucene；
 
-​	对查询的结果按照价格升序，降序。
+​	对查询的结果按照价格升序，降序；
 
-​	分页查询满足条件的第一页2条数据，第二页2条数据	
+​	分页查询满足条件的第一页2条数据，第二页2条数据	；
 
-​	start=(页码-1) * 每页条数
+​	start=(页码-1) * 每页条数；
 
 ​	将查询结果中id域去掉；
 
 ​	查询的结果以JSON形式返回；
 
-到这关于Solr管理后台Query的基本使用我们就暂时讲解到这里；
-
 ### 3.2.13 SolrCore其它菜单
 
-​	 overview（概览）
+​    **Overview（概览）**
 
 ​	作用：包含基本统计如当前文档数，最大文档数；删除文档数，当前SolrCore配置目录；
 
 ![](imgs/2020-02-15_204229.png)
 
-​	files
+​	**Files**
 
 ​	作用：对SolrCore/conf目录下文件预览
 
@@ -2493,19 +2451,18 @@ wt:查询结果的格式，JSON/XML;
 
 ​	
 
-Ping：拼接Solr的连通性；
+**Ping**：拼接Solr的连通性
 
-Plugins:Solr使用的一些插件；
+**Plugins**：Solr使用的一些插件
 
-Replication：集群状态查看，后面搭建完毕集群再来说；
+**Replication**：集群状态查看
 
-Schema：管理Schema文件中的Field，可以查看和添加域，动态域和复制域；
+**Schema**：管理Schema文件中的Field，可以查看和添加域，动态域和复制域
 
 ![](imgs/2020-02-15_204622.png)
 
-SegmentsInfo:展示底层Lucence索引段，包括每个段的大小和数据条数。Solr底层是基于lucene实现的，索引数据最终是存储到SolrCore/data/index目录的索引文件中；这些索引文件有_e开始的, _0开始的....对应的就是不同的索引段。
+**SegmentsInfo**：展示底层Lucence索引段，包括每个段的大小和数据条数。Solr底层是基于lucene实现的，索引数据最终是存储到SolrCore/data/index目录的索引文件中；这些索引文件有_e开始的， _0开始的，对应的就是不同的索引段。
 
-​	![](imgs/2020-02-15_215512.png)
+![](imgs/2020-02-15_215512.png)
 
 ![](imgs/2020-02-15_215148.png)
-
