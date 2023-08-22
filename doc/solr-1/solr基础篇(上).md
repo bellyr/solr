@@ -743,7 +743,7 @@ Solr中已经提供好了一些域类型
     </fieldType>
 ```
 
-##### 3.2.5.1 相关属性
+#### 3.2.5.1 相关属性
 
 - **name**：域类型名称，定义域类型的必须指定，并且要唯一；将来定义域的时候需要指定通过域名称来指定域类型（重点）
 - **class**：域类型对应的java类，必须指定，如果该类是solr中的内置类，使用solr.类名指定即可。如果该类是第三方的类，需要指定全类名。（重点）如果class是TextField，我们还需要使用<analyzer>子标签来配置分析器
@@ -755,7 +755,7 @@ Solr中已经提供好了一些域类型
 - docValuesFormat：docValues字段的存储格式化器：schema-aware codec，配置在solrconfig.xml中的（了解）
 - postingsFormat：词条格式器：schema-aware codec，配置在solrconfig.xml中的（了解）
 
-##### 3.2.5.2 Solr自带的FieldType类
+#### 3.2.5.2 Solr自带的FieldType类
 
 solr除了提供了TextField类，我们也可以查看它提供的其他的FieldType类，我们可以通过官网查看其他的FieldType类的作用：
 
@@ -765,14 +765,14 @@ http://lucene.apache.org/solr/guide/8_1/field-types-included-with-solr.html
 
 以上的FieldType类的使用，我们不会一一进行讲解，只会讲解常用的一部分
 
-##### 3.2.5.3 FieldType常用类的使用
+#### 3.2.5.3 FieldType常用类的使用
 
 ![](imgs/2020-02-13_214028.png)
 
 -  **TextField**：支持对字符类型的数据进行分词；对于 solr.TextField 域类型，需要为其定义分析器（analyzer）
 
 
-###### 	分析器（analyzer）的基本概念
+#####	分析器（analyzer）的基本概念
 
 分析器就是将用户输入的一串文本分割成一个个token，一个个token组成了tokenStream，然后遍历tokenStream对其进行过滤操作，比如去除停用词，特殊字符，标点符号和统一转化成小写的形式等。分词是否准确会直接影响搜索的结果，从某种程度上来讲，分词的算法不同，都会影响返回的结果。因此分析器是搜索的基础。
 
@@ -792,7 +792,7 @@ Solr中提供的过滤器filter：不同的过滤器过滤效果也不同，有�
 
 
 
-###### 常用分词器（tokenizer）的介绍
+##### 常用分词器（tokenizer）的介绍
 
 - **Standard Tokenizer**
 
@@ -1033,11 +1033,11 @@ Solr中提供的过滤器filter：不同的过滤器过滤效果也不同，有�
 输出： “To”, “be,”, “or”, “what?”
 ```
 
-在这些分词器中，我们最常用的一个分词器。Standard Tokenizer，但也仅仅只能对英文进行分词；
+在这些分词器中，我们最常用的一个分词器 - Standard Tokenizer，但也仅仅只能对英文进行分词；
 
 
 
-###### 常用过滤器（filter）介绍
+##### 常用过滤器（filter）介绍
 
 过滤器是对分词器的分词结果进行再次处理，比如：将词转化为小写，排除掉停用词等
 
@@ -1084,7 +1084,7 @@ Solr中提供的过滤器filter：不同的过滤器过滤效果也不同，有�
 输出： “turn”, “right”
 ```
 
-- **pattern Replace Filter**
+- **Pattern Replace Filter**
 
   作用：这个Filter可以使用正则表达式来替换token的一部分内容，与正则表达式想匹配的被替换，不匹配的不变。
 
@@ -1146,7 +1146,7 @@ Solr中提供的过滤器filter：不同的过滤器过滤效果也不同，有�
 ```
 
 ```
-保留词列表stopwords.txt 
+停词列表stopwords.txt 
 be 
 or 
 to 
@@ -1280,7 +1280,7 @@ small => tiny,teeny,weeny
 
 
 
-###### TextField的使用
+##### TextField的使用
 
 之前我们说过，在我们在使用TextField作为FieldType的class的时候，必须指定Analyzer，用一个`<analyzer>`标签来声明一个Analyzer；
 
@@ -1389,7 +1389,7 @@ item_content:small可以搜索到吗？不可以
 
 索引的时候，small经过同义词过滤器变成 tiny,teeny,weeny 。small并没有和文档建立倒排索引关系；
 
-搜索的时候small内容只能被分为small这个词；所以找不到；
+搜索的时候small内容只能被分为small这个词，所以找不到；
 
 
 
@@ -1399,7 +1399,7 @@ item_content:small可以搜索到吗？不可以
 
 
 
-###### DateRangeField的使用
+##### DateRangeField的使用
 
 ![](imgs/2020-02-14_175844.png)
 
@@ -1487,7 +1487,7 @@ item_birthday:[NOW/HOURS TO NOW] 当前小时的0点到当前时间
 
 
 
-###### EnumFieldType的使用
+##### EnumFieldType的使用
 
 ![](imgs/2020-02-13_214309.png)
 
@@ -1623,7 +1623,7 @@ text:ma
 
 ### 3.2.9  Solr的配置-中文分词器
 
-###### 	中文分词器的介绍
+#### 	中文分词器的介绍
 
 Solr中最常用的分词器是Standard Tokenizer，Standard Tokenizer可以对英文完成精确的分词，但是对中文分词是有问题的。
 
@@ -1647,15 +1647,15 @@ Solr中最常用的分词器是Standard Tokenizer，Standard Tokenizer可以对�
 
 中文分词一直以来是分词领域的一个难题，因为中文中的断词需要依赖语境，相同的一句话语境不同可能分出的词就不同
 
-在Solr中提供了一个中文分词器SmartCN，但是该分词器并没有纳入到Solr的正式包中，属于扩展包。
+在Solr中提供了一个中文分词器SmartCN，但是该分词器并没有纳入到Solr的正式包中，属于扩展包
 
 位置：solr-7.7.2\contrib\analysis-extras\lucene-libs\lucene-analyzers-smartcn-7.7.2.jar
 
-而且SmartCN对中文分词也不太理想，目前市面上比较主流的中文分词器有IK，MMSeg4J，Ansj，Jcseg，TCTCLAS，HanLP等
+而且SmartCN对中文分词也不太理想，目前市面上比较主流的中文分词器有 IK，MMSeg4J，Ansj，Jcseg，TCTCLAS，HanLP 等
 
 
 
-###### IK Analyzer
+#### IK Analyzer
 
 IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采用词典分词的原理，允许使用者扩展词库
 
@@ -1691,7 +1691,7 @@ IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采�
 
 到此关于IKAnalyzer我们就讲解完毕。
 
-###### Ansj
+#### Ansj
 
 ​	Ansj 是一个开源的 Java 中文分词工具，基于中科院的 ictclas 中文分词算法，比其他常用的开源分词工具（如mmseg4j）的分词准确率更高。Ansj中文分词是一款纯Java的、主要应用于自然语言处理的、高精度的中文分词工具，目标是“准确、高效、自由地进行中文分词”，可用于人名识别、地名识别、组织机构名识别、多级词性标注、关键词提取、指纹提取等领域，支持行业词典、用户自定义词典。
 
@@ -1740,7 +1740,7 @@ IK Analyzer是一个基于java语言开发的轻量级中文分词器包，采�
 
 关于Ansj中文分词器的使用我们就给大家讲解完毕。
 
-###### MMSeg4J
+#### MMSeg4J
 
 ​	mmseg4j用Chih-Hao Tsai 的MMSeg算法实现的中文分词工具包，并实现lucene的analyzer和solr的r中使用。 MMSeg 算法有两种分词方法：Simple和Complex，都是基于正向最大匹配。Complex加了四个规则。官方说：词语的正确识别率达到了 98.41%。mmseg4j已经实现了这两种分词算法。
 
@@ -1821,7 +1821,7 @@ words.dic 是词库文件，一行一词，可以自己进行扩展词库。
 
 ​	到这关于mmseg4j分词器就讲解完毕。
 
-###### jcseg
+#### jcseg
 
 ​	Jcseg是基于mmseg算法的一个轻量级Java中文分词工具包，同时集成了关键字提取，关键短语提取，关键句子提取和文章自动摘要等功能，并且提供了一个基于Jetty的web服务器，方便各大语言直接http调用，同时提供了最新版本的lucene，solr和elasticsearch的搜索分词接口;
 
@@ -1921,7 +1921,7 @@ words.dic 是词库文件，一行一词，可以自己进行扩展词库。
 
 ​	
 
-###### ICTCLAS（中科院分词器）
+#### ICTCLAS（中科院分词器）
 
 ​		ICTCLAS分词器是中国科学院计算技术研究所在多年研究工作积累的基础上，研制出了汉语词法分析系统ICTCLAS(Institute of Computing Technology, Chinese Lexical Analysis System)，基于完全C/C++编写，主要功能包括中文分词；词性标注；命名实体识别；新词识别；同时支持用户词典。先后精心打造五年，内核升级6次，目前已经升级到了ICTCLAS3.0。ICTCLAS3.0分词速度单机996KB/s，分词精度98.45%，API不超过200KB，各种词典数据压缩后不到3M，是当前世界上最好的汉语词法分析器，商业收费。
 
@@ -1968,7 +1968,7 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 
 ​	
 
-###### 	HanLP
+#### 	HanLP
 
 ​		HanLP是由一系列模型与算法组成的java开源工具包，目标是普及自然语言处理在生产环境中的应用。HanLP具备功能完善、性能高效、架构清晰、语料时新、可自定义的特点；提供词法分析（中文分词、词性标注、命名实体识别）、句法分析、文本分类和情感分析等功能。
 
@@ -2016,7 +2016,7 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 
 ​	![](imgs/2020-02-15_165658.png)
 
-###### 中文分词器建议
+#### 中文分词器建议
 
 ​	介绍了这么多的中文分词器，在实际开发中我们如何进行选择呢？
 
@@ -2042,7 +2042,7 @@ bOverwrite=false # whether overwrite the existed user dictionary or not
 
 ​		关于中文分词器的使用我们就全部讲解完毕。
 
-###### 自定义分词器（了解）
+#### 自定义分词器（了解）
 
 ​	我们都知道分析器由分词器和过滤器构成。
 
@@ -2138,7 +2138,7 @@ public class PlusSignTokenizerFactory extends TokenizerFactory {
 
 关于如何自定义一个分词器，我们就先说到这，在实际开发中我们基本上不会自己定义，主要体会流程；
 
-###### 	自定义过滤器（了解）
+#### 	自定义过滤器（了解）
 
 上一节课，我们学习了分词器的定义，下面我们讲解定义过滤器。
 
