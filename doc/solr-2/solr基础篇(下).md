@@ -494,19 +494,17 @@ facet域的要求
 - facet_intervals：可以根据时间区间和数字区间进行分组统计查询
 
 
-### 4.5.4 facet_fields
+### 4.5.4 facet.fields
 
-​	需求：对item_title中包含手机的文档，按照品牌域进行分组，并且统计数量
+需求：对item_title中包含手机的文档，按照品牌域进行分组，并且统计数量
 
-​		1.进行 Facet 查询需要在请求参数中加入 ”facet=on” 或者 ”facet=true” 只有这样 facet 组件才起作用
+1.进行 Facet 查询需要在请求参数中加入 ”facet=on” 或者 ”facet=true” 只有这样 facet 组件才起作用
 
-​		2.分组的字段通过在请求中加入 ”facet.field” 参数加以声明 
+2.分组的字段通过在请求中加入 ”facet.field” 参数加以声明 
 
 ```
 http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet.field=item_brand
 ```
-
-​		分组结果
 
 ![](imgs/2020-02-17_113525.png)
 
@@ -519,8 +517,6 @@ http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet
 ```
 http://localhost:8080/solr/collection1/select?q=item_title:手机&facet=on&facet.field=item_brand&facet.field=item_category
 ```
-
-​	分组结果
 
 ![](imgs/2020-02-17_113756.png)
 
@@ -592,7 +588,7 @@ q=item_title:手机
 
 ![](imgs/2020-02-17_171759.png)
 
-### 4.5.5 facet_ranges
+### 4.5.5 facet.ranges
 
 除了字段分组查询外，还有日期区间，数字区间分组查询
 
@@ -600,20 +596,17 @@ q=item_title:手机
 
 需求：分组查询2015年，每一个月添加的商品数量
 
-
-
-facet_ranges参数：
-
 | 参数                | 说明                                                         |
 | ------------------- | ------------------------------------------------------------ |
 | facet.range         | 该参数表示需要进行分组的字段名 , 与 facet.field 一样 , 该参数可以被设置多次 , 表示对多个字段进行分组。 |
-| facet.range.start   | 起始时间/数字 , 时间的一般格式为 ” 1995-12-31T23:59:59Z”, 另外可以使用 ”NOW”,”YEAR”,”MONTH” 等等 , 具体格式可以参考 org.apache.solr.schema. DateField 的 java doc. |
+| facet.range.start   | 起始时间/数字 , 时间的一般格式为“1995-12-31T23:59:59Z”, 另外可以使用 ”NOW”,”YEAR”,”MONTH” 等等 , 具体格式可以参考 org.apache.solr.schema. DateField 的 java doc. |
 | facet.range.end     | 结束时间 数字                                                |
 | facet.range.gap     | 时间间隔 . 如果 start 为 2019-1-1,end 为 2020-1-1.gap 设置为 ”+1MONTH” 表示间隔1 个月 , 那么将会把这段时间划分为 12 个间隔段 . 注意 ”+” 因为是特殊字符所以应该用 ”%2B” 代替 .<br> |
 | facet.range.hardend | 取值可以为 true\|false它表示 gap 迭代到 end 处采用何种处理 . 举例说明 start 为 2019-1-1,end 为 2019-12-25,gap 为 ”+1MONTH”,hardend 为 false 的话最后一个时间段为 2009-12-1 至 2010-1-1;hardend 为 true 的话最后一个时间段为 2009-12-1 至 2009-12-25<br>举例start为0，end为1200，gap为500，hardend为false,最后一个数字区间[1000,1200] ,hardend为true最后一个数字区间[1000,1500] |
 | facet.range.other   | 取值范围为 before\|after\|between\|none\|all, 默认为 none.<br/>before 会对 start 之前的值做统计 .<br/>after 会对 end 之后的值做统计 .<br/>between 会对 start 至 end 之间所有值做统计 . 如果 hardend 为 true 的话 , 那么该值就是各个时间段统计值的和 .<br/>none 表示该项禁用 .<br/>all 表示 before,after,between都会统计 . |
 
 ```
+q=*:*&
 facet=on&
 facet.range=item_createtime&
 facet.range.start=2015-01-01T00:00:00Z&
@@ -622,13 +615,14 @@ facet.range.gap=%2B1MONTH
 &facet.range.other=all
 ```
 
-结果
+
 
 ![1581916975134](imgs/1581916975134.png)
 
-需求：分组统计价格在0~1000,1000~2000，2000~3000... 19000~20000及20000以上每个价格区间商品数量；
+需求：分组统计价格在0~1000,1000~2000，2000~3000... 19000~20000及20000以上每个价格区间商品数量
 
 ```
+q=*:*&
 facet=on&
 facet.range=item_price&
 facet.range.start=0&
@@ -638,42 +632,39 @@ facet.range.hardend=true&
 facet.range.other=all
 ```
 
-结果：
-
 ​	![](imgs/2020-02-17_132922.png)
 
+### 4.5.6 facet.queries
 
+在facet中还提供了第三种分组查询的方式facet.query，提供了类似 filter query (fq)的语法可以更为灵活的对任意字段进行分组统计查询 
 
-##### 4.5.6 facet_queries
-
-​	在facet中还提供了第三种分组查询的方式facet query。提供了类似 filter query (fq)的语法可以更为灵活的对任意字段进行分组统计查询 .
-
-​	需求：查询分类是平板电视的商品数量 品牌是华为的商品数量 品牌是三星的商品数量；
+需求：查询分类是平板电视的商品数量 品牌是华为以及三星的商品数量
 
 ```
+q=*:*&
 facet=on&
 facet.query=item_category:平板电视&
 facet.query=item_brand:华为&
 facet.query=item_brand:三星
-
 ```
-
-​	测试结果
 
 ![](imgs/2020-02-17_163534.png)
 
 ​	
 
-​	我们会发现统计的结果中对应名称tem_category:平板电视和item_brand:华为，我们也可以起别名；
+另外，我们也可以起别名
 
 ```
+q=*:*&
 facet=on&
 facet.query={!key=平板电视}item_category:平板电视&
 facet.query={!key=华为品牌}item_brand:华为&
 facet.query={!key=三星品牌}item_brand:三星
-{---->%7B   }---->%7D
 这样可以让字段名统一起来，方便我们拿到请求数据后，封装成自己的对象;
 
+
+在浏览器输入参数需要对{}进行url编码 {-->%7B   }-->%7D
+q=*:*&
 facet=on&
 facet.query=%7B!key=平板电视%7Ditem_category:平板电视&
 facet.query=%7B!key=华为品牌%7Ditem_brand:华为&
@@ -682,22 +673,16 @@ facet.query=%7B!key=三星品牌%7Ditem_brand:三星
 
 ​	![](imgs/2020-02-17_195847.png)
 
+### 4.5.7 facet.interval
 
+facet中还提供了一种分组查询方式facet.nterval。功能类似于facet.ranges。facet.interval通过设置一个区间及域名，可以统计可变区间对应的文档数量；
 
-
-
-##### 4.5.7 facet_interval
-
-​		在Facet中还提供了一种分组查询方式facet_interval。功能类似于facet_ranges。facet_interval通过设置一个区间及域名，可以统计可变区间对应的文档数量；
-
-​		通过facet_ranges和facet_interval都可以实现范围查询功能，但是底层实现不同，性能也不同.
-
-​		参数：
+通过facet_ranges和facet_interval都可以实现范围查询功能，但是底层实现不同，性能也不同.
 
 | 参数名             | 说明                                                         |
 | ------------------ | ------------------------------------------------------------ |
 | facet.interval     | 此参数指定统计查询的域。它可以在同一请求中多次使用以指示多个字段。 |
-| facet.interval.set | 指定区间。如果统计的域有多个，可以通过f.`<fieldname>`.facet.interval.set语法指定不同域的区间。<br>区间语法<br>区间必须以'（' 或 '[' 开头，然后是逗号（'，'），最终值，最后是 ')' 或']'。<br>例如：<br>（1,10） - 将包含大于1且小于10的值<br>[1,10])-  将包含大于或等于1且小于10的值<br>[1,10] -  将包含大于等于1且小于等于10的值 |
+| facet.interval.set | 1.指定区间：如果统计的域有多个，可以通过f.\<fieldname\>.facet.interval.set语法指定不同域的区间。<br>2. 区间语法：( , ) 或 [ , ]<br>例如：<br>(1,10)   大于1且小于10<br>[1,10)   大于或等于1且小于10<br>[1,10]   大于等于1且小于等于10 |
 
 ​	需求：统计item_price在[0-10]及[1000-2000]的商品数量和item_createtime在2019年~现在添加的商品数量
 
@@ -708,7 +693,8 @@ facet.query=%7B!key=三星品牌%7Ditem_brand:三星
 &f.item_price.facet.interval.set=[1000,2000]
 &facet.interval=item_createtime
 &f.item_createtime.facet.interval.set=[2019-01-01T0:0:0Z,NOW]
-由于有特殊符号需要进行URL编码[---->%5B   ]---->%5D
+
+由于有特殊符号需要进行URL编码[-->%5B   ]-->%5D
 http://localhost:8080/solr/collection1/select?q=*:*&facet=on
 &facet.interval=item_price
 &f.item_price.facet.interval.set=%5B0,10%5D
@@ -717,42 +703,39 @@ http://localhost:8080/solr/collection1/select?q=*:*&facet=on
 &f.item_createtime.facet.interval.set=%5B2019-01-01T0:0:0Z,NOW%5D
 ```
 
-结果
-
 ![](imgs/2020-03-20_191158.png)
 
 
 
 
 
-##### 4.5.8 facet中其他的用法
+### 4.5.8 facet中其他的用法
 
-​	tag操作符和ex操作符
+#### tag操作符和ex操作符
 
-​	首先我们来看一下使用场景，当查询使用q或者fq指定查询条件的时候，查询条件的域刚好是facet的域；
-
-分组的结果就会被限制，其他的分组数据就没有意义。
+当查询使用q或者fq指定查询条件的时候，查询条件的域刚好是facet的域，分组的结果就会被限制，其他的分组数据就没有意义。
 
 ```
 q=item_title:手机
 &fq=item_brand:三星 
 &facet=on
-&facet.field=item_brand导致分组结果中只有三星品牌有数量，其他品牌都没有数量
+&facet.field=item_brand
 
+导致分组结果中只有三星品牌有数量，其他品牌都没有数量
 ```
 
 ![](imgs/2020-02-17_201921.png)
 
-如果想查看其他品牌手机的数量。给过滤条件定义标记，在分组统计的时候，忽略过滤条件；
+如果想查看其他品牌手机的数量，需要给过滤条件定义标记，在分组统计的时候，忽略过滤条件
 
 查询文档是2个条件，分组统计只有一个条件
 
 ```
-&q=item_title:手机
+q=item_title:手机
 &fq={!tag=brandTag}item_brand:三星   
 &facet=on
 &facet.field={!ex=brandTag}item_brand
-{---->%7B   }---->%7D
+
 
 &q=item_title:手机
 &fq=%7B!tag=brandTag%7Ditem_brand:三星   
@@ -760,17 +743,15 @@ q=item_title:手机
 &facet.field=%7B!ex=brandTag%7Ditem_brand
 ```
 
-​	测试结果：
-
 ![](imgs/2020-02-17_202534.png)
 
 
 
-##### 4.5.9 facet.pivot
+### 4.5.9 facet.pivot
 
-​			多维度分组查询。听起来比较抽象。
+多维度分组查询
 
-​			举例：统计每一个品牌和其不同分类商品对应的数量；
+举例：统计每一个品牌和其不同分类商品对应的数量
 
 | 品牌 | 分类     | 数量   |
 | ---- | -------- | ------ |
@@ -781,14 +762,13 @@ q=item_title:手机
 | 三星 | 平板电视 | 200    |
 |      | 。。。   | 。。。 |
 
-​		这种需求就可以使用维度查询完成。
+这种需求就可以使用维度查询完成
 
 ```
- &facet=on
- &facet.pivot=item_brand,item_category
+q=*:*
+&facet=on
+&facet.pivot=item_brand,item_category
 ```
-
-测试结果
 
 ​			![](imgs/2020-02-18_104450.png)
 
@@ -796,11 +776,9 @@ q=item_title:手机
 
 ## 4.6  高级查询-group查询
 
-##### 4.6.1 group介绍和入门
+### 4.6.1 group介绍和入门
 
-​	solr group作用：将具有相同字段值的文档分组，并返回每个组的顶部文档。 Group和Facet的概念很像，都是用来分组,但是分组的结果是不同；
-
-​	group查询相关参数
+作用：将具有相同字段值的文档分组，并返回每个组的顶部文档。 Group和Facet的概念很像，都是用来分组，但是分组的结果是不同
 
 | 参数                | 类型           | 说明                                                         |
 | ------------------- | -------------- | ------------------------------------------------------------ |
@@ -826,42 +804,39 @@ q=item_title:手机
 q=item_title:手机
 &group=true
 &group.field=item_brand
-group分组结果和Fact分组查询的结果完全不同，他把同组的文档放在一起，显示该组文档数量，仅仅展示了第一个文档。
-
+group分组结果和facet分组查询的结果完全不同，他把同组的文档放在一起，显示该组文档数量，并且展示了第一个文档
 ```
 
 ![](imgs/2020-02-18_112242.png)
 
 
 
-##### 4.6.2 group参数-分页参数
+### 4.6.2 group参数-分页参数
 
-​			上一节我们讲解了group的入门，接下来我们对group中的参数进行详解。
-
-首先我们先来观察一下入门的分组结果。只返回10个组结果。
+首先我们先来观察一下入门的分组结果，只返回10个组结果。
 
 ![1582000644409](imgs/1582000644409.png)
 
-​	[rows]通过rows参数设置返回组的个数。
+**rows**：通过rows参数设置返回组的个数
 
 ```
 q=item_title:手机&group=true&group.field=item_brand&rows=13
 比上面分组结果多了三个组
 ```
 
-![](C:/Users/ligan/Desktop/solr/solr%E5%9F%BA%E7%A1%80/imgs/2020-02-18_124038.png)
+![](imgs/2020-02-18_124038.png)
 
-通过start和rows参数结合使用可以对分组结果分页；查询第一页3个分组结果
+通过**start和rows**参数结合使用可以对分组结果分页，查询第一页3个分组结果
 
 ```
 q=item_title:手机&group=true&group.field=item_brand&start=0&rows=3
 ```
 
-![](C:/Users/ligan/Desktop/solr/solr%E5%9F%BA%E7%A1%80/imgs/2020-02-18_124530.png)
+![](imgs/2020-02-18_124530.png)
 
 ​	
 
-​	除了可以对分组结果进行分页，可以对组内文档进行分页。默认情况下。只展示该组顶部文档。
+除了可以对分组结果进行分页，可以使用**group.limit和group.offset**对组内文档进行分页，默认情况下只展示该组顶部文档
 
 需求：展示每组前5个文档。
 
@@ -870,11 +845,11 @@ q=item_title:手机&group=true&group.field=item_brand&start=0&rows=3
 &group.limit=5&group.offset=0
 ```
 
-![](C:/Users/ligan/Desktop/solr/solr%E5%9F%BA%E7%A1%80/imgs/2020-02-18_125336.png)
+![](imgs/2020-02-18_125336.png)
 
 
 
-##### 4.6.3 group参数-排序参数
+### 4.6.3 group参数-排序参数
 
 ​			排序参数分为分组排序和组内文档排序；
 
